@@ -36,8 +36,8 @@ CREATE TABLE `cita` (
   KEY `curpmedtit` (`curpmedtit`),
   KEY `idreceta` (`idreceta`),
   CONSTRAINT `cita_ibfk_1` FOREIGN KEY (`curppaciente`) REFERENCES `paciente` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cita_ibfk_2` FOREIGN KEY (`curpmedaux`) REFERENCES `medicoauxiliar` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cita_ibfk_3` FOREIGN KEY (`curpmedtit`) REFERENCES `medicotitular` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cita_ibfk_2` FOREIGN KEY (`curpmedaux`) REFERENCES `medico` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cita_ibfk_3` FOREIGN KEY (`curpmedtit`) REFERENCES `medico` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `cita_ibfk_4` FOREIGN KEY (`idreceta`) REFERENCES `receta` (`idreceta`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -90,6 +90,8 @@ DROP TABLE IF EXISTS `expediente`;
 CREATE TABLE `expediente` (
   `idexpediente` int(11) NOT NULL,
   `curp` varchar(18) DEFAULT NULL,
+  `fechacreacion` date DEFAULT NULL,
+  `fechamodif` date DEFAULT NULL,
   `alergias` varchar(100) DEFAULT NULL,
   `antecedentesheredofamiliares` varchar(100) DEFAULT NULL,
   `antecedentespersonales` varchar(100) DEFAULT NULL,
@@ -177,53 +179,29 @@ LOCK TABLES `medicamento` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `medicoauxiliar`
+-- Table structure for table `medico`
 --
 
-DROP TABLE IF EXISTS `medicoauxiliar`;
+DROP TABLE IF EXISTS `medico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `medicoauxiliar` (
+CREATE TABLE `medico` (
   `curp` varchar(18) NOT NULL,
   `cedula` int(11) DEFAULT NULL,
   `especialidad` varchar(20) DEFAULT NULL,
+  `tipomed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`curp`),
-  CONSTRAINT `medicoauxiliar_ibfk_1` FOREIGN KEY (`curp`) REFERENCES `empleado` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `medico_ibfk_1` FOREIGN KEY (`curp`) REFERENCES `empleado` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `medicoauxiliar`
+-- Dumping data for table `medico`
 --
 
-LOCK TABLES `medicoauxiliar` WRITE;
-/*!40000 ALTER TABLE `medicoauxiliar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `medicoauxiliar` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `medicotitular`
---
-
-DROP TABLE IF EXISTS `medicotitular`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `medicotitular` (
-  `curp` varchar(18) NOT NULL,
-  `cedula` int(11) DEFAULT NULL,
-  `especialidad` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`curp`),
-  CONSTRAINT `medicotitular_ibfk_1` FOREIGN KEY (`curp`) REFERENCES `empleado` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `medicotitular`
---
-
-LOCK TABLES `medicotitular` WRITE;
-/*!40000 ALTER TABLE `medicotitular` DISABLE KEYS */;
-/*!40000 ALTER TABLE `medicotitular` ENABLE KEYS */;
+LOCK TABLES `medico` WRITE;
+/*!40000 ALTER TABLE `medico` DISABLE KEYS */;
+/*!40000 ALTER TABLE `medico` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -264,7 +242,7 @@ CREATE TABLE `pacientemedico` (
   PRIMARY KEY (`curp`,`curpmedico`),
   KEY `curpmedico` (`curpmedico`),
   CONSTRAINT `pacientemedico_ibfk_1` FOREIGN KEY (`curp`) REFERENCES `paciente` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pacientemedico_ibfk_2` FOREIGN KEY (`curpmedico`) REFERENCES `medicotitular` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `pacientemedico_ibfk_2` FOREIGN KEY (`curpmedico`) REFERENCES `medico` (`curp`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-29 21:03:46
+-- Dump completed on 2020-12-30 18:51:43

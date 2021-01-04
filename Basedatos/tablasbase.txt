@@ -1,0 +1,136 @@
+PERSONA
++--------------------+-------------------------------+--------------+--------------+-------------------+------+------------+-----------------+---------------+-------------------------------------------------------------------------------+------------------------+-------------------+--------------+
+| curp               | correo                        | contrasena   | nombre       | apellidos         | edad | telefono   | fechaNacimiento | fechaRegistro | direccion                                                                     | colonia                | entidadfederativa | codigopostal |
++--------------------+-------------------------------+--------------+--------------+-------------------+------+------------+-----------------+---------------+-------------------------------------------------------------------------------+------------------------+-------------------+--------------+
+| AIAD990228HMCRSV01 | nova64@hotmail.com            | rPTuCWwNAzBU | DAVID        | ARIAS ASENJO      |   26 | 5563755889 | 1999-02-28      | 2019-10-03    | PASEO DE LA REFORMA 1, TABACALERA                                             | CUAUHTEMOC             | CIUDAD DE MEXICO  |         6030 |
+| AUMT940806MMCNLR03 | myah45@hotmail.com            | zSnPkUWTGhAw | TERESA       | ANGUITA MALLO     |   26 | 5567753033 | 1994-08-06      | 2019-05-24    | CARR FED MEXICO-PUEBLA KM 19.5                                                | LOS REYES ACAQUILPAN   | ESTADO DE MEXICO  |        56400 |
+| BEVJ971012HMCNRN00 | barney_bogisich@gmail.com     | rAeKHKvRjzKN | JUAN LUIS    | BENITEZ VARA      |   23 | 5582748783 | 1997-10-12      | 2019-04-29    | PLAN DE IGUALA 2, SANTA MARIA TICOMAN                                         | GUSTAVO A MADERO       | CIUDAD DE MEXICO  |         7330 |
+| BOPA940213MMCRZL00 | sheila_fadel18@hotmail.com    | eVRBZppnceuA | FRANCISCA    | CAMPILLO BELDA    |   26 | 5533763618 | 1994-02-13      | 2019-04-15    | LUTARCO E CALLES 1503 N5, ZACAHUITZCO                                         | BENITO JUAREZ          | CIUDAD DE MEXICO  |         3550 |
+| CAAA980920HMCSRG06 | leopold9@gmail.com            | bUeXFwkatAEe | AGUSTIN      | CASTILLEJO ARCO   |   22 | 5504623819 | 1998-09-20      | 2019-09-03    | EGIPTO 206                                                                    | CLAVERIA               | CIUDAD DE MEXICO  |         2080 |
+| CABF941114MMCMLR00 | trystan_schroeder76@yahoo.com | jGCCCcHZdFTM | FRANCISCA    | CAMPILLO BELDA    |   26 | 5597520942 | 1994-11-14      | 2019-02-07    | CALZADA SAN MATEO 29, SAN JUAN BOSCO                                          | ATIZAPAN DE ZARAGOZA   | ESTADO DE MEXICO  |        52940 |
+| CAMC920518MMCNST00 | samir.krajcik77@hotmail.com   | HrUtCpjwtnWk | CATALINA     | CANTERO MAESO     |   28 | 5515457103 | 1992-05-18      | 2019-12-01    | COLTONGO NO. 100, TRABAJADORES DEL HIERRO                                     | AZCAPOTZALCO           | CIUDAD DE MEXICO  |         2650 |
+| CATJ971002MMCZDS01 | kaden_larkin80@yahoo.com      | BaSbnvcGSDTN | JOSEFA       | CAZORLA TUDELA    |   23 | 5562674931 | 1997-10-02      | 2019-11-18    | MANUEL MA. CONTRERAS NO. 73 S/N                                               | SAN RAFAEL             | CIUDAD DE MEXICO  |         6470 |
+| CAVJ890922HMCLLS05 | jailyn60@yahoo.com            | eFmmHHpUxZKf | JOSE         | CALVET VELARDE    |   31 | 5564458857 | 1989-09-22      | 2019-08-14    | AV LA PALMA NO. 10 S/N                                                        | CUAUTITLAN             | ESTADO DE MEXICO  |        54900 |
+| COVA810120MMCRLN08 | jessica.jacobson@hotmail.com  | GsjKDKWZevaR | ANA ISABEL   | CORREDOR VALLS    |   39 | 5591035691 | 1981-01-20      | 2019-08-17    | 16 DE SEPTIEMBRE 70, ALCE BLANCO                                              | NAUCALPAN              | ESTADO DE MEXICO  |        53370 |
+| FECJ851211HMCRRR01 | adolf.ohara63@hotmail.com     | jRARnuRfQCkJ | JORGE        | FERNANDEZ CARBO   |   35 | 5572115665 | 1985-12-11      | 2019-09-24    | MARGARITA MAZA DE JUAREZ 149, NUEVA IND VALLEJO                               | GUSTAVO A MADERO       | CIUDAD DE MEXICO  |         7700 |
+| GAPA891219HMCLRN01 | taurean.hackett@gmail.com     | BxRmHQkmfqmH | ANGEL        | GALLEGOS PARIENTE |   31 | 5539494459 | 1989-12-19      | 2019-07-26    | BOSQUE DE DURAZNOS 39, BOSQUES DE LAS LOMAS                                   | MIGUEL HIDALGO         | CIUDAD DE MEXICO  |        11700 |
+| MEBM910121MMCRRR00 | orville12@yahoo.com           | NnbptPgebuTJ | MARIA NIEVES | MERCADER BORRELL  |   29 | 5544008605 | 1991-01-12      | 2019-11-26    | AGUSTIN DELGADO 275, TRANSITO                                                 | CUAUHTEMOC             | CIUDAD DE MEXICO  |        60020 |
+| PAGJ990522MMCLRL03 | godfrey35@hotmail.com         | XcDcvRsnZDHU | JULIA        | PLATA GORDON      |   21 | 5595634812 | 1999-05-22      | 2019-02-06    | EJE CENTRAL LAZARO CARDENAS NO. 9 Int. INT. 39, CENTRO DE LA CIUDAD DE MEXICO | CUAUHTEMOC             | CIUDAD DE MEXICO  |         6300 |
+| PAGM930918HMCLRH01 | salvador78@yahoo.com          | NpNhhFkCuTwh | MOHAMED      | PLATERO GRANELL   |   27 | 5513272092 | 1993-09-18      | 2019-08-22    | MAGNOLIAS NO. 537, VILLA DE LAS FLORES                                        | COACALCO DE BERRIZOBAL | ESTADO DE MEXICO  |        55710 |
+| PEMD941124HMCDLM07 | cletus_kuhic@hotmail.com      | rngJTgVkPHeQ | DOMINGO      | PEDREIRA MOLINS   |   26 | 5532780874 | 1994-11-24      | 2019-11-18    | Henry Ford Esq. Roberto Fulton                                                | TLALNEPANTLA           | ESTADO DE MEXICO  |         2650 |
+| ROCJ810826HMCMRS03 | earnest7@yahoo.com            | KzUkdBjTUzgd | JOSE ANTONIO | ROMERA CORDOVA    |   39 | 5515291882 | 1981-08-26      | 2019-06-28    | ZACATECAS 206 602, ROMA                                                       | NEZAHUALCOYOTL         | ESTADO DE MEXICO  |         6200 |
+| SIMS831111HMCIRM01 | kyle_runte56@yahoo.com        | ECVbCgnwwHwc | SAMUEL       | SILVESTRE MURCIA  |   37 | 5568940817 | 1983-11-11      | 2019-02-07    | RODOLFO USIGLI NO. 1402, SECTOR POPULAR                                       | IZTAPALAPA             | ESTADO DE MEXICO  |         9060 |
+| TELP010528MMCLIT07 | dominic_bruen95@hotmail.com   | bkHMebCUEnSm | PATRICIA     | TELLO LEIVA       |   19 | 5559906745 | 2001-05-28      | 2019-04-13    | INSURGENTES SUR NO. 1026, DEL VALLE                                           | BENITO JUAREZ          | CIUDAD DE MEXICO  |         3100 |
+| VICS980920MMCINS09 | scotty_labadie91@yahoo.com    | eUsgGYuPtnTn | SUSANA       | VILLA CANDELA     |   22 | 5534355899 | 1998-09-20      | 2019-08-23    | ANGEL DE LA INDEPENDENCIA NO. 98, METROPOLINATA 2A SECC                       | NEZAHUALCOYOTL         | ESTADO DE MEXICO  |        57740 |
++--------------------+-------------------------------+--------------+--------------+-------------------+------+------------+-----------------+---------------+-------------------------------------------------------------------------------+------------------------+-------------------+--------------+
+20 rows in set (0.00 sec)
+
+EMPLEADO
++--------------------+----------------+-------------+------------+------------+-----------------+
+| curp               | area           | horaentrada | horasalida | horacomida | puesto          |
++--------------------+----------------+-------------+------------+------------+-----------------+
+| AIAD990228HMCRSV01 | FARMACIA       | 10:00:00    | 18:00:00   | 14:00:00   | ENCARGADO       |
+| AUMT940806MMCNLR03 | FARMACIA       | 12:00:00    | 20:00:00   | 16:00:00   | ENCARGADO       |
+| BEVJ971012HMCNRN00 | RECEPCION      | 10:00:00    | 18:00:00   | 14:00:00   | RECEPCIONISTA   |
+| BOPA940213MMCRZL00 | RECEPCION      | 12:00:00    | 20:00:00   | 16:00:00   | RECEPCIONISTA   |
+| CAAA980920HMCSRG06 | MEDICA         | 10:00:00    | 18:00:00   | 14:00:00   | DOCTOR TITULAR  |
+| CABF941114MMCMLR00 | MEDICA         | 12:00:00    | 20:00:00   | 16:00:00   | DOCTOR TITULAR  |
+| CAMC920518MMCNST00 | MEDICA         | 10:00:00    | 18:00:00   | 14:00:00   | DOCTOR TITULAR  |
+| CATJ971002MMCZDS01 | MEDICA         | 12:00:00    | 20:00:00   | 16:00:00   | DOCTOR TITULAR  |
+| CAVJ890922HMCLLS05 | MEDICA         | 10:00:00    | 18:00:00   | 14:00:00   | DOCTOR AUXILIAR |
+| COVA810120MMCRLN08 | MEDICA         | 12:00:00    | 20:00:00   | 16:00:00   | DOCTOR AUXILIAR |
+| FECJ851211HMCRRR01 | MEDICA         | 10:00:00    | 18:00:00   | 14:00:00   | DOCTOR AUXILIAR |
+| GAPA891219HMCLRN01 | MEDICA         | 12:00:00    | 20:00:00   | 16:00:00   | DOCTOR AUXILIAR |
+| MEBM910121MMCRRR00 | ADMINISTRACION | 10:00:00    | 20:00:00   | 16:00:00   | ADMIN SISTEMAS  |
+| PAGJ990522MMCLRL03 | ADMINISTRACION | 10:00:00    | 20:00:00   | 16:00:00   | ADMIN SISTEMAS  |
++--------------------+----------------+-------------+------------+------------+-----------------+
+14 rows in set (0.00 sec)
+
+PACIENTE
++--------------------+-----------------+--------------+--------+
+| curp               | aseguradora     | idexpediente | estado |
++--------------------+-----------------+--------------+--------+
+| PAGM930918HMCLRH01 | ALLIANZ SEGUROS |         NULL | ☺      |
+| PEMD941124HMCDLM07 | AXA SEGUROS     |         NULL | ☺      |
+| ROCJ810826HMCMRS03 | SEGUROS BANORTE |         NULL | ☺      |
+| SIMS831111HMCIRM01 | SEGUROS INBURSA |         NULL |        |
+| TELP010528MMCLIT07 | ALLIANZ SEGUROS |         NULL |        |
+| VICS980920MMCINS09 | SEGUROS BANORTE |         NULL |        |
++--------------------+-----------------+--------------+--------+
+6 rows in set (0.00 sec)
+
+MEDICO
++--------------------+----------+-----------------+---------+
+| curp               | cedula   | especialidad    | tipomed |
++--------------------+----------+-----------------+---------+
+| CAAA980920HMCSRG06 | 18186984 | Cirugía General | ☺       |
+| CABF941114MMCMLR00 | 29430465 | DERMATOLOGIA    | ☺       |
+| CAMC920518MMCNST00 | 66610086 | HEMATOLOGIA     | ☺       |
+| CATJ971002MMCZDS01 | 69414940 | NEFROLOGIA      | ☺       |
+| CAVJ890922HMCLLS05 | 18186984 | NEUROLOGIA      |         |
+| COVA810120MMCRLN08 | 29430465 | ORTOPEDIA       |         |
+| FECJ851211HMCRRR01 | 66610086 | RADIOLOGIA      |         |
+| GAPA891219HMCLRN01 | 69414940 | HEMATOLOGIA     |         |
++--------------------+----------+-----------------+---------+
+8 rows in set (0.00 sec)
+
+PACIENTEMEDICO
++--------------------+--------------------+
+| curp               | curpmedico         |
++--------------------+--------------------+
+| PAGM930918HMCLRH01 | CAAA980920HMCSRG06 |
+| PAGM930918HMCLRH01 | CAVJ890922HMCLLS05 |
+| PEMD941124HMCDLM07 | CABF941114MMCMLR00 |
+| PEMD941124HMCDLM07 | COVA810120MMCRLN08 |
+| ROCJ810826HMCMRS03 | CAMC920518MMCNST00 |
+| ROCJ810826HMCMRS03 | FECJ851211HMCRRR01 |
+| SIMS831111HMCIRM01 | CATJ971002MMCZDS01 |
+| SIMS831111HMCIRM01 | GAPA891219HMCLRN01 |
+| TELP010528MMCLIT07 | CABF941114MMCMLR00 |
+| TELP010528MMCLIT07 | COVA810120MMCRLN08 |
+| VICS980920MMCINS09 | CATJ971002MMCZDS01 |
+| VICS980920MMCINS09 | GAPA891219HMCLRN01 |
++--------------------+--------------------+
+12 rows in set (0.00 sec)
+
+CITA
++--------+--------------------+--------------------+--------------------+------------+----------+
+| idcita | curppaciente       | curpmedaux         | curpmedtit         | fecha      | hora     |
++--------+--------------------+--------------------+--------------------+------------+----------+
+|      1 | PAGM930918HMCLRH01 | CAVJ890922HMCLLS05 | CAAA980920HMCSRG06 | 2020-12-21 | 11:00:00 |
+|      2 | PAGM930918HMCLRH01 | CAVJ890922HMCLLS05 | CAAA980920HMCSRG06 | 2020-12-26 | 12:30:00 |
+|      3 | PAGM930918HMCLRH01 | CAVJ890922HMCLLS05 | CAAA980920HMCSRG06 | 2021-01-09 | 13:00:00 |
+|      4 | PEMD941124HMCDLM07 | CABF941114MMCMLR00 | CABF941114MMCMLR00 | 2020-12-22 | 13:00:00 |
+|      5 | PEMD941124HMCDLM07 | CABF941114MMCMLR00 | CABF941114MMCMLR00 | 2020-12-27 | 14:00:00 |
+|      6 | PEMD941124HMCDLM07 | CABF941114MMCMLR00 | CABF941114MMCMLR00 | 2021-01-09 | 14:30:00 |
+|      7 | ROCJ810826HMCMRS03 | FECJ851211HMCRRR01 | CAMC920518MMCNST00 | 2020-12-21 | 11:30:00 |
+|      8 | ROCJ810826HMCMRS03 | FECJ851211HMCRRR01 | CAMC920518MMCNST00 | 2020-12-21 | 12:30:00 |
+|      9 | ROCJ810826HMCMRS03 | FECJ851211HMCRRR01 | CAMC920518MMCNST00 | 2021-01-09 | 15:00:00 |
+|     10 | SIMS831111HMCIRM01 | GAPA891219HMCLRN01 | CATJ971002MMCZDS01 | 2021-01-09 | 15:00:00 |
+|     11 | TELP010528MMCLIT07 | CABF941114MMCMLR00 | CABF941114MMCMLR00 | 2021-01-09 | 17:00:00 |
+|     12 | VICS980920MMCINS09 | GAPA891219HMCLRN01 | CATJ971002MMCZDS01 | 2021-01-09 | 17:00:00 |
++--------+--------------------+--------------------+--------------------+------------+----------+
+12 rows in set (0.00 sec)
+
+EXPEDIENTE
++--------------+--------------------+---------------+------------+------------+------------------------------+----------------------------------------------------------+-----------------------------------------------------------------------------------------+------+----------+-----------------+--------------------+------------------------+-------------+---------------------------------------+----------------------------------------------------------------------------------------+-----------------+---------------------+----------------------------------------------------------+-------+----------------------------------------------------------+----------------------------------------------------------+----------------------------------------------------------+
+| idexpediente | curp               | fechacreacion | fechamodif | alergias   | antecedentesheredofamiliares | antecedentespersonales                                   | padecimientoactual                                                                      | peso | estatura | presionarterial | frecuenciacardiaca | frecuenciarespiratoria | temperatura | topografia                            | morfologia                                                                             | pielyanexos     | tratamientoanterior | diagnostico                                              | cie   | descripcion                                              | observaciones                                            | planseguimiento                                          |
++--------------+--------------------+---------------+------------+------------+------------------------------+----------------------------------------------------------+-----------------------------------------------------------------------------------------+------+----------+-----------------+--------------------+------------------------+-------------+---------------------------------------+----------------------------------------------------------------------------------------+-----------------+---------------------+----------------------------------------------------------+-------+----------------------------------------------------------+----------------------------------------------------------+----------------------------------------------------------+
+|            1 | PAGM930918HMCLRH01 | 2020-12-21    | 2020-12-26 | PENICILINA | NEGADAS                      | RINOPLASTIA QX TUMOR DE FEMUR DERECHO                    | REFIERE A QUE SU ESPALDA LE SALEN MUCHOS GRANITOS, ES MUY ANSIOSA Y LE QUEDARON MANCHAS |   56 |      165 | 120/80          |                 66 |                     12 |        36.5 | D DISEINADA A CARA Y TRONCO POSTERIOR | CONSTITUIDA POR 2-3 PAPULAS ERIMTEMATOSAS, MANCHAS HIEPRIGMENTADAS, COSTRAS SANGUINEAS | ALOPECIA DIFUSA | PASTA DE DIENTES    | ACNE INFLAMATORIO MODERADO EXCORDIADO                    | NULL  | NULL                                                     | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. |
+|            2 | PEMD941124HMCDLM07 | 2020-12-22    | 2020-12-27 | NEGADAS    | NEGADAS                      | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec               |   58 |      170 | 121/70          |                 65 |                     13 |        36.5 | Lorem ipsum dolor sit amet            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec              | Lorem ipsum     | Lorem ipsum         | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | 15782 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. |
+|            3 | ROCJ810826HMCMRS03 | 2020-12-21    | 2020-12-21 | NEGADAS    | NEGADAS                      | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec               |   56 |      152 | 120/80          |                 63 |                     12 |        36.7 | Lorem ipsum dolor sit amet            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec              | Lorem ipsum     | Lorem ipsum         | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | 85726 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. | Lorem ipsum dolor sit amet, consectetur adipiscing elit. |
++--------------+--------------------+---------------+------------+------------+------------------------------+----------------------------------------------------------+-----------------------------------------------------------------------------------------+------+----------+-----------------+--------------------+------------------------+-------------+---------------------------------------+----------------------------------------------------------------------------------------+-----------------+---------------------+----------------------------------------------------------+-------+----------------------------------------------------------+----------------------------------------------------------+----------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+EXPEDIENTECITAS
++--------+--------------+
+| idcita | idexpediente |
++--------+--------------+
+|      1 |            1 |
+|      2 |            1 |
+|      4 |            2 |
+|      5 |            2 |
+|      7 |            3 |
+|      8 |            3 |
++--------+--------------+
+6 rows in set (0.00 sec)

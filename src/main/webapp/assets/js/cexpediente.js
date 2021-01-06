@@ -3,18 +3,17 @@
  * URL: https://bootstrapmade.com/php-email-form/
  * Author: BootstrapMade.com
  */
-!(function ($) {
-    "use strict";
 
-    $('#createExpediente').click(function (e) {
-        e.preventDefault();
+    function createExpediente(e) {
+        //e.preventDefault();
 
-        var f = $("#content-panel").find('.form-row');  /*,
+        var f = $("#content-panel").find('div.col'),
                 ferror = false,
-                emailExp = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i;
-
+                emailExp = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i,
+                curpExp = /^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE|XX)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/i ;
+        
         f.children('input').each(function () { // run all inputs
-
+            
             var i = $(this); // current input
             var rule = i.attr('data-rule');
 
@@ -43,6 +42,12 @@
 
                     case 'email':
                         if (!emailExp.test(i.val())) {
+                            ferror = ierror = true;
+                        }
+                        break;
+                        
+                    case 'curp':
+                        if (!curpExp.test(i.val())) {
                             ferror = ierror = true;
                         }
                         break;
@@ -158,7 +163,7 @@
          }*/
         send_all_data(f, "verExpediente.html", "data");
         return true;
-    });
+    }
 
     function send_all_data(forms, action, data) {
         var form = document.createElement("form");
@@ -227,7 +232,6 @@
         });*/
     }
 
-})(jQuery);
 
 
 

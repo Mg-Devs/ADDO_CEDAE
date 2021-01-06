@@ -69,15 +69,18 @@
         $('#loginInfo').html('Contraseña Incorrecta').show("blind");
         return false;
     }
-    else if($('#email').val() != "medico@cedae.com" & $('#email').val() != "farmacia@cedae.com"){
+    else if($('#email').val() != "medico@cedae.com" & $('#email').val() != "farmacia@cedae.com" & $('#email').val() != "recepcionista@cedae.com"){
         $('#loginInfo').html('Correo no registrado').show("blind");
         return false;
     }
     else if($('#email').val() == "medico@cedae.com"){
-        window.location.replace('http://localhost:8080/CEDAE/crearExpediente.html');
+        window.location.replace('http://localhost:8080/CEDAE/medico');
     }
     else if($('#email').val() == "farmacia@cedae.com"){
-        window.location.replace('http://localhost:8080/CEDAE/farmacia.html');
+        window.location.replace('http://localhost:8080/CEDAE/farmacia');
+    }
+    else if($('#email').val() == "recepcionista@cedae.com"){
+        window.location.replace('http://localhost:8080/CEDAE/recepcionista');
     }
     
     return true;

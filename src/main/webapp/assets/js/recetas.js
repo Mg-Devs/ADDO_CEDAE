@@ -1,6 +1,6 @@
 var nProds = 0;
 
-$("#agProd").click(function (){
+function aggProducto(){
     nProds++;
     $("#productos").append(""+
         "<div class=\"form-row\">"+
@@ -24,7 +24,7 @@ $("#agProd").click(function (){
                 "</button>"+
             "</div>"+
         "</div>");
-});
+}
 
 function deleteProd(number){
     var row = $("#prod"+number).parents("div.form-row");

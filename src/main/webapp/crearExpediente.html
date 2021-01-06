@@ -374,23 +374,33 @@
                                         <form id="personal-info">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <input type="text" id="name" name="name" class="form-control" placeholder="Nombre(s)">
+                                                    <input type="text" id="name" name="name" class="form-control" placeholder="Nombre(s)" data-rule="required" data-msg="Ingresa el nombre">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Apellidos">
+                                                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Apellidos" data-rule="required" data-msg="Ingresa el apellido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col mt-2">
-                                                    <input type="date" id="birthdate" name="birthdate" class="form-control" placeholder="Fecha de Naciemiento">
+                                                    <input type="date" id="birthdate" name="birthdate" class="form-control" placeholder="Fecha de Naciemiento" data-rule="required" data-msg="Ingresa la fecha de nacimiento">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col mt-2">
-                                                    <select class="custom-select mr-sm-2" id="sexo" name="sexo">
-                                                        <option selected>Sexo</option>
+                                                    <select class="custom-select mr-sm-2" id="sexo" name="sexo" data-rule="required" data-msg="Selecciona el Sexo">
+                                                        <option selected value="null">Sexo</option>
                                                         <option value="1">Masculino</option>
                                                         <option value="2">Femenino</option>
                                                         <option value="3">Otro</option>
                                                     </select>
+                                                    <div class="validate text-center"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col mt-2">
+                                                    <input type="text" id="curp" name="curp" class="form-control" placeholder="CURP" data-rule="curp" data-msg="Ingresa un CURP valido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
@@ -402,13 +412,14 @@
                                                         <option selected>Estado Civil</option>
                                                         <option value="1">Casado</option>
                                                         <option value="2">Soltero</option>
-                                                        <option value="3">Es complicado...</option>
+                                                        <option value="3">Otro</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col mt-2">
-                                                    <input type="tel" id="tel" name="tel" class="form-control" placeholder="Telefono">
+                                                    <input type="tel" id="tel" name="tel" class="form-control" placeholder="Telefono" data-rule="required" data-msg="Ingresa el telefono">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col mt-2">
                                                     <input type="text" id="secure" name="secure" class="form-control" placeholder="Aseguradora">
@@ -416,7 +427,8 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="col mt-2">
-                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Correo Electronico">
+                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Correo Electronico" data-rule="email" data-msg="Ingresa un correo valido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                         </form>
@@ -432,16 +444,18 @@
                                         <form id="address-info">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <input type="text" id="dir" name="dir" class="form-control" placeholder="Direccion">
+                                                    <input type="text" id="dir" name="dir" class="form-control" placeholder="Direccion" data-rule="minlen:10" data-msg="Ingresa una dirección">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col mt-2">
-                                                    <input type="text" id="colonia" name="colonia" class="form-control" placeholder="Colonia">
+                                                    <input type="text" id="colonia" name="colonia" class="form-control" placeholder="Colonia" data-rule="required" data-msg="Ingresa la colonia">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col mt-2">
-                                                    <select class="custom-select mr-sm-2" id="entfed" name="entfed">
-                                                        <option >Entidad Federativa</option>
+                                                    <select class="custom-select mr-sm-2" id="entfed" name="entfed" data-rule="required" data-msg="Selecciona una opcion">
+                                                        <option selected value="null">Entidad Federativa</option>
                                                         <option value="Aguascalientes">Aguascalientes</option>
                                                         <option value="Baja California">Baja California</option>
                                                         <option value="Baja California Sur">Baja California Sur</option>
@@ -475,11 +489,13 @@
                                                         <option value="Yucatán">Yucatán</option>
                                                         <option value="Zacatecas">Zacatecas</option>
                                                     </select>
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col mt-2">
-                                                    <input type="number" id="cp" name="cp" class="form-control" placeholder="Codigo Postal">
+                                                    <input type="number" id="cp" name="cp" class="form-control" placeholder="Codigo Postal" data-rule="required" data-msg="Ingresa el codigo postal">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col mt-2">
 
@@ -498,22 +514,26 @@
                                         <form id="history-info">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <input type="text" id="alergias" name="alergias" class="form-control" placeholder="Alergias">
+                                                    <input type="text" id="alergias" name="alergias" class="form-control" placeholder="Alergias" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row mt-2">
                                                 <div class="col">
-                                                    <input type="text" id="anteHered" name="anteHered" class="form-control" placeholder="Antecedentes Heredofamiliares">
+                                                    <input type="text" id="anteHered" name="anteHered" class="form-control" placeholder="Antecedentes Heredofamiliares" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row mt-2">
                                                 <div class="col">
-                                                    <input type="text" id="antePato" name="antePato" class="form-control" placeholder="Antecedentes Personales Patológicos">
+                                                    <input type="text" id="antePato" name="antePato" class="form-control" placeholder="Antecedentes Personales Patológicos" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row mt-2">
                                                 <div class="col">
-                                                    <textarea class="form-control" id="padeciActual" name="padeciActual" rows="8" placeholder="Padecimiento Actual"></textarea>
+                                                    <textarea class="form-control" id="padeciActual" name="padeciActual" rows="8" placeholder="Padecimiento Actual" data-rule="required" data-msg="Ingresa el pacedimiento"></textarea>
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                         </form>
@@ -533,26 +553,32 @@
                                         <form id="examen-fisi">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <input type="number" id="peso" name="peso" class="form-control" placeholder="Peso">
+                                                    <input type="number" id="peso" name="peso" class="form-control" placeholder="Peso" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="number" id="estatura" name="estatura" class="form-control" placeholder="Estatura (cm)">
-                                                </div>
-                                            </div>
-                                            <div class="form-row mt-2">
-                                                <div class="col">
-                                                    <input type="text" id="pressArte" name="pressArte" class="form-control" placeholder="Presión Arterial">
-                                                </div>
-                                                <div class="col">
-                                                    <input type="number" id="frecCard" name="frecCard" class="form-control" placeholder="Frecuencia Cardiaca">
+                                                    <input type="number" id="estatura" name="estatura" class="form-control" placeholder="Estatura (cm)" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row mt-2">
                                                 <div class="col">
-                                                    <input type="number" id="frecResp" name="frecResp" class="form-control" placeholder="Frecuencia Respiratoria">
+                                                    <input type="text" id="pressArte" name="pressArte" class="form-control" placeholder="Presión Arterial" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="number" id="temp" name="temp" class="form-control" placeholder="Temperatura">
+                                                    <input type="number" id="frecCard" name="frecCard" class="form-control" placeholder="Frecuencia Cardiaca" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row mt-2">
+                                                <div class="col">
+                                                    <input type="number" id="frecResp" name="frecResp" class="form-control" placeholder="Frecuencia Respiratoria" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="number" id="temp" name="temp" class="form-control" placeholder="Temperatura" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row mt-2">
@@ -587,8 +613,9 @@
                                     <div class="card-body">
                                         <form id="evaluation">
                                             <div class="form-row">
-                                                <div class="col-8">
-                                                    <input type="text" id="diagn" name="diagn" class="form-control" placeholder="Diagnostico">
+                                                <div class="col col-8">
+                                                    <input type="text" id="diagn" name="diagn" class="form-control" placeholder="Diagnostico" data-rule="required" data-msg="Este campo es requerido">
+                                                    <div class="validate text-center"></div>
                                                 </div>
                                                 <div class="col-4">
                                                     <input type="text" id="cie" name="cie" class="form-control" placeholder="CIE">

@@ -29,6 +29,21 @@ public class medico extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    protected void sectionNF(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!-- 404 Error Text -->");
+            out.println(" <div class=\"text-center mt-5\">");
+            out.println(" <div class=\"error mx-auto\" data-text=\"404\">404</div>");
+            out.println(" <p class=\"lead text-gray-800 mb-5\">Page Not Found</p>");
+            out.println(" <p class=\"text-gray-500 mb-0\">It looks like you found a glitch in the matrix...</p>");
+            out.println(" <a href=\"#\">← Back to Dashboard</a>");
+            out.println(" </div>");
+        }
+    }
+
     protected void dashboardSection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -924,6 +939,7 @@ public class medico extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -946,6 +962,8 @@ public class medico extends HttpServlet {
             case "vExpedientes":
                 vExpedientesSection(request, response);
                 break;
+            default:
+                sectionNF(request, response);
 
         }
 

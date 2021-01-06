@@ -1,0 +1,798 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package webpages;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author mario
+ */
+public class medico extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println(" <html lang=\"en\">");
+            
+            out.println(" <head>");
+            
+            out.println(" <meta charset=\"utf-8\">");
+            out.println(" <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
+            out.println(" <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
+            out.println(" <meta name=\"description\" content=\"\">");
+            out.println(" <meta name=\"author\" content=\"\">");
+            out.println(" <!-- Favicons -->");
+            out.println(" <link href=\"assets/img/favicon.png\" rel=\"icon\">");
+            
+            out.println(" <title>CEDAE - Expediente</title>");
+            
+            out.println(" <!-- Custom fonts for this template-->");
+            out.println(" <link href=\"assets/vendor/fontawesome-free/css/all.min.css\" rel=\"stylesheet\" type=\"text/css\">");
+            out.println(" <link");
+            out.println(" href=\"https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i\"");
+            out.println(" rel=\"stylesheet\">");
+            
+            out.println(" <!-- Custom styles for this template-->");
+            out.println(" <link href=\"assets/css/sb-admin-2.min.css\" rel=\"stylesheet\">");
+            
+            out.println(" <!-- Custom styles for this page -->");
+            out.println(" <link href=\"assets/vendor/datatables/dataTables.bootstrap4.min.css\" rel=\"stylesheet\">");
+            
+            out.println(" </head>");
+            
+            out.println(" <body id=\"page-top\">");
+            
+            out.println(" <!-- Page Wrapper -->");
+            out.println(" <div id=\"wrapper\">");
+            
+            out.println(" <!-- Sidebar -->");
+            out.println(" <ul class=\"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion\" id=\"accordionSidebar\">");
+            
+            out.println(" <!-- Sidebar - Brand -->");
+            out.println(" <a class=\"sidebar-brand d-flex align-items-center justify-content-center\" href=\"index.html\">");
+            out.println(" <div class=\"sidebar-brand-icon rotate-n-15\">");
+            out.println(" <img src=\"assets/img/faviconW.png\" width=\"39\" height=\"39\" alt=\"Cedae\"/>");
+            out.println(" </div>");
+            out.println(" <div class=\"sidebar-brand-text mx-3\">CEDAE</div>");
+            out.println(" </a>");
+            
+            out.println(" <!-- Divider -->");
+            out.println(" <hr class=\"sidebar-divider my-0\">");
+            
+            out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=dasboard\">");
+            out.println(" <i class=\"fas fa-fw fa-tachometer-alt\"></i>");
+            out.println(" <span>Dashboard</span>");
+            out.println(" </a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Divider -->");
+            out.println(" <hr class=\"sidebar-divider\">");
+            
+            out.println(" <!-- Heading -->");
+            out.println(" <div class=\"sidebar-heading\">");
+            out.println(" Pacientes");
+            out.println(" </div>");
+            
+            out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=agenda\">");
+            out.println(" <i class=\"fas fa-fw fa-calendar\"></i>");
+            out.println(" <span>Agenda</span>");
+            out.println(" </a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=pacientes\">");
+            out.println(" <i class=\"fas fa-fw fa-users\"></i>");
+            out.println(" <span>Pacientes</span>");
+            out.println(" </a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=cReceta\">");
+            out.println(" <i class=\"fas fa-fw fa-notes-medical\"></i>");
+            out.println(" <span>Crear Receta</span>");
+            out.println(" </a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Pages Collapse Menu -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link collapsed\" href=\"#\" data-toggle=\"collapse\" data-target=\"#collapseTwo\"");
+            out.println(" aria-expanded=\"true\" aria-controls=\"collapseTwo\">");
+            out.println(" <i class=\"fas fa-fw fa-file-medical-alt\"></i>");
+            out.println(" <span>Expedientes</span>");
+            out.println(" </a>");
+            out.println(" <div id=\"collapseTwo\" class=\"collapse show\" aria-labelledby=\"headingTwo\" data-parent=\"#accordionSidebar\">");
+            out.println(" <div class=\"bg-white py-2 collapse-inner rounded\">");
+            out.println(" <h6 class=\"collapse-header\">Opciones:</h6>");
+            out.println(" <a class=\"collapse-item active\" href=\"api/sections/medico?section=cExpediente\">Crear Expediente</a>");
+            out.println(" <a class=\"collapse-item\" href=\"api/sections/medico?section=vExpedientes\">Ver Expedientes</a>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Divider -->");
+            out.println(" <hr class=\"sidebar-divider\">");
+            
+            out.println(" <!-- Heading -->");
+            out.println(" <div class=\"sidebar-heading\">");
+            out.println(" OPCIONES");
+            out.println(" </div>");
+            
+            out.println(" <!-- Nav Item - Config -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/user&section=config\">");
+            out.println(" <i class=\"fas fa-fw fa-user-cog\"></i>");
+            out.println(" <span>Configuración</span></a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Logout -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"quit\">");
+            out.println(" <i class=\"fas fa-fw fa-sign-out-alt\"></i>");
+            out.println(" <span>Cerrar Sesion</span></a>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Divider -->");
+            out.println(" <hr class=\"sidebar-divider d-none d-md-block\">");
+            
+            out.println(" <!-- Sidebar Toggler (Sidebar) -->");
+            out.println(" <div class=\"text-center d-none d-md-inline\">");
+            out.println(" <button class=\"rounded-circle border-0\" id=\"sidebarToggle\"></button>");
+            out.println(" </div>");
+            
+            out.println(" </ul>");
+            out.println(" <!-- End of Sidebar -->");
+            
+            out.println(" <!-- Content Wrapper -->");
+            out.println(" <div id=\"content-wrapper\" class=\"d-flex flex-column\">");
+            
+            out.println(" <!-- Main Content -->");
+            out.println(" <div id=\"content\">");
+            
+            out.println(" <!-- Topbar -->");
+            out.println(" <nav class=\"navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow\">");
+            
+            out.println(" <!-- Sidebar Toggle (Topbar) -->");
+            out.println(" <button id=\"sidebarToggleTop\" class=\"btn btn-link d-md-none rounded-circle mr-3\">");
+            out.println(" <i class=\"fa fa-bars\"></i>");
+            out.println(" </button>");
+            
+            out.println(" <!-- Topbar Search -->");
+            out.println(" <form");
+            out.println(" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">");
+            out.println(" <div class=\"input-group\">");
+            out.println(" <input type=\"text\" class=\"form-control bg-light border-0 small\" placeholder=\"Buscar...\"");
+            out.println(" aria-label=\"Search\" aria-describedby=\"basic-addon2\">");
+            out.println(" <div class=\"input-group-append\">");
+            out.println(" <button class=\"btn btn-primary\" type=\"button\">");
+            out.println(" <i class=\"fas fa-search fa-sm\"></i>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            
+            out.println(" <!-- Topbar Navbar -->");
+            out.println(" <ul class=\"navbar-nav ml-auto\">");
+            
+            out.println(" <!-- Nav Item - Search Dropdown (Visible Only XS) -->");
+            out.println(" <li class=\"nav-item dropdown no-arrow d-sm-none\">");
+            out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"searchDropdown\" role=\"button\"");
+            out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+            out.println(" <i class=\"fas fa-search fa-fw\"></i>");
+            out.println(" </a>");
+            out.println(" <!-- Dropdown - Messages -->");
+            out.println(" <div class=\"dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in\"");
+            out.println(" aria-labelledby=\"searchDropdown\">");
+            out.println(" <form class=\"form-inline mr-auto w-100 navbar-search\">");
+            out.println(" <div class=\"input-group\">");
+            out.println(" <input type=\"text\" class=\"form-control bg-light border-0 small\"");
+            out.println(" placeholder=\"Buscar...\" aria-label=\"Search\"");
+            out.println(" aria-describedby=\"basic-addon2\">");
+            out.println(" <div class=\"input-group-append\">");
+            out.println(" <button class=\"btn btn-primary\" type=\"button\">");
+            out.println(" <i class=\"fas fa-search fa-sm\"></i>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Alerts -->");
+            out.println(" <li class=\"nav-item dropdown no-arrow mx-1\">");
+            out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"alertsDropdown\" role=\"button\"");
+            out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+            out.println(" <i class=\"fas fa-bell fa-fw\"></i>");
+            out.println(" <!-- Counter - Alerts -->");
+            out.println(" <span class=\"badge badge-danger badge-counter\">3+</span>");
+            out.println(" </a>");
+            out.println(" <!-- Dropdown - Alerts -->");
+            out.println(" <div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"");
+            out.println(" aria-labelledby=\"alertsDropdown\">");
+            out.println(" <h6 class=\"dropdown-header\">");
+            out.println(" Notificaiones");
+            out.println(" </h6>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"mr-3\">");
+            out.println(" <div class=\"icon-circle bg-primary\">");
+            out.println(" <i class=\"fas fa-file-alt text-white\"></i>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"small text-gray-500\">December 12, 2019</div>");
+            out.println(" <span class=\"font-weight-bold\">Se ha modificado el expediente de: XXXXXX</span>");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"mr-3\">");
+            out.println(" <div class=\"icon-circle bg-success\">");
+            out.println(" <i class=\"fas fa-clock text-white\"></i>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"small text-gray-500\">December 7, 2019</div>");
+            out.println(" Nueva cita agregada a tu agenda.");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"mr-3\">");
+            out.println(" <div class=\"icon-circle bg-warning\">");
+            out.println(" <i class=\"fas fa-history text-white\"></i>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"small text-gray-500\">December 2, 2019</div>");
+            out.println(" Se ha modificado una cita en tu agenda.");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item text-center small text-gray-500\" href=\"#\">Todas las notificaciones</a>");
+            out.println(" </div>");
+            out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Messages -->");
+            out.println(" <li class=\"nav-item dropdown no-arrow mx-1\">");
+            out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"messagesDropdown\" role=\"button\"");
+            out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+            out.println(" <i class=\"fas fa-envelope fa-fw\"></i>");
+            out.println(" <!-- Counter - Messages -->");
+            out.println(" <span class=\"badge badge-danger badge-counter\">7</span>");
+            out.println(" </a>");
+            out.println(" <!-- Dropdown - Messages -->");
+            out.println(" <div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"");
+            out.println(" aria-labelledby=\"messagesDropdown\">");
+            out.println(" <h6 class=\"dropdown-header\">");
+            out.println(" Mensajes");
+            out.println(" </h6>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"dropdown-list-image mr-3\">");
+            out.println(" <img class=\"rounded-circle\" src=\"assets/img/undraw_profile_1.svg\"");
+            out.println(" alt=\"\">");
+            out.println(" <div class=\"status-indicator bg-success\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"font-weight-bold\">");
+            out.println(" <div class=\"text-truncate\">Hi there! I am wondering if you can help me with a");
+            out.println(" problem I've been having.</div>");
+            out.println(" <div class=\"small text-gray-500\">Emily Fowler · 58m</div>");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"dropdown-list-image mr-3\">");
+            out.println(" <img class=\"rounded-circle\" src=\"assets/img/undraw_profile_2.svg\"");
+            out.println(" alt=\"\">");
+            out.println(" <div class=\"status-indicator\"></div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"text-truncate\">I have the photos that you ordered last month, how");
+            out.println(" would you like them sent to you?</div>");
+            out.println(" <div class=\"small text-gray-500\">Jae Chun · 1d</div>");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"dropdown-list-image mr-3\">");
+            out.println(" <img class=\"rounded-circle\" src=\"assets/img/undraw_profile_3.svg\"");
+            out.println(" alt=\"\">");
+            out.println(" <div class=\"status-indicator bg-warning\"></div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"text-truncate\">Last month's report looks great, I am very happy with");
+            out.println(" the progress so far, keep up the good work!</div>");
+            out.println(" <div class=\"small text-gray-500\">Morgan Alvarez · 2d</div>");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+            out.println(" <div class=\"dropdown-list-image mr-3\">");
+            out.println(" <img class=\"rounded-circle\" src=\"https://source.unsplash.com/Mv9hjnEUHR4/60x60\"");
+            out.println(" alt=\"\">");
+            out.println(" <div class=\"status-indicator bg-success\"></div>");
+            out.println(" </div>");
+            out.println(" <div>");
+            out.println(" <div class=\"text-truncate\">Am I a good boy? The reason I ask is because someone");
+            out.println(" told me that people say this to all dogs, even if they aren't good...</div>");
+            out.println(" <div class=\"small text-gray-500\">Chicken the Dog · 2w</div>");
+            out.println(" </div>");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item text-center small text-gray-500\" href=\"#\">Ver todos los mensajes</a>");
+            out.println(" </div>");
+            out.println(" </li>");
+            
+            out.println(" <div class=\"topbar-divider d-none d-sm-block\"></div>");
+            
+            out.println(" <!-- Nav Item - User Information -->");
+            out.println(" <li class=\"nav-item dropdown no-arrow\">");
+            out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\"");
+            out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+            out.println(" <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">Gregory House</span>");
+            out.println(" <img class=\"img-profile rounded-circle\"");
+            out.println(" src=\"assets/img/undraw_profile.svg\">");
+            out.println(" </a>");
+            out.println(" <!-- Dropdown - User Information -->");
+            out.println(" <div class=\"dropdown-menu dropdown-menu-right shadow animated--grow-in\"");
+            out.println(" aria-labelledby=\"userDropdown\">");
+            out.println(" <a class=\"dropdown-item\" href=\"#\">");
+            out.println(" <i class=\"fas fa-user fa-sm fa-fw mr-2 text-gray-400\"></i>");
+            out.println(" Perfil");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item\" href=\"#\">");
+            out.println(" <i class=\"fas fa-cogs fa-sm fa-fw mr-2 text-gray-400\"></i>");
+            out.println(" Configuración");
+            out.println(" </a>");
+            out.println(" <a class=\"dropdown-item\" href=\"#\">");
+            out.println(" <i class=\"fas fa-list fa-sm fa-fw mr-2 text-gray-400\"></i>");
+            out.println(" Actividad");
+            out.println(" </a>");
+            out.println(" <div class=\"dropdown-divider\"></div>");
+            out.println(" <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#logoutModal\">");
+            out.println(" <i class=\"fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400\"></i>");
+            out.println(" Cerrar Sesion");
+            out.println(" </a>");
+            out.println(" </div>");
+            out.println(" </li>");
+            
+            out.println(" </ul>");
+            
+            out.println(" </nav>");
+            out.println(" <!-- End of Topbar -->");
+            
+            out.println(" <!-- Begin Page Content -->");
+            out.println(" <div class=\"container-fluid\" id=\"content-page\">");
+            
+            out.println(" <!-- Page Heading -->");
+            out.println(" <div class=\"row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Crear Expediente</h1>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <a role=\"button\" class=\"btn btn-success btn-icon-split\" id=\"createExpediente\" onclick='createExpediente(this)'>");
+            out.println(" <span class=\"icon text-white-50\">");
+            out.println(" <i class=\"fas fa-check\"></i>");
+            out.println(" </span>");
+            out.println(" <span class=\"text\">Guardar Expediente</span>");
+            out.println(" </a>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- CONTENT -->");
+            out.println(" <div class=\"row\" id=\"content-panel\">");
+            
+            out.println(" <div class=\"col-lg-6\">");
+            
+            out.println(" <!-- Personal Info -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Información Personal</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+            out.println(" <form id=\"personal-info\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre(s)\" data-rule=\"required\" data-msg=\"Ingresa el nombre\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"lastname\" name=\"lastname\" class=\"form-control\" placeholder=\"Apellidos\" data-rule=\"required\" data-msg=\"Ingresa el apellido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"date\" id=\"birthdate\" name=\"birthdate\" class=\"form-control\" placeholder=\"Fecha de Naciemiento\" data-rule=\"required\" data-msg=\"Ingresa la fecha de nacimiento\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <select class=\"custom-select mr-sm-2\" id=\"sexo\" name=\"sexo\" data-rule=\"required\" data-msg=\"Selecciona el Sexo\">");
+            out.println(" <option selected value=\"null\">Sexo</option>");
+            out.println(" <option value=\"1\">Masculino</option>");
+            out.println(" <option value=\"2\">Femenino</option>");
+            out.println(" <option value=\"3\">Otro</option>");
+            out.println(" </select>");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"text\" id=\"curp\" name=\"curp\" class=\"form-control\" placeholder=\"CURP\" data-rule=\"curp\" data-msg=\"Ingresa un CURP valido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"text\" id=\"occup\" name=\"occup\" class=\"form-control\" placeholder=\"Ocupación\">");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <select class=\"custom-select mr-sm-2\" id=\"estcivil\" name=\"estcivil\">");
+            out.println(" <option selected>Estado Civil</option>");
+            out.println(" <option value=\"1\">Casado</option>");
+            out.println(" <option value=\"2\">Soltero</option>");
+            out.println(" <option value=\"3\">Otro</option>");
+            out.println(" </select>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"tel\" id=\"tel\" name=\"tel\" class=\"form-control\" placeholder=\"Telefono\" data-rule=\"required\" data-msg=\"Ingresa el telefono\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"text\" id=\"secure\" name=\"secure\" class=\"form-control\" placeholder=\"Aseguradora\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"email\" id=\"email\" name=\"email\" class=\"form-control\" placeholder=\"Correo Electronico\" data-rule=\"email\" data-msg=\"Ingresa un correo valido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- Address Info -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Dirección</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+            out.println(" <form id=\"address-info\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"dir\" name=\"dir\" class=\"form-control\" placeholder=\"Direccion\" data-rule=\"minlen:10\" data-msg=\"Ingresa una dirección\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"text\" id=\"colonia\" name=\"colonia\" class=\"form-control\" placeholder=\"Colonia\" data-rule=\"required\" data-msg=\"Ingresa la colonia\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <select class=\"custom-select mr-sm-2\" id=\"entfed\" name=\"entfed\" data-rule=\"required\" data-msg=\"Selecciona una opcion\">");
+            out.println(" <option selected value=\"null\">Entidad Federativa</option>");
+            out.println(" <option value=\"Aguascalientes\">Aguascalientes</option>");
+            out.println(" <option value=\"Baja California\">Baja California</option>");
+            out.println(" <option value=\"Baja California Sur\">Baja California Sur</option>");
+            out.println(" <option value=\"Campeche\">Campeche</option>");
+            out.println(" <option value=\"Chiapas\">Chiapas</option>");
+            out.println(" <option value=\"Chihuahua\">Chihuahua</option>");
+            out.println(" <option value=\"CDMX\">Ciudad de México</option>");
+            out.println(" <option value=\"Coahuila\">Coahuila</option>");
+            out.println(" <option value=\"Colima\">Colima</option>");
+            out.println(" <option value=\"Durango\">Durango</option>");
+            out.println(" <option value=\"Estado de México\">Estado de México</option>");
+            out.println(" <option value=\"Guanajuato\">Guanajuato</option>");
+            out.println(" <option value=\"Guerrero\">Guerrero</option>");
+            out.println(" <option value=\"Hidalgo\">Hidalgo</option>");
+            out.println(" <option value=\"Jalisco\">Jalisco</option>");
+            out.println(" <option value=\"Michoacán\">Michoacán</option>");
+            out.println(" <option value=\"Morelos\">Morelos</option>");
+            out.println(" <option value=\"Nayarit\">Nayarit</option>");
+            out.println(" <option value=\"Nuevo León\">Nuevo León</option>");
+            out.println(" <option value=\"Oaxaca\">Oaxaca</option>");
+            out.println(" <option value=\"Puebla\">Puebla</option>");
+            out.println(" <option value=\"Querétaro\">Querétaro</option>");
+            out.println(" <option value=\"Quintana Roo\">Quintana Roo</option>");
+            out.println(" <option value=\"San Luis Potosí\">San Luis Potosí</option>");
+            out.println(" <option value=\"Sinaloa\">Sinaloa</option>");
+            out.println(" <option value=\"Sonora\">Sonora</option>");
+            out.println(" <option value=\"Tabasco\">Tabasco</option>");
+            out.println(" <option value=\"Tamaulipas\">Tamaulipas</option>");
+            out.println(" <option value=\"Tlaxcala\">Tlaxcala</option>");
+            out.println(" <option value=\"Veracruz\">Veracruz</option>");
+            out.println(" <option value=\"Yucatán\">Yucatán</option>");
+            out.println(" <option value=\"Zacatecas\">Zacatecas</option>");
+            out.println(" </select>");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <input type=\"number\" id=\"cp\" name=\"cp\" class=\"form-control\" placeholder=\"Codigo Postal\" data-rule=\"required\" data-msg=\"Ingresa el codigo postal\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- History Info -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Antecedentes</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+            out.println(" <form id=\"history-info\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"alergias\" name=\"alergias\" class=\"form-control\" placeholder=\"Alergias\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"anteHered\" name=\"anteHered\" class=\"form-control\" placeholder=\"Antecedentes Heredofamiliares\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"antePato\" name=\"antePato\" class=\"form-control\" placeholder=\"Antecedentes Personales Patológicos\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <textarea class=\"form-control\" id=\"padeciActual\" name=\"padeciActual\" rows=\"8\" placeholder=\"Padecimiento Actual\" data-rule=\"required\" data-msg=\"Ingresa el pacedimiento\"></textarea>");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" </div>");
+            
+            out.println(" <div class=\"col-lg-6\">");
+            
+            out.println(" <!-- Exam -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Examen Fisico</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+            out.println(" <form id=\"examen-fisi\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"number\" id=\"peso\" name=\"peso\" class=\"form-control\" placeholder=\"Peso\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"number\" id=\"estatura\" name=\"estatura\" class=\"form-control\" placeholder=\"Estatura (cm)\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"pressArte\" name=\"pressArte\" class=\"form-control\" placeholder=\"Presión Arterial\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"number\" id=\"frecCard\" name=\"frecCard\" class=\"form-control\" placeholder=\"Frecuencia Cardiaca\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"number\" id=\"frecResp\" name=\"frecResp\" class=\"form-control\" placeholder=\"Frecuencia Respiratoria\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"number\" id=\"temp\" name=\"temp\" class=\"form-control\" placeholder=\"Temperatura\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"topogr\" name=\"topogr\" class=\"form-control\" placeholder=\"Topografia\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <textarea class=\"form-control\" id=\"morfo\" name=\"morfo\" rows=\"5\" placeholder=\"Morfologia\"></textarea>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"panex\" name=\"panex\" class=\"form-control\" placeholder=\"Piel y Anexos\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <input type=\"text\" id=\"tratAnt\" name=\"tratAnt\" class=\"form-control\" placeholder=\"Tratamiento Anterior\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- Evaluation -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Evaluación y Plan de Seguimiento</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+            out.println(" <form id=\"evaluation\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col col-8\">");
+            out.println(" <input type=\"text\" id=\"diagn\" name=\"diagn\" class=\"form-control\" placeholder=\"Diagnostico\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
+            out.println(" <div class=\"validate text-center\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col-4\">");
+            out.println(" <input type=\"text\" id=\"cie\" name=\"cie\" class=\"form-control\" placeholder=\"CIE\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <textarea class=\"form-control\" id=\"desc\" name=\"desc\" rows=\"5\" placeholder=\"Descripcíon\"></textarea>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <img src=\"assets/img/hbody.jpg\" width=\"400\" height=\"300\"/>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <textarea class=\"form-control\" id=\"obs\" name=\"obs\" rows=\"12\" placeholder=\"Observaciones\"></textarea>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row mt-2\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <textarea class=\"form-control\" id=\"planseg\" name=\"planseg\" rows=\"5\" placeholder=\"Plan de Seguimiento\"></textarea>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <!-- /.container-fluid -->");
+            
+            out.println(" </div>");
+            out.println(" <!-- End of Main Content -->");
+            
+            out.println(" <!-- Footer -->");
+            out.println(" <footer class=\"sticky-footer bg-white\">");
+            out.println(" <div class=\"container my-auto\">");
+            out.println(" <div class=\"copyright text-center my-auto\">");
+            out.println(" <span>Copyright © CEDAE 2020</span>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </footer>");
+            out.println(" <!-- End of Footer -->");
+            
+            out.println(" </div>");
+            out.println(" <!-- End of Content Wrapper -->");
+            
+            out.println(" </div>");
+            out.println(" <!-- End of Page Wrapper -->");
+            
+            out.println(" <!-- Scroll to Top Button-->");
+            out.println(" <a class=\"scroll-to-top rounded\" href=\"#page-top\">");
+            out.println(" <i class=\"fas fa-angle-up\"></i>");
+            out.println(" </a>");
+            
+            out.println(" <!-- Logout Modal-->");
+            out.println(" <div class=\"modal fade\" id=\"logoutModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"");
+            out.println(" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLabel\">Listo para salir?</h5>");
+            out.println(" <button class=\"close\" type=\"button\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">Elige \"Cerrar Sesion\" abajo si estas seguro de cerrar sesion.</div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Cancelar</button>");
+            out.println(" <a class=\"btn btn-primary\" href=\"login.html\">Cerrar Sesion</a>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- Bootstrap core JavaScript-->");
+            out.println(" <script src=\"assets/vendor/jquery/jquery.min.js\"></script>");
+            out.println(" <script src=\"assets/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
+            
+            out.println(" <!-- Core plugin JavaScript-->");
+            out.println(" <script src=\"assets/vendor/jquery-easing/jquery.easing.min.js\"></script>");
+            
+            out.println(" <!-- Custom scripts for all pages-->");
+            out.println(" <script src=\"assets/js/sb-admin-2.min.js\"></script>");
+            
+            out.println(" <script src=\"assets/js/cexpediente.js\"></script>");
+            out.println(" <script src=\"assets/js/navigation.js\"></script>");
+            out.println(" <script src=\"assets/js/recetas.js\"></script>");
+            
+            out.println(" <!-- Page level plugins -->");
+            out.println(" <script src=\"assets/vendor/datatables/jquery.dataTables.min.js\"></script>");
+            out.println(" <script src=\"assets/vendor/datatables/dataTables.bootstrap4.min.js\"></script>");
+            
+            out.println(" <!-- Page level custom scripts -->");
+            out.println(" <script src=\"assets/js/demo/datatables-demo.js\"></script>");
+            
+            out.println(" </body>");
+        
+            out.println(" </html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

@@ -14,8 +14,14 @@ import java.sql.Date;
 public class Recepcionista extends Empleado{
     private int idRecepcionista;
 
-    public Recepcionista(String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+    public Recepcionista(int idRecepcionista, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+        super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+        this.idRecepcionista = idRecepcionista;
+    }
+
+    public Recepcionista(int idRecepcionista, String area) {
+        super(area);
+        this.idRecepcionista = idRecepcionista;
     }
 
     public int getIdRecepcionista() {

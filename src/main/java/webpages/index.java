@@ -5,8 +5,12 @@
  */
 package webpages;
 
+import com.adoo.cedae.resources.ConexionMySQL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +102,7 @@ public class index extends HttpServlet {
             out.println(" <!-- Slide 2 -->");
             out.println(" <div class=\"carousel-item\">");
             out.println(" <div class=\"carousel-container\">");
-            out.println(" <h2 class=\"animate__animated animate__fadeInDown\">Dermatologia Oncológica</h2>");
+            out.println(" <h2 class=\"animate__animated animate__fadeInDown\">Dermatologia MYSQL Oncológica</h2>");
             out.println(" <p class=\"animate__animated animate__fadeInUp\">Especializada.</p>");
             out.println(" <a href=\"\" class=\"btn-get-started animate__animated animate__fadeInUp\">Aprender Mas</a>");
             out.println(" </div>");
@@ -388,6 +392,13 @@ public class index extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ConexionMySQL db = new ConexionMySQL();
+        try {
+            db.conectarMySQL();
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
         processRequest(request, response);
     }
 

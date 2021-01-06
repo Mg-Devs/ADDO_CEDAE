@@ -18,17 +18,22 @@ public class Paciente extends Persona{
     private boolean puedeVerExp;
     private ArrayList<Cita> agenda;
 
-    public Paciente(String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
-    }
-
-    public Paciente(int idPaciente, Expediente expediente, boolean puedeVerExp, ArrayList<Cita> agenda, String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+    public Paciente(int idPaciente, Expediente expediente, boolean puedeVerExp, ArrayList<Cita> agenda, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+        super(nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
         this.idPaciente = idPaciente;
         this.expediente = expediente;
         this.puedeVerExp = puedeVerExp;
         this.agenda = agenda;
     }
+
+    public Paciente(int idPaciente, Expediente expediente, boolean puedeVerExp, ArrayList<Cita> agenda) {
+        this.idPaciente = idPaciente;
+        this.expediente = expediente;
+        this.puedeVerExp = puedeVerExp;
+        this.agenda = agenda;
+    }
+
+    
 
     public int getIdPaciente() {
         return idPaciente;

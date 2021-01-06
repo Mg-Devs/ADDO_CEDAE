@@ -64,8 +64,10 @@
       }
     });
     if (ferror) return false;
+    
+    tryLogin($('#email').val(),$('#password').val());
 
-    if ($('#password').val() != "123456789"){
+    /*if ($('#password').val() != "123456789"){
         $('#loginInfo').html('Contraseña Incorrecta').show("blind");
         return false;
     }
@@ -81,47 +83,24 @@
     }
     else if($('#email').val() == "recepcionista@cedae.com"){
         window.location.replace('http://localhost:8080/CEDAE/recepcionista');
-    }
+    }*/
     
     return true;
   });
 
-  function php_email_form_submit(this_form, action, data) {
+  function tryLogin(email, password) {
     $.ajax({
       type: "POST",
-      url: action,
-      data: data,
-      timeout: 40000
-    }).done( function(msg){
-      if (msg == 'OK') {
-        this_form.find('.loading').slideUp();
-        this_form.find('.sent-message').slideDown();
-        this_form.find("input:not(input[type=submit]), textarea").val('');
-      } else {
-        this_form.find('.loading').slideUp();
-        if(!msg) {
-          msg = 'Form submission failed and no error message returned from: ' + action + '<br>';
-        }
-        this_form.find('.error-message').slideDown().html(msg);
-      }
+      url: 'login',
+      data: {email:email,password:password},
+    }).done( function(data){
+        console.log(data)
+        if(data.status == 0)
+            $('#loginInfo').html(data.message).show("blind");
+        else
+            window.location.replace(data.message.substr(3,data.message.length));
     }).fail( function(data){
       console.log(data);
-      var error_msg = "Form submission failed!<br>";
-      if(data.statusText || data.status) {
-        error_msg += 'Status:';
-        if(data.statusText) {
-          error_msg += ' ' + data.statusText;
-        }
-        if(data.status) {
-          error_msg += ' ' + data.status;
-        }
-        error_msg += '<br>';
-      }
-      if(data.responseText) {
-        error_msg += data.responseText;
-      }
-      this_form.find('.loading').slideUp();
-      this_form.find('.error-message').slideDown().html(error_msg);
     });
   }
 

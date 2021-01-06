@@ -13,9 +13,15 @@ import java.sql.Date;
  */
 public class EncargadoFarmacia extends Empleado{
     private int idEncargadoFarmacia;
-    
-    public EncargadoFarmacia(String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+
+    public EncargadoFarmacia(int idEncargadoFarmacia, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+        super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+        this.idEncargadoFarmacia = idEncargadoFarmacia;
+    }
+
+    public EncargadoFarmacia(int idEncargadoFarmacia, String area) {
+        super(area);
+        this.idEncargadoFarmacia = idEncargadoFarmacia;
     }
 
     public int getIdEncargadoFarmacia() {

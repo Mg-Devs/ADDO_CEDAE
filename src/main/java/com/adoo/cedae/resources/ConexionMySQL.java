@@ -2,14 +2,16 @@ package com.adoo.cedae.resources;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ConexionMySQL {
     // Librería de MySQL
-    public String driver = "com.mysql.jdbc.Driver";
+    public String driver = "com.mysql.cj.jdbc.Driver";
 
     // Nombre de la base de datos
-    public String database = "bdcedae";
+    public String database = "cedae2";
 
     // Host
     public String hostname = "localhost";
@@ -18,27 +20,53 @@ public class ConexionMySQL {
     public String port = "3306";
 
     // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
-    public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useTimezone=true&serverTimezone=UTC";
+    public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useTimezone=true&serverTimezone=UTC&useSSL=false";
 
     // Nombre de usuario
     public String username = "root";
 
     // Clave de usuario
-    public String password = "root";
+    //public String password = "tuclave";
+    public String password = "123456789";
+    
+    //Conector
+    private Connection conn = null;
+    //Statement
+    private Statement statement;
 
-    public Connection conectarMySQL() throws SQLException {
-        Connection conn = null;
-
+    //Abre la conexion
+    public void conectarMySQL() throws SQLException {
         try {
             Class.forName(driver);
-            conn = DriverManager.getConnection(url, username, password);
-            if(conn!= null){
-                System.out.println("Conexion establecida..");
-            }
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error al conectar"+e);
+            this.conn = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
         }
-
-        return conn;
     }
+    
+    //Cierra la conexion
+    public void closeConection() throws SQLException{
+        this.conn.close();
+    }
+    
+    public ResultSet executeQuery(String query) throws SQLException{
+        this.statement = (Statement) conn.createStatement();
+        return this.statement.executeQuery(query);
+    }
+    
+    public void updateQuery(String queary) throws SQLException {
+        this.statement = (Statement) conn.createStatement();
+        this.statement.executeUpdate(queary);
+    }
+    
+    public ResultSet deleteQuery(String query) throws SQLException{
+        this.statement = (Statement) conn.createStatement();
+        return this.statement.executeQuery(query);
+    }
+    
+    public void insertQuery(String queary) throws SQLException {
+        this.statement = (Statement) conn.createStatement();
+        this.statement.executeUpdate(queary);
+    }
+    
 }

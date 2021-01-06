@@ -18,9 +18,23 @@ public class Medico extends Empleado{
     private int idMedico;
     private String cedula;
     private boolean medicoTitular;
-    
-    public Medico(String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+
+    public Medico(ArrayList<Cita> agenda, ArrayList<Paciente> pacientes, int idMedico, String cedula, boolean medicoTitular, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+        super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+        this.agenda = agenda;
+        this.pacientes = pacientes;
+        this.idMedico = idMedico;
+        this.cedula = cedula;
+        this.medicoTitular = medicoTitular;
+    }
+
+    public Medico(ArrayList<Cita> agenda, ArrayList<Paciente> pacientes, int idMedico, String cedula, boolean medicoTitular, String area) {
+        super(area);
+        this.agenda = agenda;
+        this.pacientes = pacientes;
+        this.idMedico = idMedico;
+        this.cedula = cedula;
+        this.medicoTitular = medicoTitular;
     }
 
     public ArrayList<Cita> getAgenda() {

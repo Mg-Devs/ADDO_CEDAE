@@ -13,9 +13,15 @@ import java.sql.Date;
  */
 public class AdministradorSistemas extends Empleado{
     private int idAdmin;
-    
-    public AdministradorSistemas(String nombre, String apellidos, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
-        super(nombre, apellidos, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+
+    public AdministradorSistemas(int idAdmin, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+        super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
+        this.idAdmin = idAdmin;
+    }
+
+    public AdministradorSistemas(int idAdmin, String area) {
+        super(area);
+        this.idAdmin = idAdmin;
     }
 
     public int getIdAdmin() {

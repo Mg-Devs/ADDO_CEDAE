@@ -160,11 +160,12 @@ DROP TABLE IF EXISTS `medicamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `medicamento` (
-  `sku` varchar(10) NOT NULL,
-  `tamaño` varchar(10) DEFAULT NULL,
+  `sku` varchar(15) NOT NULL,
+  `tamano` varchar(15) DEFAULT NULL,
   `unidades` int(11) DEFAULT NULL,
   `fechaexp` date DEFAULT NULL,
   `precio` int(11) DEFAULT NULL,
+  `nombre` varchar(75) DEFAULT NULL,
   PRIMARY KEY (`sku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -175,6 +176,7 @@ CREATE TABLE `medicamento` (
 
 LOCK TABLES `medicamento` WRITE;
 /*!40000 ALTER TABLE `medicamento` DISABLE KEYS */;
+INSERT INTO `medicamento` VALUES ('00-22-44-154','20ml',30,'2028-12-13',103,'Apivita Express Beauty Sheet Mask Algarroba'),('148797.3','20gr',20,'2021-04-08',50,'Bifonazol 10 mg/g'),('154754.5','400ml',61,'2023-04-25',320,'Gel Moussant Limpiador Purificante'),('154888.7','50ml',22,'2021-03-29',433,'Isdin Nutradeica Gel-Crema Facial Piel Seborreica'),('166650.5','500ml',15,'2024-01-18',86,'Bioderma Sebium Gel Espumoso Limpiador Purificante'),('167065.6','30ml',40,'2023-06-25',375,'Neostrata Skin Active Matrix Serum Antioxidante'),('171350.6','6ml',59,'2022-04-10',237,'Endocare C Peel Gel 5 sobres'),('176331.0','30ml',21,'2021-12-12',106,'Plante System Fluido Desfatigante Facial Précieuse Edelweiss'),('176389.1','75gr',64,'2023-06-09',725,'Sensilis Skin Delight Peeling Negro Revitalizante'),('178899.3','30ml',33,'2025-12-02',162,'Bioderma Sébium Sensitive Cuidado Calmante Antiimperfecciones'),('184310.4','50ml',61,'2024-01-18',372,'Isdin Fotoprotector Pediatrics Fusion Fluid Mineral Baby SPF50+'),('186752.1','35gr',15,'2023-01-14',50,'Pomada de la Campana'),('187652.2','473ml',43,'2022-12-18',313,'CeraVe Gel Limpiador Espumoso'),('193613.4','40ml',22,'2023-03-03',342,'Martiderm Proteos Screen SPF50+'),('197615.4','50ml',23,'2025-09-15',205,'Bella Aurora Bio10 Solar Protector'),('200070.4','40ml',25,'2022-07-25',170,'Isdin Acniben Skin Rx Gel Crema Hidratante'),('213017.3','100ml',66,'2022-11-27',198,'Neostrata Gel Forte Salicílico'),('247379.9','30 Ampollas',35,'2022-09-26',217,'Martiderm Proteos Hydra Plus'),('317171.7','200ml',36,'2028-10-16',470,'La Roche-Posay Solución Micelar'),('586545FDT','2x28 Cápsulas',41,'2022-09-26',632,'Repavar Monoderma C10 Revitalizante Duplo'),('661250.7','25ml',33,'2022-06-23',120,'Cristalmina 10 mg/ml Spray'),('710449.0','5ml',15,'2024-01-18',650,'Locetar 50mg/ml Barniz Uñas Medicamentoso'),('FD5502340','20x2ml',59,'2025-08-06',137,'Endocare Tensage Ampollas'),('FD55203','50ml',15,'2028-12-19',900,'Eucerin Pack Hyaluron-Filler Crema Día PNM'),('L0037','40ml',55,'2021-10-14',327,'Lierac Sunissime Fluido Protector Revitalizante Rostro SPF50+'),('P171315','30 Ampollas',30,'2021-09-03',345,'Endocare Pack Radiance C Oil'),('P190828','50ml',19,'2022-03-17',385,'Biretix Pack Tri-Active');
 /*!40000 ALTER TABLE `medicamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,6 +282,7 @@ CREATE TABLE `persona` (
   `colonia` varchar(30) DEFAULT NULL,
   `entidadfederativa` varchar(20) DEFAULT NULL,
   `codigopostal` int(11) DEFAULT NULL,
+  `tipo` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`curp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -290,7 +293,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES ('AIAD990228HMCRSV01','nova64@hotmail.com','rPTuCWwNAzBU','DAVID','ARIAS ASENJO',26,'5563755889','1999-02-28','2019-10-03','PASEO DE LA REFORMA 1, TABACALERA','CUAUHTEMOC','CIUDAD DE MEXICO',6030),('AUMT940806MMCNLR03','myah45@hotmail.com','zSnPkUWTGhAw','TERESA','ANGUITA MALLO',26,'5567753033','1994-08-06','2019-05-24','CARR FED MEXICO-PUEBLA KM 19.5','LOS REYES ACAQUILPAN','ESTADO DE MEXICO',56400),('BEVJ971012HMCNRN00','barney_bogisich@gmail.com','rAeKHKvRjzKN','JUAN LUIS','BENITEZ VARA',23,'5582748783','1997-10-12','2019-04-29','PLAN DE IGUALA 2, SANTA MARIA TICOMAN','GUSTAVO A MADERO','CIUDAD DE MEXICO',7330),('BOPA940213MMCRZL00','sheila_fadel18@hotmail.com','eVRBZppnceuA','FRANCISCA','CAMPILLO BELDA',26,'5533763618','1994-02-13','2019-04-15','LUTARCO E CALLES 1503 N5, ZACAHUITZCO','BENITO JUAREZ','CIUDAD DE MEXICO',3550),('CAAA980920HMCSRG06','leopold9@gmail.com','bUeXFwkatAEe','AGUSTIN','CASTILLEJO ARCO',22,'5504623819','1998-09-20','2019-09-03','EGIPTO 206','CLAVERIA','CIUDAD DE MEXICO',2080),('CABF941114MMCMLR00','trystan_schroeder76@yahoo.com','jGCCCcHZdFTM','FRANCISCA','CAMPILLO BELDA',26,'5597520942','1994-11-14','2019-02-07','CALZADA SAN MATEO 29, SAN JUAN BOSCO','ATIZAPAN DE ZARAGOZA','ESTADO DE MEXICO',52940),('CAMC920518MMCNST00','samir.krajcik77@hotmail.com','HrUtCpjwtnWk','CATALINA','CANTERO MAESO',28,'5515457103','1992-05-18','2019-12-01','COLTONGO NO. 100, TRABAJADORES DEL HIERRO','AZCAPOTZALCO','CIUDAD DE MEXICO',2650),('CATJ971002MMCZDS01','kaden_larkin80@yahoo.com','BaSbnvcGSDTN','JOSEFA','CAZORLA TUDELA',23,'5562674931','1997-10-02','2019-11-18','MANUEL MA. CONTRERAS NO. 73 S/N','SAN RAFAEL','CIUDAD DE MEXICO',6470),('CAVJ890922HMCLLS05','jailyn60@yahoo.com','eFmmHHpUxZKf','JOSE','CALVET VELARDE',31,'5564458857','1989-09-22','2019-08-14','AV LA PALMA NO. 10 S/N','CUAUTITLAN','ESTADO DE MEXICO',54900),('COVA810120MMCRLN08','jessica.jacobson@hotmail.com','GsjKDKWZevaR','ANA ISABEL','CORREDOR VALLS',39,'5591035691','1981-01-20','2019-08-17','16 DE SEPTIEMBRE 70, ALCE BLANCO','NAUCALPAN','ESTADO DE MEXICO',53370),('FECJ851211HMCRRR01','adolf.ohara63@hotmail.com','jRARnuRfQCkJ','JORGE','FERNANDEZ CARBO',35,'5572115665','1985-12-11','2019-09-24','MARGARITA MAZA DE JUAREZ 149, NUEVA IND VALLEJO','GUSTAVO A MADERO','CIUDAD DE MEXICO',7700),('GAPA891219HMCLRN01','taurean.hackett@gmail.com','BxRmHQkmfqmH','ANGEL','GALLEGOS PARIENTE',31,'5539494459','1989-12-19','2019-07-26','BOSQUE DE DURAZNOS 39, BOSQUES DE LAS LOMAS','MIGUEL HIDALGO','CIUDAD DE MEXICO',11700),('MEBM910121MMCRRR00','orville12@yahoo.com','NnbptPgebuTJ','MARIA NIEVES','MERCADER BORRELL',29,'5544008605','1991-01-12','2019-11-26','AGUSTIN DELGADO 275, TRANSITO','CUAUHTEMOC','CIUDAD DE MEXICO',60020),('PAGJ990522MMCLRL03','godfrey35@hotmail.com','XcDcvRsnZDHU','JULIA','PLATA GORDON',21,'5595634812','1999-05-22','2019-02-06','EJE CENTRAL LAZARO CARDENAS NO. 9 Int. INT. 39, CENTRO DE LA CIUDAD DE MEXICO','CUAUHTEMOC','CIUDAD DE MEXICO',6300),('PAGM930918HMCLRH01','salvador78@yahoo.com','NpNhhFkCuTwh','MOHAMED','PLATERO GRANELL',27,'5513272092','1993-09-18','2019-08-22','MAGNOLIAS NO. 537, VILLA DE LAS FLORES','COACALCO DE BERRIZOBAL','ESTADO DE MEXICO',55710),('PEMD941124HMCDLM07','cletus_kuhic@hotmail.com','rngJTgVkPHeQ','DOMINGO','PEDREIRA MOLINS',26,'5532780874','1994-11-24','2019-11-18','Henry Ford Esq. Roberto Fulton','TLALNEPANTLA','ESTADO DE MEXICO',2650),('ROCJ810826HMCMRS03','earnest7@yahoo.com','KzUkdBjTUzgd','JOSE ANTONIO','ROMERA CORDOVA',39,'5515291882','1981-08-26','2019-06-28','ZACATECAS 206 602, ROMA','NEZAHUALCOYOTL','ESTADO DE MEXICO',6200),('SIMS831111HMCIRM01','kyle_runte56@yahoo.com','ECVbCgnwwHwc','SAMUEL','SILVESTRE MURCIA',37,'5568940817','1983-11-11','2019-02-07','RODOLFO USIGLI NO. 1402, SECTOR POPULAR','IZTAPALAPA','ESTADO DE MEXICO',9060),('TELP010528MMCLIT07','dominic_bruen95@hotmail.com','bkHMebCUEnSm','PATRICIA','TELLO LEIVA',19,'5559906745','2001-05-28','2019-04-13','INSURGENTES SUR NO. 1026, DEL VALLE','BENITO JUAREZ','CIUDAD DE MEXICO',3100),('VICS980920MMCINS09','scotty_labadie91@yahoo.com','eUsgGYuPtnTn','SUSANA','VILLA CANDELA',22,'5534355899','1998-09-20','2019-08-23','ANGEL DE LA INDEPENDENCIA NO. 98, METROPOLINATA 2A SECC','NEZAHUALCOYOTL','ESTADO DE MEXICO',57740);
+INSERT INTO `persona` VALUES ('AIAD990228HMCRSV01','nova64@hotmail.com','rPTuCWwNAzBU','DAVID','ARIAS ASENJO',26,'5563755889','1999-02-28','2019-10-03','PASEO DE LA REFORMA 1, TABACALERA','CUAUHTEMOC','CIUDAD DE MEXICO',6030,'empleado'),('AUMT940806MMCNLR03','myah45@hotmail.com','zSnPkUWTGhAw','TERESA','ANGUITA MALLO',26,'5567753033','1994-08-06','2019-05-24','CARR FED MEXICO-PUEBLA KM 19.5','LOS REYES ACAQUILPAN','ESTADO DE MEXICO',56400,'empleado'),('BEVJ971012HMCNRN00','barney_bogisich@gmail.com','rAeKHKvRjzKN','JUAN LUIS','BENITEZ VARA',23,'5582748783','1997-10-12','2019-04-29','PLAN DE IGUALA 2, SANTA MARIA TICOMAN','GUSTAVO A MADERO','CIUDAD DE MEXICO',7330,'empleado'),('BOPA940213MMCRZL00','sheila_fadel18@hotmail.com','eVRBZppnceuA','FRANCISCA','CAMPILLO BELDA',26,'5533763618','1994-02-13','2019-04-15','LUTARCO E CALLES 1503 N5, ZACAHUITZCO','BENITO JUAREZ','CIUDAD DE MEXICO',3550,'empleado'),('CAAA980920HMCSRG06','leopold9@gmail.com','bUeXFwkatAEe','AGUSTIN','CASTILLEJO ARCO',22,'5504623819','1998-09-20','2019-09-03','EGIPTO 206','CLAVERIA','CIUDAD DE MEXICO',2080,'empleado'),('CABF941114MMCMLR00','trystan_schroeder76@yahoo.com','jGCCCcHZdFTM','FRANCISCA','CAMPILLO BELDA',26,'5597520942','1994-11-14','2019-02-07','CALZADA SAN MATEO 29, SAN JUAN BOSCO','ATIZAPAN DE ZARAGOZA','ESTADO DE MEXICO',52940,'empleado'),('CAMC920518MMCNST00','samir.krajcik77@hotmail.com','HrUtCpjwtnWk','CATALINA','CANTERO MAESO',28,'5515457103','1992-05-18','2019-12-01','COLTONGO NO. 100, TRABAJADORES DEL HIERRO','AZCAPOTZALCO','CIUDAD DE MEXICO',2650,'empleado'),('CATJ971002MMCZDS01','kaden_larkin80@yahoo.com','BaSbnvcGSDTN','JOSEFA','CAZORLA TUDELA',23,'5562674931','1997-10-02','2019-11-18','MANUEL MA. CONTRERAS NO. 73 S/N','SAN RAFAEL','CIUDAD DE MEXICO',6470,'empleado'),('CAVJ890922HMCLLS05','jailyn60@yahoo.com','eFmmHHpUxZKf','JOSE','CALVET VELARDE',31,'5564458857','1989-09-22','2019-08-14','AV LA PALMA NO. 10 S/N','CUAUTITLAN','ESTADO DE MEXICO',54900,'empleado'),('COVA810120MMCRLN08','jessica.jacobson@hotmail.com','GsjKDKWZevaR','ANA ISABEL','CORREDOR VALLS',39,'5591035691','1981-01-20','2019-08-17','16 DE SEPTIEMBRE 70, ALCE BLANCO','NAUCALPAN','ESTADO DE MEXICO',53370,'empleado'),('FECJ851211HMCRRR01','adolf.ohara63@hotmail.com','jRARnuRfQCkJ','JORGE','FERNANDEZ CARBO',35,'5572115665','1985-12-11','2019-09-24','MARGARITA MAZA DE JUAREZ 149, NUEVA IND VALLEJO','GUSTAVO A MADERO','CIUDAD DE MEXICO',7700,'empleado'),('GAPA891219HMCLRN01','taurean.hackett@gmail.com','BxRmHQkmfqmH','ANGEL','GALLEGOS PARIENTE',31,'5539494459','1989-12-19','2019-07-26','BOSQUE DE DURAZNOS 39, BOSQUES DE LAS LOMAS','MIGUEL HIDALGO','CIUDAD DE MEXICO',11700,'empleado'),('MEBM910121MMCRRR00','orville12@yahoo.com','NnbptPgebuTJ','MARIA NIEVES','MERCADER BORRELL',29,'5544008605','1991-01-12','2019-11-26','AGUSTIN DELGADO 275, TRANSITO','CUAUHTEMOC','CIUDAD DE MEXICO',60020,'empleado'),('PAGJ990522MMCLRL03','godfrey35@hotmail.com','XcDcvRsnZDHU','JULIA','PLATA GORDON',21,'5595634812','1999-05-22','2019-02-06','EJE CENTRAL LAZARO CARDENAS NO. 9 Int. INT. 39, CENTRO DE LA CIUDAD DE MEXICO','CUAUHTEMOC','CIUDAD DE MEXICO',6300,'empleado'),('PAGM930918HMCLRH01','salvador78@yahoo.com','NpNhhFkCuTwh','MOHAMED','PLATERO GRANELL',27,'5513272092','1993-09-18','2019-08-22','MAGNOLIAS NO. 537, VILLA DE LAS FLORES','COACALCO DE BERRIZOBAL','ESTADO DE MEXICO',55710,'paciente'),('PEMD941124HMCDLM07','cletus_kuhic@hotmail.com','rngJTgVkPHeQ','DOMINGO','PEDREIRA MOLINS',26,'5532780874','1994-11-24','2019-11-18','Henry Ford Esq. Roberto Fulton','TLALNEPANTLA','ESTADO DE MEXICO',2650,'paciente'),('ROCJ810826HMCMRS03','earnest7@yahoo.com','KzUkdBjTUzgd','JOSE ANTONIO','ROMERA CORDOVA',39,'5515291882','1981-08-26','2019-06-28','ZACATECAS 206 602, ROMA','NEZAHUALCOYOTL','ESTADO DE MEXICO',6200,'paciente'),('SIMS831111HMCIRM01','kyle_runte56@yahoo.com','ECVbCgnwwHwc','SAMUEL','SILVESTRE MURCIA',37,'5568940817','1983-11-11','2019-02-07','RODOLFO USIGLI NO. 1402, SECTOR POPULAR','IZTAPALAPA','ESTADO DE MEXICO',9060,'paciente'),('TELP010528MMCLIT07','dominic_bruen95@hotmail.com','bkHMebCUEnSm','PATRICIA','TELLO LEIVA',19,'5559906745','2001-05-28','2019-04-13','INSURGENTES SUR NO. 1026, DEL VALLE','BENITO JUAREZ','CIUDAD DE MEXICO',3100,'paciente'),('VICS980920MMCINS09','scotty_labadie91@yahoo.com','eUsgGYuPtnTn','SUSANA','VILLA CANDELA',22,'5534355899','1998-09-20','2019-08-23','ANGEL DE LA INDEPENDENCIA NO. 98, METROPOLINATA 2A SECC','NEZAHUALCOYOTL','ESTADO DE MEXICO',57740,'paciente');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,17 +306,14 @@ DROP TABLE IF EXISTS `receta`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `receta` (
   `idreceta` int(11) NOT NULL,
-  `direccionsucursal` varchar(50) DEFAULT NULL,
-  `fechaemision` date DEFAULT NULL,
-  `diagnostico` varchar(30) DEFAULT NULL,
+  `direccionsucursal` varchar(100) DEFAULT NULL,
+  `diagnostico` varchar(100) DEFAULT NULL,
   `cie` varchar(5) DEFAULT NULL,
   `descripcion` varchar(100) DEFAULT NULL,
-  `observaciones` varchar(50) DEFAULT NULL,
-  `planseguimiento` varchar(50) DEFAULT NULL,
-  `idcita` int(11) DEFAULT NULL,
+  `observaciones` varchar(100) DEFAULT NULL,
+  `planseguimiento` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idreceta`),
-  KEY `idcita` (`idcita`),
-  CONSTRAINT `receta_ibfk_1` FOREIGN KEY (`idcita`) REFERENCES `cita` (`idcita`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `receta_ibfk_1` FOREIGN KEY (`idreceta`) REFERENCES `cita` (`idcita`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -323,6 +323,7 @@ CREATE TABLE `receta` (
 
 LOCK TABLES `receta` WRITE;
 /*!40000 ALTER TABLE `receta` DISABLE KEYS */;
+INSERT INTO `receta` VALUES (1,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','Lorem ipsum dolor sit amet, consectetur adipiscing elit','58746','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(2,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','ACNE INFLAMATORIO MODERADO EXCORDIADO',NULL,NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(4,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','Lorem ipsum dolor sit amet, consectetur adipiscing elit','89645','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(5,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','Lorem ipsum dolor sit amet, consectetur adipiscing elit','15782','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(7,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','Lorem ipsum dolor sit amet, consectetur adipiscing elit','67825','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'Circuito Cirujanos N.11 Depto. 201,Cd. Satelite, Naucalpan Edo. de Mexico, C.P53100','Lorem ipsum dolor sit amet, consectetur adipiscing elit','85726','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 /*!40000 ALTER TABLE `receta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,8 +336,8 @@ DROP TABLE IF EXISTS `recetamedicamento`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `recetamedicamento` (
   `idreceta` int(11) NOT NULL,
-  `sku` varchar(10) NOT NULL,
-  `indicaciones` varchar(30) DEFAULT NULL,
+  `sku` varchar(15) NOT NULL,
+  `indicaciones` varchar(75) DEFAULT NULL,
   PRIMARY KEY (`idreceta`,`sku`),
   KEY `sku` (`sku`),
   CONSTRAINT `recetamedicamento_ibfk_1` FOREIGN KEY (`idreceta`) REFERENCES `receta` (`idreceta`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -350,6 +351,7 @@ CREATE TABLE `recetamedicamento` (
 
 LOCK TABLES `recetamedicamento` WRITE;
 /*!40000 ALTER TABLE `recetamedicamento` DISABLE KEYS */;
+INSERT INTO `recetamedicamento` VALUES (1,'166650.5','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(1,'187652.2','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(1,'317171.7','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(1,'P171315','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(2,'317171.7','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(2,'L0037','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(4,'176331.0','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(4,'176389.1','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(4,'710449.0','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(5,'FD5502340','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(7,'00-22-44-154','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(7,'171350.6','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'167065.6','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'178899.3','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'197615.4','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'200070.4','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),(8,'P171315','Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 /*!40000 ALTER TABLE `recetamedicamento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -362,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-03 21:08:30
+-- Dump completed on 2021-01-05 20:54:42

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,6 +32,7 @@ public class medico extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession(false);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println(" <html lang=\"en\">");
@@ -45,7 +47,7 @@ public class medico extends HttpServlet {
             out.println(" <!-- Favicons -->");
             out.println(" <link href=\"assets/img/favicon.png\" rel=\"icon\">");
             
-            out.println(" <title>CEDAE - Expediente</title>");
+            out.println(" <title>CEDAE - Medico</title>");
             
             out.println(" <!-- Custom fonts for this template-->");
             out.println(" <link href=\"assets/vendor/fontawesome-free/css/all.min.css\" rel=\"stylesheet\" type=\"text/css\">");
@@ -347,7 +349,7 @@ public class medico extends HttpServlet {
             out.println(" <li class=\"nav-item dropdown no-arrow\">");
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\"");
             out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-            out.println(" <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">Gregory House</span>");
+            out.println(" <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">"+session.getAttribute("nombre")+"</span>");
             out.println(" <img class=\"img-profile rounded-circle\"");
             out.println(" src=\"assets/img/undraw_profile.svg\">");
             out.println(" </a>");
@@ -768,7 +770,12 @@ public class medico extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect(request.getContextPath());
+        }else{
+            processRequest(request, response);
+        }
     }
 
     /**

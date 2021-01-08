@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -147,9 +148,17 @@ public class login extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        if(result.contains("OK"))
+        if(result.contains("OK")){
             state = 1;
+            HttpSession session = request.getSession(true);
+            session.setAttribute("nombre", user.getNombre());
+            session.setAttribute("apellido", user.getApellidos());
+            session.setAttribute("curp", user.getCurp());
+            session.setAttribute("email", user.getEmail());
+        }
+            
         out.print("{\"status\":"+state+",\"message\":\""+result+"\"}");
+        
     }
 
     /**

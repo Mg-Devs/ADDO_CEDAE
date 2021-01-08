@@ -7,6 +7,7 @@ package webpages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +56,9 @@ public class agendarCita extends HttpServlet {
             out.println(" <link href=\"assets/vendor/aos/aos.css\" rel=\"stylesheet\">");
             out.println(" <!-- Template Main CSS File -->");
             out.println(" <link href=\"assets/css/style.css\" rel=\"stylesheet\">");
+            out.println(" <!-- Date Picker -->");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/flatpickr.min.css\">");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/themes/material_blue.css\">");
             out.println(" <!-- =======================================================");
             out.println(" * Template Name: Moderna - v2.1.0");
             out.println(" * Template URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/");
@@ -145,7 +149,16 @@ public class agendarCita extends HttpServlet {
             out.println(" </div>");
             out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col-md-6 form-group\">");
-            out.println(" <input type=\"datetime-local\" class=\"form-control\" name=\"date\" id=\"date\" placeholder=\"Fecha\" data-rule=\"required\" data-msg=\"Elije una fecha valida\" />");
+            //<input id="date1"  placeholder="MM/DD/YYYY" data-input />
+            out.println(" <input class=\"form-control\" name=\"date\" id=\"date\" placeholder=\"Fecha\" data-input data-rule=\"required\" data-msg=\"Elije una fecha valida\" />");
+            out.println(" <div class=\"validate\"></div>");
+            out.println(" </div>");
+            out.println(" <div class=\"col-md-6 form-group\">");
+            out.println(" <select class=\"form-control\" id=\"time\" name=\"time\" data-rule=\"required\" data-msg=\"Elije una hora\" disabled>");
+            out.println(" <option value=\"null\">Elige la hora</option>");
+            out.println(" <option value=\"RM\">Roma</option>");
+            out.println(" <option value=\"ST\">Satelite</option>");
+            out.println(" </select>");
             out.println(" <div class=\"validate\"></div>");
             out.println(" </div>");
             out.println(" </div>");
@@ -326,6 +339,8 @@ public class agendarCita extends HttpServlet {
             out.println(" <script src=\"assets/vendor/aos/aos.js\"></script>");
             out.println(" <!-- Template Main JS File -->");
             out.println(" <script src=\"assets/js/main.js\"></script>");
+            out.println(" <!-- Date Picker -->");
+            out.println(" <script src=\"assets/vendor/flat-picker/flatpickr.js\"></script>");
             out.println(" <!-- Modal -->");
             out.println(" <div class=\"modal fade\" id=\"confirmation\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"confirmation\" aria-hidden=\"true\">");
             out.println(" <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">");

@@ -6,9 +6,9 @@
 package com.adoo.cedae;
 
 import com.adoo.cedae.resources.ConexionMySQL;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,10 +25,14 @@ public class Persona {
     private String email;
     private String password;
     private long telefono;
-    private Date fechaNacimiento;
-    private Date fechaRegistro;
+    private LocalDate fechaNacimiento;
+    private LocalDate fechaRegistro;
+    private String direccion;
+    private String colonia;
+    private String entFed;
+    private int cp;
 
-    public Persona(String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+    public Persona(String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.curp = curp;
@@ -37,6 +41,29 @@ public class Persona {
         this.password = password;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Persona(String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro, String direccion, String colonia, String entFed, int cp) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.curp = curp;
+        this.edad = edad;
+        this.email = email;
+        this.password = password;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaRegistro = fechaRegistro;
+        this.direccion = direccion;
+        this.colonia = colonia;
+        this.entFed = entFed;
+        this.cp = cp;
+    }
+
+    public Persona(String nombre, String apellidos, String curp, LocalDate fechaRegistro) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.curp = curp;
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -91,19 +118,19 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Date getFechaRegistro() {
+    public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -117,12 +144,30 @@ public class Persona {
 
     public boolean cambiarContrasena(String curp, String npass) {
         ConexionMySQL db = new ConexionMySQL();
-        try{
+        try {
             db.conectarMySQL();
-            ResultSet result = db.executeQuery("UPDATE persona SET contrasena = '"+npass+"' where curp = '" + curp + "';");
+            ResultSet result = db.executeQuery("UPDATE persona SET contrasena = '" + npass + "' where curp = '" + curp + "';");
             db.closeConection();
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isRegistered(String email) {
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("SELECT curp FROM persona where correo = '" + email + "';");
+
+            if (!result.next()) {
+                db.closeConection();
+                return false;
+            } else {
+                db.closeConection();
+                return true;
+            }
+        } catch (Exception e) {
             return false;
         }
     }
@@ -149,8 +194,8 @@ public class Persona {
             this.email = result.getString("correo");
             this.password = result.getString("contrasena");
             this.telefono = Long.parseLong(result.getString("telefono"));
-            this.fechaNacimiento = result.getDate("fechaNacimiento");
-            this.fechaRegistro = result.getDate("fechaRegistro");
+            this.fechaNacimiento = LocalDate.parse(result.getString("fechaNacimiento"));
+            this.fechaRegistro = LocalDate.parse(result.getString("fechaRegistro"));
 
             if (result.getString("tipo").equals("paciente")) {
                 rs += ":paciente";
@@ -160,7 +205,7 @@ public class Persona {
                     db.closeConection();
                     return "Empleado no registrado";
                 }
-                
+
                 switch (result.getString("area")) {
                     case "FARMACIA":
                     case "farmacia":
@@ -187,5 +232,37 @@ public class Persona {
         } catch (Exception ex) {
             return ex.getMessage() + " On Line: " + ex.getStackTrace()[0].getLineNumber();
         }
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getEntFed() {
+        return entFed;
+    }
+
+    public void setEntFed(String entFed) {
+        this.entFed = entFed;
+    }
+
+    public int getCp() {
+        return cp;
+    }
+
+    public void setCp(int cp) {
+        this.cp = cp;
     }
 }

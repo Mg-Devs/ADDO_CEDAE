@@ -5,9 +5,15 @@
  */
 package webpages;
 
+import com.adoo.cedae.Cita;
+import com.adoo.cedae.Medico;
+import com.adoo.cedae.Paciente;
+import com.adoo.cedae.Recepcionista;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -118,7 +124,7 @@ public class agendarCita extends HttpServlet {
             out.println(" <div class=\"info-box\">");
             out.println(" <i class=\"bx bx-at\"></i>");
             out.println(" <h3>Agendar cita por correo</h3>");
-            out.println(" <form action=\"algo\" method=\"post\" role=\"form\" class=\"php-email-form\">");
+            out.println(" <form action=\"agendarCita\" method=\"post\" role=\"form\" class=\"php-email-form\">");
             out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col-md-6 form-group\">");
             out.println(" <input type=\"text\" name=\"name\" class=\"form-control\" id=\"name\" placeholder=\"Nombre\" data-rule=\"minlen:4\" data-msg=\"Ingresa al menos 4 letras\" />");
@@ -141,8 +147,8 @@ public class agendarCita extends HttpServlet {
             out.println(" <div class=\"col-md-6 form-group\">");
             out.println(" <select class=\"form-control\" id=\"sucursal\" name=\"sucursal\" data-rule=\"required\" data-msg=\"Elije una sucursal valida\">");
             out.println(" <option value=\"null\">Elegir Sucursal</option>");
-            out.println(" <option value=\"RM\">Roma</option>");
-            out.println(" <option value=\"ST\">Satelite</option>");
+            out.println(" <option value=\"La Roma\">La Roma</option>");
+            out.println(" <option value=\"Satelite\">Satelite</option>");
             out.println(" </select>");
             out.println(" <div class=\"validate\"></div>");
             out.println(" </div>");
@@ -156,8 +162,6 @@ public class agendarCita extends HttpServlet {
             out.println(" <div class=\"col-md-6 form-group\">");
             out.println(" <select class=\"form-control\" id=\"time\" name=\"time\" data-rule=\"required\" data-msg=\"Elije una hora\" disabled>");
             out.println(" <option value=\"null\">Elige la hora</option>");
-            out.println(" <option value=\"RM\">Roma</option>");
-            out.println(" <option value=\"ST\">Satelite</option>");
             out.println(" </select>");
             out.println(" <div class=\"validate\"></div>");
             out.println(" </div>");
@@ -388,7 +392,48 @@ public class agendarCita extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int action = Integer.parseInt(request.getParameter("action"));
+        String result="Error";
+        if(action == 0){
+            result = "{\"hrdisp\":[";
+            Recepcionista auxObj = new Recepcionista();
+            boolean horarioDisp[] = auxObj.getHorarioParaCita(request.getParameter("date").replace('/', '-'), request.getParameter("sucursal"), 4);
+            
+            for (int i = 0; i < horarioDisp.length; i++) {
+                if(horarioDisp[i]){
+                    LocalTime hora = LocalTime.parse("09:00",DateTimeFormatter.ofPattern("HH:mm"));
+                    hora=hora.plusHours((long)i/4);
+                    if((i/4f)%4 != 0){
+                        hora=hora.plusMinutes((long) (((i/4f)%4 - (i/4)%4)*1500f/25));
+                    }
+                    result+="\""+hora.toString()+"\""+",";
+                }
+            }
+            result = result.substring(0, result.length()-1);
+            result+= "]}";
+        }
+        if(action == 1){
+            Paciente nPaciente = new Paciente(request.getParameter("name"), request.getParameter("lastname"), request.getParameter("email"), Long.parseLong(request.getParameter("tel")));
+            if(nPaciente.isRegistered(request.getParameter("email")))
+                result ="{\"message\": \"Este Correo ya se encuentra registrado, te recomendamos ponerte en contacto con la clinica.\"}";
+            else{
+                nPaciente.guardarPacienteTemp();
+                Recepcionista helper = new Recepcionista();
+                String cMedicT = helper.medicoTitDisponible(request.getParameter("date").replace('/', '-'), request.getParameter("sucursal"), request.getParameter("time"),4);
+                String cMedicA = helper.medicoAuxDisponible(request.getParameter("date").replace('/', '-'), request.getParameter("sucursal"), request.getParameter("time"),4);
+                Medico medic = new Medico(cMedicT,true);
+                Medico medic2 = new Medico(cMedicA,false);
+                result ="{\"message\": \"";
+                result += helper.generarCita(nPaciente, medic, medic2, request.getParameter("sucursal"), request.getParameter("date").replace('/', '-'), request.getParameter("time"),4);
+                result += "\"}";
+            }
+        }
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+            
+        out.print(result);
     }
 
     /**

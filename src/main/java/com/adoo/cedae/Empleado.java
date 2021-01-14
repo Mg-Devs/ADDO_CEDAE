@@ -5,7 +5,9 @@
  */
 package com.adoo.cedae;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
+
 
 /**
  *
@@ -14,7 +16,7 @@ import java.sql.Date;
 public class Empleado extends Persona{
     private String area;
 
-    public Empleado(String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+    public Empleado(String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
         super(nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
         this.area = area;
     }
@@ -22,6 +24,7 @@ public class Empleado extends Persona{
     public Empleado(String area) {
         this.area = area;
     }
+    public Empleado() {}
 
     public String getArea() {
         return area;

@@ -5,8 +5,10 @@
  */
 package com.adoo.cedae;
 
-import java.sql.Date;
-import java.sql.Time;
+import com.adoo.cedae.resources.ConexionMySQL;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -18,12 +20,13 @@ public class Cita {
     private Paciente paciente;
     private Medico medicoAux;
     private Medico medicoTit;
-    private Date fecha;
-    private Time hora;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private LocalTime duracion;
     private Receta receta;
-    private int sucursal;
+    private String sucursal;
 
-    public Cita(int idCita, Paciente paciente, Medico medicoAux, Medico medicoTit, Date fecha, Time hora, Receta receta, int sucursal) {
+    public Cita(int idCita, Paciente paciente, Medico medicoAux, Medico medicoTit, LocalDate fecha, LocalTime hora, Receta receta, String sucursal) {
         this.idCita = idCita;
         this.paciente = paciente;
         this.medicoAux = medicoAux;
@@ -32,6 +35,35 @@ public class Cita {
         this.hora = hora;
         this.receta = receta;
         this.sucursal = sucursal;
+    }
+    
+    public Cita(int idCita, Paciente paciente, Medico medicoAux, Medico medicoTit, LocalDate fecha, LocalTime hora) {
+        this.idCita = idCita;
+        this.paciente = paciente;
+        this.medicoAux = medicoAux;
+        this.medicoTit = medicoTit;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
+
+    Cita(Paciente paciente, Medico medicoAux, Medico medico, String fecha, String hora, String sucursal,LocalTime duracion) {
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("SELECT MAX(idcita) as ID from cita;");
+            result.next();
+            this.idCita = result.getInt("ID") + 1;
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error CC: "+e.getMessage()+" CurrentId: "+this.idCita);
+        }
+        this.paciente = paciente;
+        this.medicoTit = medico;
+        this.medicoAux = medicoAux;
+        this.fecha = LocalDate.parse(fecha);
+        this.hora = LocalTime.parse(hora);
+        this.sucursal = sucursal;
+        this.duracion = duracion;
     }
 
     public int getIdCita() {
@@ -66,19 +98,19 @@ public class Cita {
         this.medicoTit = medicoTit;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Time getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
@@ -90,15 +122,23 @@ public class Cita {
         this.receta = receta;
     }
     
-    public void crearCita(){
-        
+    public String crearCita(){
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            db.insertQuery("insert into cita (idcita,curppaciente,curpmedaux,curpmedtit,fecha,hora,sucursal,duracion) values("+this.idCita+",'"+this.paciente.getCurp()+"','"+this.medicoAux.getCurp()+"','"+this.medicoTit.getCurp()+"','"+this.fecha+"','"+this.hora+"','"+this.sucursal+"','"+this.duracion+"');");
+            db.closeConection();
+            return "OK";
+        } catch (Exception e) {
+            return "Error CRC: " + e.getMessage();
+        }
     }
 
-    public int getSucursal() {
+    public String getSucursal() {
         return sucursal;
     }
 
-    public void setSucursal(int sucursal) {
+    public void setSucursal(String sucursal) {
         this.sucursal = sucursal;
     }
 }

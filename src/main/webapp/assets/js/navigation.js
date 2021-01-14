@@ -23,11 +23,19 @@ $(".nav-link, .collapse-item").click(function(e) {
 });
 
 function navigationHelper(link){
+    var helper = "",section = "";
+    if(link.indexOf('&') != -1){
+        section = link.substring(link.indexOf('=')+1,link.indexOf('&'));
+        helper = link.substring(link.lastIndexOf('=')+1,link.length);
+    }else{
+        section = link.substr(link.indexOf('=')+1,link.length);
+    }
     $.ajax({
         type: "GET",
         url: link.substr(0,link.indexOf('?')),
         data: {
-            "section": link.substr(link.indexOf('=')+1,link.length)
+            "section": section,
+            "helper": helper
         }
     }).done(function(response){
         $("#content-page").html(response);

@@ -5,7 +5,10 @@
  */
 package com.adoo.cedae;
 
-import java.sql.Date;
+import com.adoo.cedae.resources.ConexionMySQL;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,7 @@ public class Medico extends Empleado{
     private String cedula;
     private boolean medicoTitular;
 
-    public Medico(ArrayList<Cita> agenda, ArrayList<Paciente> pacientes, int idMedico, String cedula, boolean medicoTitular, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+    public Medico(ArrayList<Cita> agenda, ArrayList<Paciente> pacientes, int idMedico, String cedula, boolean medicoTitular, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
         super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
         this.agenda = agenda;
         this.pacientes = pacientes;
@@ -36,9 +39,46 @@ public class Medico extends Empleado{
         this.cedula = cedula;
         this.medicoTitular = medicoTitular;
     }
+    
+    public Medico(String curp, boolean titular){
+        this.medicoTitular = titular;
+        setCurp(curp);
+    }
 
     public ArrayList<Cita> getAgenda() {
+        agenda = new ArrayList<Cita>();
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("SELECT * FROM cita inner join persona on curp = curppaciente where curpmedtit = '"+this.getCurp()+"' and fecha >= CAST('"+LocalDate.now()+"' AS date);");
+            while(result.next()){
+                Cita aux = new Cita(result.getInt("idcita"), new Paciente(result.getString("nombre"), result.getString("apellidos"), result.getString("correo"), Long.parseLong(result.getString("telefono")), result.getString("curp")), new Medico(result.getString("curpmedaux"), false), this, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")));
+                agenda.add(aux);
+            }
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+            return null;
+        }
         return agenda;
+    }
+    
+    public ArrayList<Persona> getExp(){
+        ArrayList<Persona> exped = new ArrayList<Persona>();
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("SELECT persona.nombre as nombre, persona.apellidos as apellidos,pacientemedico.curp as curp, expediente.fechamodif FROM pacientemedico inner join persona on pacientemedico.curp = persona.curp inner join paciente on paciente.curp = pacientemedico.curp inner join expediente on paciente.idexpediente = expediente.idexpediente where pacientemedico.curpmedico = '"+this.getCurp()+"';");
+            while(result.next()){
+                Persona aux = new Persona(result.getString("nombre"), result.getString("apellidos"), result.getString("curp"), LocalDate.parse(result.getString("fechamodif")));
+                exped.add(aux);
+            }
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+            return null;
+        }
+        return exped;
     }
 
     public void setAgenda(ArrayList<Cita> agenda) {
@@ -83,5 +123,16 @@ public class Medico extends Empleado{
 
     public void setMedicoTitular(boolean medicoTitular) {
         this.medicoTitular = medicoTitular;
+    }
+    
+    public void addPaciente(Paciente paciente){
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            db.insertQuery("insert into pacientemedico (curpmedico,curp) values('"+this.getCurp()+"','"+paciente.getCurp()+"');");
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
     }
 }

@@ -26,7 +26,21 @@ $(document).ready(function () {
                 shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
                 longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             },
-        }
+        }, onChange: function (selectedDates, dateStr, instance) {
+            $.ajax({
+                type: "POST",
+                url: 'agendarCita',
+                data: {action: 0, date: dateStr, sucursal: $("#sucursal").val()},
+            }).done(function (data) {
+                data.hrdisp.forEach(function(item,index){
+                    $("#time").append("<option value=\""+item+"\">"+item+"</option>");
+                });
+                $("#time").prop( "disabled", false );
+                
+            }).fail(function (data) {
+                console.log(data);
+            });
+        },
     });
 });
 
@@ -168,62 +182,27 @@ $(document).ready(function () {
         this_form.find('.error-message').slideUp();
         this_form.find('.loading').slideDown();
 
-        setTimeout(function (this_form) {
-            this_form.find('.loading').slideUp();
-            $('#confirmation').modal('show')
-        }, 1500, this_form);
-
-        /*if ( $(this).data('recaptcha-site-key') ) {
-         var recaptcha_site_key = $(this).data('recaptcha-site-key');
-         grecaptcha.ready(function() {
-         grecaptcha.execute(recaptcha_site_key, {action: 'php_email_form_submit'}).then(function(token) {
-         php_email_form_submit(this_form,action,this_form.serialize() + '&recaptcha-response=' + token);
-         });
-         });
-         } else {
-         php_email_form_submit(this_form,action,this_form.serialize());
-         }*/
+        agendarCita($("#name").val(),$("#lastname").val(),$("#email").val(),$("#tel").val(),$("#date").val(),$("#time").val(),$("#sucursal").val());
 
         return true;
     });
 
-    function php_email_form_submit(this_form, action, data) {
+    function agendarCita(name,lastname,email,tel,date,time,sucursal) {
         $.ajax({
-            type: "POST",
-            url: action,
-            data: data,
-            timeout: 40000
-        }).done(function (msg) {
-            if (msg == 'OK') {
-                this_form.find('.loading').slideUp();
-                this_form.find('.sent-message').slideDown();
-                this_form.find("input:not(input[type=submit]), textarea").val('');
-            } else {
-                this_form.find('.loading').slideUp();
-                if (!msg) {
-                    msg = 'Form submission failed and no error message returned from: ' + action + '<br>';
-                }
-                this_form.find('.error-message').slideDown().html(msg);
-            }
-        }).fail(function (data) {
-            console.log(data);
-            var error_msg = "Form submission failed!<br>";
-            if (data.statusText || data.status) {
-                error_msg += 'Status:';
-                if (data.statusText) {
-                    error_msg += ' ' + data.statusText;
-                }
-                if (data.status) {
-                    error_msg += ' ' + data.status;
-                }
-                error_msg += '<br>';
-            }
-            if (data.responseText) {
-                error_msg += data.responseText;
-            }
-            this_form.find('.loading').slideUp();
-            this_form.find('.error-message').slideDown().html(error_msg);
-        });
+                type: "POST",
+                url: 'agendarCita',
+                data: {action: 1,name: name, lastname:lastname, email:email, tel:tel, date: date, time:time, sucursal: sucursal},
+            }).done(function (data) {
+                console.log(data);
+                $('form.php-email-form').find('.loading').slideUp();
+                if(data.message == "OK")
+                    $('#confirmation').modal('show')
+                else
+                    $('form.php-email-form').find('.error-message').slideDown().html(data.message);
+                    
+            }).fail(function (data) {
+                console.log(data);
+            });
     }
 
 })(jQuery);

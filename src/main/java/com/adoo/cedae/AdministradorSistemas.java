@@ -5,7 +5,7 @@
  */
 package com.adoo.cedae;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,7 +14,7 @@ import java.sql.Date;
 public class AdministradorSistemas extends Empleado{
     private int idAdmin;
 
-    public AdministradorSistemas(int idAdmin, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, Date fechaNacimiento, Date fechaRegistro) {
+    public AdministradorSistemas(int idAdmin, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
         super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
         this.idAdmin = idAdmin;
     }

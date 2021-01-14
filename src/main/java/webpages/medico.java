@@ -5,8 +5,11 @@
  */
 package webpages;
 
+import com.adoo.cedae.Cita;
+import com.adoo.cedae.Medico;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +31,13 @@ public class medico extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    HttpSession session;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Medico medTit = new Medico(session.getAttribute("curp").toString(), true);
+        ArrayList<Cita> citas = medTit.getAgenda();
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false);
@@ -116,7 +124,7 @@ public class medico extends HttpServlet {
             
             out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=cReceta\">");
+            out.println(" <a class=\"nav-link\" href=\"index\">");//api/sections/medico?section=cReceta
             out.println(" <i class=\"fas fa-fw fa-notes-medical\"></i>");
             out.println(" <span>Crear Receta</span>");
             out.println(" </a>");
@@ -132,7 +140,6 @@ public class medico extends HttpServlet {
             out.println(" <div id=\"collapseTwo\" class=\"collapse show\" aria-labelledby=\"headingTwo\" data-parent=\"#accordionSidebar\">");
             out.println(" <div class=\"bg-white py-2 collapse-inner rounded\">");
             out.println(" <h6 class=\"collapse-header\">Opciones:</h6>");
-            out.println(" <a class=\"collapse-item active\" href=\"api/sections/medico?section=cExpediente\">Crear Expediente</a>");
             out.println(" <a class=\"collapse-item\" href=\"api/sections/medico?section=vExpedientes\">Ver Expedientes</a>");
             out.println(" </div>");
             out.println(" </div>");
@@ -387,302 +394,67 @@ public class medico extends HttpServlet {
             out.println(" <!-- Page Heading -->");
             out.println(" <div class=\"row\">");
             out.println(" <div class=\"col\">");
-            out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Crear Expediente</h1>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <a role=\"button\" class=\"btn btn-success btn-icon-split\" id=\"createExpediente\" onclick='createExpediente(this)'>");
-            out.println(" <span class=\"icon text-white-50\">");
-            out.println(" <i class=\"fas fa-check\"></i>");
-            out.println(" </span>");
-            out.println(" <span class=\"text\">Guardar Expediente</span>");
-            out.println(" </a>");
+            out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Mis Citas</h1>");
             out.println(" </div>");
             out.println(" </div>");
-            
+
             out.println(" <!-- CONTENT -->");
             out.println(" <div class=\"row\" id=\"content-panel\">");
-            
-            out.println(" <div class=\"col-lg-6\">");
-            
-            out.println(" <!-- Personal Info -->");
+
+            out.println(" <div class=\"col-md-12\">");
+            out.println(" <!-- Products -->");
             out.println(" <div class=\"card shadow mb-4\">");
             out.println(" <div class=\"card-header py-3\">");
-            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Información Personal</h6>");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Citas proximas</h6>");
             out.println(" </div>");
             out.println(" <div class=\"card-body\">");
-            out.println(" <form id=\"personal-info\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre(s)\" data-rule=\"required\" data-msg=\"Ingresa el nombre\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"lastname\" name=\"lastname\" class=\"form-control\" placeholder=\"Apellidos\" data-rule=\"required\" data-msg=\"Ingresa el apellido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"date\" id=\"birthdate\" name=\"birthdate\" class=\"form-control\" placeholder=\"Fecha de Naciemiento\" data-rule=\"required\" data-msg=\"Ingresa la fecha de nacimiento\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <select class=\"custom-select mr-sm-2\" id=\"sexo\" name=\"sexo\" data-rule=\"required\" data-msg=\"Selecciona el Sexo\">");
-            out.println(" <option selected value=\"null\">Sexo</option>");
-            out.println(" <option value=\"1\">Masculino</option>");
-            out.println(" <option value=\"2\">Femenino</option>");
-            out.println(" <option value=\"3\">Otro</option>");
-            out.println(" </select>");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"text\" id=\"curp\" name=\"curp\" class=\"form-control\" placeholder=\"CURP\" data-rule=\"curp\" data-msg=\"Ingresa un CURP valido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"text\" id=\"occup\" name=\"occup\" class=\"form-control\" placeholder=\"Ocupación\">");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <select class=\"custom-select mr-sm-2\" id=\"estcivil\" name=\"estcivil\">");
-            out.println(" <option selected>Estado Civil</option>");
-            out.println(" <option value=\"1\">Casado</option>");
-            out.println(" <option value=\"2\">Soltero</option>");
-            out.println(" <option value=\"3\">Otro</option>");
-            out.println(" </select>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"tel\" id=\"tel\" name=\"tel\" class=\"form-control\" placeholder=\"Telefono\" data-rule=\"required\" data-msg=\"Ingresa el telefono\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"text\" id=\"secure\" name=\"secure\" class=\"form-control\" placeholder=\"Aseguradora\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"email\" id=\"email\" name=\"email\" class=\"form-control\" placeholder=\"Correo Electronico\" data-rule=\"email\" data-msg=\"Ingresa un correo valido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </form>");
-            out.println(" </div>");
-            out.println(" </div>");
+
+            out.println(" <div class=\"table-responsive\">");
+            out.println(" <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">");
+            out.println(" <thead>");
+            out.println(" <tr>");
+            out.println(" <th>Paciente</th>");
+            out.println(" <th>Hora</th>");
+            out.println(" <th>Fecha</th>");
+            out.println(" <th>Opciones</th>");
+            out.println(" </tr>");
+            out.println(" </thead>");
+            out.println(" <tfoot>");
+            out.println(" <tr>");
+            out.println(" <th>Paciente</th>");
+            out.println(" <th>Hora</th>");
+            out.println(" <th>Fecha</th>");
+            out.println(" <th>Opciones</th>");
+            out.println(" </tr>");
+            out.println(" </tfoot>");
+            out.println(" <tbody id=\"productTable\">");
             
-            out.println(" <!-- Address Info -->");
-            out.println(" <div class=\"card shadow mb-4\">");
-            out.println(" <div class=\"card-header py-3\">");
-            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Dirección</h6>");
+            for (Cita cita : citas) {
+                out.println(" <tr>");
+                out.println(" <td>"+cita.getPaciente().getNombre()+" "+cita.getPaciente().getApellidos()+"</td>");
+                out.println(" <td>"+cita.getHora()+"</td>");
+                out.println(" <td>"+cita.getFecha().toString().replace('-', '/')+"</td>");
+                out.println(" <td>");
+                out.println(" <button class=\"btn btn-sm btn-success btn-circle\" alt=\"Mas Detalles\" onclick=\"verCita(this)\">");
+                out.println(" <i class=\"fas fa-eye\"></i>");
+                out.println(" </button>");
+                if(cita.getPaciente().getCurp().matches("^TMP\\d{10,15}$")){
+                    out.println(" <button class=\"btn btn-sm btn-info btn-circle\" alt=\"Crear Expediente\" onclick=\"navigationHelper('api/sections/medico?section=cExpediente&curp="+cita.getPaciente().getCurp()+"')\">");
+                    out.println(" <i class=\"fas fa-plus\"></i>");
+                    out.println(" </button>");
+                }
+                out.println(" </td>");
+                out.println(" </tr>");
+            }
+
+            out.println(" </tbody>");
+            out.println(" </table>");
             out.println(" </div>");
-            out.println(" <div class=\"card-body\">");
-            out.println(" <form id=\"address-info\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"dir\" name=\"dir\" class=\"form-control\" placeholder=\"Direccion\" data-rule=\"minlen:10\" data-msg=\"Ingresa una dirección\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"text\" id=\"colonia\" name=\"colonia\" class=\"form-control\" placeholder=\"Colonia\" data-rule=\"required\" data-msg=\"Ingresa la colonia\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <select class=\"custom-select mr-sm-2\" id=\"entfed\" name=\"entfed\" data-rule=\"required\" data-msg=\"Selecciona una opcion\">");
-            out.println(" <option selected value=\"null\">Entidad Federativa</option>");
-            out.println(" <option value=\"Aguascalientes\">Aguascalientes</option>");
-            out.println(" <option value=\"Baja California\">Baja California</option>");
-            out.println(" <option value=\"Baja California Sur\">Baja California Sur</option>");
-            out.println(" <option value=\"Campeche\">Campeche</option>");
-            out.println(" <option value=\"Chiapas\">Chiapas</option>");
-            out.println(" <option value=\"Chihuahua\">Chihuahua</option>");
-            out.println(" <option value=\"CDMX\">Ciudad de México</option>");
-            out.println(" <option value=\"Coahuila\">Coahuila</option>");
-            out.println(" <option value=\"Colima\">Colima</option>");
-            out.println(" <option value=\"Durango\">Durango</option>");
-            out.println(" <option value=\"Estado de México\">Estado de México</option>");
-            out.println(" <option value=\"Guanajuato\">Guanajuato</option>");
-            out.println(" <option value=\"Guerrero\">Guerrero</option>");
-            out.println(" <option value=\"Hidalgo\">Hidalgo</option>");
-            out.println(" <option value=\"Jalisco\">Jalisco</option>");
-            out.println(" <option value=\"Michoacán\">Michoacán</option>");
-            out.println(" <option value=\"Morelos\">Morelos</option>");
-            out.println(" <option value=\"Nayarit\">Nayarit</option>");
-            out.println(" <option value=\"Nuevo León\">Nuevo León</option>");
-            out.println(" <option value=\"Oaxaca\">Oaxaca</option>");
-            out.println(" <option value=\"Puebla\">Puebla</option>");
-            out.println(" <option value=\"Querétaro\">Querétaro</option>");
-            out.println(" <option value=\"Quintana Roo\">Quintana Roo</option>");
-            out.println(" <option value=\"San Luis Potosí\">San Luis Potosí</option>");
-            out.println(" <option value=\"Sinaloa\">Sinaloa</option>");
-            out.println(" <option value=\"Sonora\">Sonora</option>");
-            out.println(" <option value=\"Tabasco\">Tabasco</option>");
-            out.println(" <option value=\"Tamaulipas\">Tamaulipas</option>");
-            out.println(" <option value=\"Tlaxcala\">Tlaxcala</option>");
-            out.println(" <option value=\"Veracruz\">Veracruz</option>");
-            out.println(" <option value=\"Yucatán\">Yucatán</option>");
-            out.println(" <option value=\"Zacatecas\">Zacatecas</option>");
-            out.println(" </select>");
-            out.println(" <div class=\"validate text-center\"></div>");
+
             out.println(" </div>");
             out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <input type=\"number\" id=\"cp\" name=\"cp\" class=\"form-control\" placeholder=\"Codigo Postal\" data-rule=\"required\" data-msg=\"Ingresa el codigo postal\">");
-            out.println(" <div class=\"validate text-center\"></div>");
+
             out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </form>");
-            out.println(" </div>");
-            out.println(" </div>");
-            
-            out.println(" <!-- History Info -->");
-            out.println(" <div class=\"card shadow mb-4\">");
-            out.println(" <div class=\"card-header py-3\">");
-            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Antecedentes</h6>");
-            out.println(" </div>");
-            out.println(" <div class=\"card-body\">");
-            out.println(" <form id=\"history-info\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"alergias\" name=\"alergias\" class=\"form-control\" placeholder=\"Alergias\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"anteHered\" name=\"anteHered\" class=\"form-control\" placeholder=\"Antecedentes Heredofamiliares\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"antePato\" name=\"antePato\" class=\"form-control\" placeholder=\"Antecedentes Personales Patológicos\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <textarea class=\"form-control\" id=\"padeciActual\" name=\"padeciActual\" rows=\"8\" placeholder=\"Padecimiento Actual\" data-rule=\"required\" data-msg=\"Ingresa el pacedimiento\"></textarea>");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </form>");
-            out.println(" </div>");
-            out.println(" </div>");
-            
-            out.println(" </div>");
-            
-            out.println(" <div class=\"col-lg-6\">");
-            
-            out.println(" <!-- Exam -->");
-            out.println(" <div class=\"card shadow mb-4\">");
-            out.println(" <div class=\"card-header py-3\">");
-            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Examen Fisico</h6>");
-            out.println(" </div>");
-            out.println(" <div class=\"card-body\">");
-            out.println(" <form id=\"examen-fisi\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"number\" id=\"peso\" name=\"peso\" class=\"form-control\" placeholder=\"Peso\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"number\" id=\"estatura\" name=\"estatura\" class=\"form-control\" placeholder=\"Estatura (cm)\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"pressArte\" name=\"pressArte\" class=\"form-control\" placeholder=\"Presión Arterial\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"number\" id=\"frecCard\" name=\"frecCard\" class=\"form-control\" placeholder=\"Frecuencia Cardiaca\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"number\" id=\"frecResp\" name=\"frecResp\" class=\"form-control\" placeholder=\"Frecuencia Respiratoria\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"number\" id=\"temp\" name=\"temp\" class=\"form-control\" placeholder=\"Temperatura\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"topogr\" name=\"topogr\" class=\"form-control\" placeholder=\"Topografia\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <textarea class=\"form-control\" id=\"morfo\" name=\"morfo\" rows=\"5\" placeholder=\"Morfologia\"></textarea>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"panex\" name=\"panex\" class=\"form-control\" placeholder=\"Piel y Anexos\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <input type=\"text\" id=\"tratAnt\" name=\"tratAnt\" class=\"form-control\" placeholder=\"Tratamiento Anterior\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </form>");
-            out.println(" </div>");
-            out.println(" </div>");
-            
-            out.println(" <!-- Evaluation -->");
-            out.println(" <div class=\"card shadow mb-4\">");
-            out.println(" <div class=\"card-header py-3\">");
-            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Evaluación y Plan de Seguimiento</h6>");
-            out.println(" </div>");
-            out.println(" <div class=\"card-body\">");
-            out.println(" <form id=\"evaluation\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col col-8\">");
-            out.println(" <input type=\"text\" id=\"diagn\" name=\"diagn\" class=\"form-control\" placeholder=\"Diagnostico\" data-rule=\"required\" data-msg=\"Este campo es requerido\">");
-            out.println(" <div class=\"validate text-center\"></div>");
-            out.println(" </div>");
-            out.println(" <div class=\"col-4\">");
-            out.println(" <input type=\"text\" id=\"cie\" name=\"cie\" class=\"form-control\" placeholder=\"CIE\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <textarea class=\"form-control\" id=\"desc\" name=\"desc\" rows=\"5\" placeholder=\"Descripcíon\"></textarea>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <img src=\"assets/img/hbody.jpg\" width=\"400\" height=\"300\"/>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <textarea class=\"form-control\" id=\"obs\" name=\"obs\" rows=\"12\" placeholder=\"Observaciones\"></textarea>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row mt-2\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <textarea class=\"form-control\" id=\"planseg\" name=\"planseg\" rows=\"5\" placeholder=\"Plan de Seguimiento\"></textarea>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </form>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            
             out.println(" </div>");
             out.println(" </div>");
             out.println(" <!-- /.container-fluid -->");
@@ -774,6 +546,7 @@ public class medico extends HttpServlet {
         if (session == null) {
             response.sendRedirect(request.getContextPath());
         }else{
+            this.session = session;
             processRequest(request, response);
         }
     }

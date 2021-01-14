@@ -16,10 +16,10 @@ public class Lote {
     private int unidades;
     private Date fcad;
 
-    public Lote(String nLote, int unidades, Date fcad) {
+    public Lote(String nLote, int unidades, String date) {
         this.nLote = nLote;
         this.unidades = unidades;
-        this.fcad = fcad;
+        this.fcad = Date.valueOf(date);
     }
 
     public String getnLote() {

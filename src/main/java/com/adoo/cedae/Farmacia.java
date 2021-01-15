@@ -9,10 +9,13 @@ import com.adoo.cedae.resources.ConexionMySQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 
 /**
  *
@@ -60,10 +63,10 @@ public class Farmacia {
                 JSONObject jsonObject1 = (JSONObject) array.get(i);
 
                 String nlote = (String) jsonObject1.get("nlote");
-                int unidades = Integer.parseInt((String) jsonObject1.get("unidades"));
+                long unidades = (long) jsonObject1.get("unidades");
                 String fcad = (String) jsonObject1.get("fcad");
 
-                lotes.add(new Lote(nlote, unidades, fcad));
+                lotes.add(new Lote(nlote, (int)unidades, fcad));
             }
             productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lotes));
         }
@@ -89,10 +92,10 @@ public class Farmacia {
                     JSONObject jsonObject1 = (JSONObject) array.get(i);
 
                     String nlote = (String) jsonObject1.get("nlote");
-                    long unidades = (long) jsonObject1.get("unidades");
+                    int unidades = Integer.parseInt(String.valueOf(jsonObject1.get("unidades")));
                     String fcad = (String) jsonObject1.get("fcad");
 
-                    lotes.add(new Lote(nlote, (int)unidades, fcad));
+                    lotes.add(new Lote(nlote, unidades, fcad));
                 }
                 productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lotes));
             }
@@ -102,6 +105,31 @@ public class Farmacia {
             return productos;
         }
         return productos;
+    }
+    
+    public void actualizar_stock_venta(String json) throws ParseException, java.text.ParseException, SQLException{
+        System.out.println(json);
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(json);
+        System.out.println(obj);
+        JSONObject jsonObject = (JSONObject) obj;
+        JSONArray array = (JSONArray) jsonObject.get("productos");
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject jsonObject1 = (JSONObject) array.get(i);
+            String fcad = (String) jsonObject1.get("fcad");
+            String sku = (String) jsonObject1.get("sku");
+            System.out.println(fcad);
+            System.out.println(sku);
+            for(int j = 0 ; j < this.productos.size() ; j++){
+                if(this.productos.get(j).getSku().equals(sku)){
+                    Lote aux = this.productos.get(j).buscarLote(fcad);
+                    this.productos.get(j).modifLote(aux.getnLote(), aux.getUnidades()-1, fcad);
+                    this.productos.get(j).modProd();
+                }
+            }
+        }
+
+        
     }
 
 }

@@ -128,6 +128,7 @@ public class Producto {
             }
             json= json + lote;
         }
+        json= json + "]}'";
         
         String cons = "UPDATE medicamento SET "
                 + "tamano='"+this.Tamano+"', "
@@ -178,6 +179,20 @@ public class Producto {
                  break;
              }
          }
+         
+    
+    }
+    
+    public Lote buscarLote(String date) throws ParseException{
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate = format.parse(date);
+
+        for(int i = 0 ; i < this.lotes.size() ; i++){
+            if(lotes.get(i).getFcad().equals(new java.sql.Date(utilDate.getTime()))){
+                return lotes.get(i);
+            }
+        }
+        return null;
     }
     
     public int getUnidadesTotales(){

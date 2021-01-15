@@ -1,5 +1,7 @@
 var nProds = 0;
 var total = 0;
+var json = "{\"productos\":[";
+var list = [];
 
 function addProd(element){
     let parent = $(element).parents("tr");
@@ -18,6 +20,13 @@ function addProd(element){
             "<div class=\"col-3 text-right\">"+parent.children().eq(5).html()+"</div>"+
         "</div><hr>");
     $("#total").html("$"+total);
+    
+    list.push('{"numero":"'+nProds
+                    +'","sku":"'+parent.children().eq(1).html()
+                    +'","precio":"'+parent.children().eq(5).html().replace('$', '')
+                    +'","fcad":"'+parent.children().eq(4).html()
+                    +'"}');
+    
 }
 
 function deleteProd(number){
@@ -27,6 +36,44 @@ function deleteProd(number){
     $("#total").html("$"+total);
     row.fadeOut(200);
     row.remove();
+    for (var i = 0; i < list.length; i++) {
+        if(list[i].indexOf('"numero":"'+number) !== -1) {
+            list.splice(i,1);
+            break;
+        }
+    }
+   
+}
+
+function sell(){
+    for (var i = 0; i < list.length; i++) {
+        json = json + list[i];
+        if(i!==(list.length-1)){
+            json = json + ",";
+        }
+        
+    }
+    json = json + "]}";
+    $.ajax({ 
+    type: 'post',
+    url: "api/sections/farmacia", 
+    dataType: 'JSON', 
+    data: {  
+     test: JSON.stringify(json)
+    }, 
+    success: function(data) { 
+
+    }, 
+    error: function(data) { 
+     alert('fail'); 
+    } 
+}); 
+
+nProds = 0;
+total = 0;
+json = "'{productos:[";
+list = [];
+ 
 }
 
 

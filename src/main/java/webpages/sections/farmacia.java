@@ -296,11 +296,13 @@ public class farmacia extends HttpServlet {
         
         String json = request.getParameter("test");
         json = json.replace("\\\"","\""); 
+        json = json.substring(1, json.length());
+        json = json.substring(0, json.length()-1);
         System.out.println(json);
         if(!"".equals(json)){
             Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
             Farmacia farm = new Farmacia(encargado.getSucursal());
-            farm.Cargar_Productos_Sucursal();
+            farm.setProductos(farm.Cargar_Productos_Sucursal());
             try {
                 farm.actualizar_stock_venta(json);
             } catch (ParseException | java.text.ParseException | SQLException ex) {

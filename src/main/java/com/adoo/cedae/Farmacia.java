@@ -83,6 +83,7 @@ public class Farmacia {
             ResultSet result = db.executeQuery("SELECT * FROM medicamento where sucursal='" + getSucursal() + "' order by sku;");
             while (result.next()) {
                 String lote = result.getString("lote");
+                //System.out.println(lote);
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(lote);
                 JSONObject jsonObject = (JSONObject) obj;
@@ -123,6 +124,7 @@ public class Farmacia {
             for(int j = 0 ; j < this.productos.size() ; j++){
                 if(this.productos.get(j).getSku().equals(sku)){
                     Lote aux = this.productos.get(j).buscarLote(fcad);
+                    System.out.println(aux);
                     this.productos.get(j).modifLote(aux.getnLote(), aux.getUnidades()-1, fcad);
                     this.productos.get(j).modProd();
                 }

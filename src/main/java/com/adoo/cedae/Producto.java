@@ -121,7 +121,7 @@ public class Producto {
         for (int i=0;i<this.lotes.size();i++){
             String lote = "{\"nlote\":\""+lotes.get(i).getnLote()
                     +"\",\"unidades\":"+String.valueOf(lotes.get(i).getUnidades())
-                    +",\"fcad\":"+lotes.get(i).getFcad().toString()
+                    +",\"fcad\":\""+lotes.get(i).getFcad().toString()
                     +"\"}";
             if(i!=this.lotes.size()-1){
                 lote = lote + ",";
@@ -135,8 +135,9 @@ public class Producto {
                 + "precio="+String.valueOf(this.precio)+","
                 + "nombre='"+this.nombre+"',"
                 + "sucursal='"+this.sucursal+"',"
-                + "lote='"+json+"' where"
-                + "sku='"+this.sku+"';";
+                + "lote="+json+" where"
+                + " sku='"+this.sku+"';";
+        System.out.println(cons);
         db.insertQuery(cons);
         db.closeConection();
     }

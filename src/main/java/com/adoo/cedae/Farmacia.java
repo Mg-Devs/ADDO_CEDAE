@@ -80,7 +80,7 @@ public class Farmacia {
             ResultSet result = db.executeQuery("SELECT * FROM medicamento where sucursal='" + getSucursal() + "' order by sku;");
             while (result.next()) {
                 String lote = result.getString("lote");
-                /*JSONParser parser = new JSONParser();
+                JSONParser parser = new JSONParser();
                 Object obj = parser.parse(lote);
                 JSONObject jsonObject = (JSONObject) obj;
                 JSONArray array = (JSONArray) jsonObject.get("lotes");
@@ -93,8 +93,8 @@ public class Farmacia {
                     String fcad = (String) jsonObject1.get("fcad");
 
                     lotes.add(new Lote(nlote, (int)unidades, fcad));
-                }*/
-                productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lote));
+                }
+                productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lotes));
             }
             db.closeConection();
         } catch (Exception e) {

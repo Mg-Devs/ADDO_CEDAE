@@ -30,9 +30,7 @@ function navigationHelper(link){
     }else{
         section = link.substr(link.indexOf('=')+1,link.length);
     }
-    console.log(section);
-    console.log(helper);
-    console.log(link.substr(0,link.indexOf('?')));
+    
     $.ajax({
         type: "GET",
         url: link.substr(0,link.indexOf('?')),

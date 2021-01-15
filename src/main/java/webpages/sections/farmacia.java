@@ -130,7 +130,7 @@ public class farmacia extends HttpServlet {
                 out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
                 out.println(" <i class=\"fas fa-edit\"></i>");
                 out.println(" </button>");
-                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
+                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProdDB(this)\">");
                 out.println(" <i class=\"fas fa-trash\"></i>");
                 out.println(" </button>");
                 out.println(" </td>");
@@ -292,7 +292,94 @@ public class farmacia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String section = request.getParameter("action");
+        switch (section) {
+            case "getLote":
+                getLote(request, response);
+                break;
+            case "modProd":
+                modProd(request, response);
+                break;
+            case "nProd":
+                newProd(request, response);
+                break;
+            case "delProd":
+                delProd(request, response);
+                break;
+            default:
+                sectionNF(request, response);
+
+        }
+       
+    }
+    
+    protected void getLote(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String helper = request.getParameter("helper");
+        Producto prod = new Producto(helper);
+        String result = prod.getLotesDB();
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        out.print("{\"status\":1,\"message\":" + result + "}");
+    }
+    
+    protected void modProd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         session = request.getSession(false);
+        Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
+        Producto prod = new Producto(request.getParameter("sku"), request.getParameter("tam"), Float.parseFloat(request.getParameter("price")), request.getParameter("name"), encargado.getSucursal(),request.getParameter("lotes"));
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            prod.modProd();
+            out.print("{\"status\":1,\"message\":\"OK\"}");
+        } catch (SQLException ex) {
+            Logger.getLogger(farmacia.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
+        }
+    }
+    
+    protected void newProd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
+        Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
+        Producto prod = new Producto(request.getParameter("sku"), request.getParameter("tam"), Float.parseFloat(request.getParameter("price")), request.getParameter("name"), encargado.getSucursal(),request.getParameter("lotes"));
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            prod.agregProd();
+            out.print("{\"status\":1,\"message\":\"OK\"}");
+        } catch (SQLException ex) {
+            Logger.getLogger(farmacia.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
+        }
+    }
+    
+    protected void delProd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sku = request.getParameter("sku");
+        Producto prod = new Producto(sku);
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            prod.elimProd();
+            out.print("{\"status\":1,\"message\":\"OK\"}");
+        } catch (SQLException ex) {
+            Logger.getLogger(farmacia.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
+        }
+        
+        /*session = request.getSession(false);
         
         String json = request.getParameter("test");
         json = json.replace("\\\"","\""); 
@@ -308,7 +395,7 @@ public class farmacia extends HttpServlet {
             } catch (ParseException | java.text.ParseException | SQLException ex) {
                 Logger.getLogger(farmacia.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }
 
     /**

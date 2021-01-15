@@ -7,6 +7,7 @@ package com.adoo.cedae;
 
 import com.adoo.cedae.resources.ConexionMySQL;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,36 @@ public class Producto {
         this.precio = precio;
         this.sucursal = sucursal;
         this.lotes = lotes;
+    }
+    
+    public Producto(String sku, String Tamano, Float precio, String nombre, String sucursal ,String lotes) {
+        this.sku = sku;
+        this.Tamano = Tamano;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.sucursal = sucursal;
+        
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(lotes);
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray array = (JSONArray) jsonObject.get("lotes");
+            ArrayList<Lote> ARL = new ArrayList<Lote>();
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject jsonObject1 = (JSONObject) array.get(i);
+
+                String nlote = (String) jsonObject1.get("nlote");
+                long unidades = (long) jsonObject1.get("unidades");
+                String fcad = (String) jsonObject1.get("fcad");
+
+                ARL.add(new Lote(nlote, (int)unidades, fcad));
+            }
+            this.lotes = ARL;
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+            this.lotes = null;
+        }
+        
     }
 
     public Producto(String sku) {
@@ -85,8 +116,19 @@ public class Producto {
         return lotes;
     }
     
-    public ArrayList<Lote> getLotesDB() {
-        return lotes;
+    public String getLotesDB() {
+        String lote;
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("select lote from medicamento where sku = '"+getSku()+"';");
+            result.next();
+            lote = result.getString("lote");
+            db.closeConection();
+        } catch (Exception e) {
+            return null;
+        }
+        return lote;
     }
 
     public void setLotes(ArrayList<Lote> lotes) {
@@ -96,28 +138,7 @@ public class Producto {
     public void agregProd() throws SQLException{
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        String json = "'{\"lotes\":[";
-        for (int i=0;i<this.lotes.size();i++){
-            String lote = "{\"nlote\":\""+lotes.get(i).getnLote()
-                    +"\",\"unidades\":"+String.valueOf(lotes.get(i).getUnidades())
-                    +",\"fcad\":"+lotes.get(i).getFcad().toString()
-                    +"\"}";
-            if(i!=this.lotes.size()-1){
-                lote = lote + ",";
-            }
-            json= json + lote;
-        }
-        
-        String cons = "INSERT INTO medicamento values('"
-                +this.sku+"','"+this.Tamano+"','"+String.valueOf(this.precio)+"','"+this.nombre+"','"+this.sucursal+"','"+json+"');";
-        db.insertQuery(cons);
-        db.closeConection();
-    }
-    
-    public void modProd() throws SQLException{
-        ConexionMySQL db = new ConexionMySQL();
-        db.conectarMySQL();
-        String json = "'{\"lotes\":[";
+        String json = "{\"lotes\":[";
         for (int i=0;i<this.lotes.size();i++){
             String lote = "{\"nlote\":\""+lotes.get(i).getnLote()
                     +"\",\"unidades\":"+String.valueOf(lotes.get(i).getUnidades())
@@ -128,17 +149,37 @@ public class Producto {
             }
             json= json + lote;
         }
-        json= json + "]}'";
+        json+= "]}";
         
+        String cons = "INSERT INTO medicamento values('"
+                +this.sku+"','"+this.Tamano+"','"+String.valueOf(this.precio)+"','"+this.nombre+"','"+this.sucursal+"','"+json+"');";
+        db.insertQuery(cons);
+        db.closeConection();
+    }
+    
+    public void modProd() throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        String json = "{\"lotes\":[";
+        for (int i=0;i<this.lotes.size();i++){
+            String lote = "{\"nlote\":\""+lotes.get(i).getnLote()
+                    +"\",\"unidades\":"+String.valueOf(lotes.get(i).getUnidades())
+                    +",\"fcad\":\""+lotes.get(i).getFcad().toString()
+                    +"\"}";
+            if(i!=this.lotes.size()-1){
+                lote = lote + ",";
+            }
+            json= json + lote;
+        }
+        json+= "]}";
         String cons = "UPDATE medicamento SET "
                 + "tamano='"+this.Tamano+"', "
                 + "precio="+String.valueOf(this.precio)+","
                 + "nombre='"+this.nombre+"',"
                 + "sucursal='"+this.sucursal+"',"
-                + "lote="+json+" where"
-                + " sku='"+this.sku+"';";
-        System.out.println(cons);
-        db.insertQuery(cons);
+                + "lote='"+json+"' where "
+                + "sku='"+this.sku+"';";
+        db.updateQuery(cons);
         db.closeConection();
     }
     
@@ -214,5 +255,21 @@ public class Producto {
             }
         }
         return fecha;
+    }
+    
+    public String getLoteCaducidadProxima(){
+        Date fecha = null;
+        String loteS = "XXXX";
+        for (Lote lote : lotes) {
+            if(fecha==null){
+                fecha = lote.getFcad();
+                loteS = lote.getnLote();
+            }
+            else if(fecha.after(lote.getFcad())){
+                fecha = lote.getFcad();
+                loteS = lote.getnLote();
+            }
+        }
+        return loteS;
     }
 }

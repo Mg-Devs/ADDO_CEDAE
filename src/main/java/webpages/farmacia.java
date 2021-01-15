@@ -7,9 +7,12 @@ package webpages;
 
 import com.adoo.cedae.Empleado;
 import com.adoo.cedae.Farmacia;
+import com.adoo.cedae.Notificacion;
+import com.adoo.cedae.Notificaciones;
 import com.adoo.cedae.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +41,13 @@ public class farmacia extends HttpServlet {
             throws ServletException, IOException {
         Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
         Farmacia farm = new Farmacia(encargado.getSucursal());
+        Notificaciones notiManager = new Notificaciones();
+        
+        String pattern = "MMMMM dd, YYYY";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        
         ArrayList<Producto> productos = farm.Cargar_Productos_Sucursal();
+        ArrayList<Notificacion> notis = notiManager.notisFarmacia(productos);
         
         
         response.setContentType("text/html;charset=UTF-8");
@@ -226,37 +235,31 @@ public class farmacia extends HttpServlet {
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"alertsDropdown\" role=\"button\"");
             out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
             out.println(" <i class=\"fas fa-bell fa-fw\"></i>");
-            out.println(" <!-- Counter - Alerts -->");
-            out.println(" <span class=\"badge badge-danger badge-counter\">2</span>");
-            out.println(" </a>");
+            if(notis.size()>0){
+                out.println(" <!-- Counter - Alerts -->");
+                out.println(" <span class=\"badge badge-danger badge-counter\">"+notis.size()+"</span>");
+                out.println(" </a>");
+            }
             out.println(" <!-- Dropdown - Alerts -->");
             out.println(" <div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"");
             out.println(" aria-labelledby=\"alertsDropdown\">");
             out.println(" <h6 class=\"dropdown-header\">");
             out.println(" Notificaiones");
             out.println(" </h6>");
-            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
-            out.println(" <div class=\"mr-3\">");
-            out.println(" <div class=\"icon-circle bg-warning\">");
-            out.println(" <i class=\"fas fa-exclamation-triangle text-white\"></i>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div>");
-            out.println(" <div class=\"small text-gray-500\">December 12, 2019</div>");
-            out.println(" <span class=\"font-weight-bold\">Quedan 15 unidades de: Pomada de la campana 35g</span>");
-            out.println(" </div>");
-            out.println(" </a>");
-            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
-            out.println(" <div class=\"mr-3\">");
-            out.println(" <div class=\"icon-circle bg-success\">");
-            out.println(" <i class=\"fas fa-clock text-white\"></i>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div>");
-            out.println(" <div class=\"small text-gray-500\">December 7, 2019</div>");
-            out.println(" Canespie Bifonazol 10 mg/g 20 gr. Con lote: XXXX caducara en 3 meses.");
-            out.println(" </div>");
-            out.println(" </a>");
+            for (Notificacion noti : notis) {
+                out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+                out.println(" <div class=\"mr-3\">");
+                out.println(" <div class=\"icon-circle bg-"+noti.getPriority()+"\">");
+                out.println(" <i class=\"fas fa-exclamation-triangle text-white\"></i>");
+                out.println(" </div>");
+                out.println(" </div>");
+                out.println(" <div>");
+                out.println(" <div class=\"small text-gray-500\">"+simpleDateFormat.format(noti.getFecha())+"</div>");
+                out.println(" <span class=\"font-weight-bold\">"+noti.getText()+"</span>");
+                out.println(" </div>");
+                out.println(" </a>");
+            }
+            
             out.println(" <a class=\"dropdown-item text-center small text-gray-500\" href=\"#\">Todas las notificaciones</a>");
             out.println(" </div>");
             out.println(" </li>");
@@ -430,7 +433,7 @@ public class farmacia extends HttpServlet {
                 out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
                 out.println(" <i class=\"fas fa-edit\"></i>");
                 out.println(" </button>");
-                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
+                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProdDB(this)\">");
                 out.println(" <i class=\"fas fa-trash\"></i>");
                 out.println(" </button>");
                 out.println(" </td>");
@@ -497,7 +500,7 @@ public class farmacia extends HttpServlet {
             out.println(" <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">");
             out.println(" <div class=\"modal-content\">");
             out.println(" <div class=\"modal-header\">");
-            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Eliminar Elemento</h5>");
+            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Eliminar Producto</h5>");
             out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
             out.println(" <span aria-hidden=\"true\">×</span>");
             out.println(" </button>");
@@ -526,35 +529,36 @@ public class farmacia extends HttpServlet {
             out.println(" <form id=\"personal-info\">");
             out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col\">");
-            out.println(" <label for=\"name\">Nombre</label>");
-            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre\">");
+            out.println(" <label for=\"sku\">SKU</label>");
+            out.println(" <input type=\"text\" maxlength=\"15\" id=\"sku\" name=\"sku\" class=\"form-control\" placeholder=\"SKU\">");
             out.println(" </div>");
             out.println(" <div class=\"col\">");
-            out.println(" <label for=\"sku\">SKU</label>");
-            out.println(" <input type=\"text\" id=\"sku\" name=\"sku\" class=\"form-control\" placeholder=\"SKU\">");
+            out.println(" <label for=\"name\">Nombre</label>");
+            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre\">");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col mt-2\">");
             out.println(" <label for=\"tam\">Tamaño</label>");
-            out.println(" <input type=\"text\" id=\"tam\" name=\"tam\" class=\"form-control\" placeholder=\"20ml\">");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <label for=\"sku\">Fecha de Caducidad</label>");
-            out.println(" <input type=\"date\" id=\"exp\" name=\"exp\" class=\"form-control\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <label for=\"uni\">Unidades</label>");
-            out.println(" <input type=\"number\" id=\"uni\" name=\"uni\" class=\"form-control\" placeholder=\"Unidades\">");
+            out.println(" <input type=\"text\" maxlength=\"15\" id=\"tam\" name=\"tam\" class=\"form-control\" placeholder=\"20ml\">");
             out.println(" </div>");
             out.println(" <div class=\"col mt-2\">");
             out.println(" <label for=\"price\">Precio</label>");
             out.println(" <input type=\"number\" id=\"price\" name=\"price\" class=\"form-control\" placeholder=\"Precio\">");
             out.println(" </div>");
             out.println(" </div>");
+            out.println(" <hr>");
+            out.println(" <div class=\"mt-4\" id=\"loteData\">");
+            
+            out.println(" </div>");
             out.println(" </form>");
+            
+            out.println(" <div class=\"row\">");
+            out.println(" <div class=\"col-md-3 mt-4 align-self-end\">");
+            out.println(" <button type=\"button\" onclick=\"aggLote()\" class=\"btn btn-info\">Agregar Lote</button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
             out.println(" </div>");
             out.println(" <div class=\"modal-footer\">");
             out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");

@@ -59,9 +59,9 @@ public class ConexionMySQL {
         this.statement.executeUpdate(queary);
     }
     
-    public ResultSet deleteQuery(String query) throws SQLException{
+    public void deleteQuery(String query) throws SQLException{
         this.statement = (Statement) conn.createStatement();
-        return this.statement.executeQuery(query);
+        this.statement.executeUpdate(query);
     }
     
     public void insertQuery(String queary) throws SQLException {

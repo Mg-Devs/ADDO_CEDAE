@@ -52,7 +52,7 @@ public class Medico extends Empleado{
             db.conectarMySQL();
             ResultSet result = db.executeQuery("SELECT * FROM cita inner join persona on curp = curppaciente where curpmedtit = '"+this.getCurp()+"' and fecha >= CAST('"+LocalDate.now()+"' AS date);");
             while(result.next()){
-                Cita aux = new Cita(result.getInt("idcita"), new Paciente(result.getString("nombre"), result.getString("apellidos"), result.getString("correo"), Long.parseLong(result.getString("telefono")), result.getString("curp")), new Medico(result.getString("curpmedaux"), false), this, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")));
+                Cita aux = new Cita(result.getInt("idcita"), new Paciente(result.getString("nombre"), result.getString("apellidos"), result.getString("correo"), Long.parseLong(result.getString("telefono")), result.getString("curp")), new Medico(result.getString("curpmedaux"), false), this, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")),result.getInt("idreceta"),result.getString("sucursal"));
                 agenda.add(aux);
             }
             db.closeConection();

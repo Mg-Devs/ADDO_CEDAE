@@ -122,13 +122,13 @@ public class medico extends HttpServlet {
             out.println(" </a>");
             out.println(" </li>");
             
-            out.println(" <!-- Nav Item - Dashboard -->");
+            /*out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
             out.println(" <a class=\"nav-link\" href=\"index\">");//api/sections/medico?section=cReceta
             out.println(" <i class=\"fas fa-fw fa-notes-medical\"></i>");
             out.println(" <span>Crear Receta</span>");
             out.println(" </a>");
-            out.println(" </li>");
+            out.println(" </li>");*/
             
             out.println(" <!-- Nav Item - Pages Collapse Menu -->");
             out.println(" <li class=\"nav-item\">");
@@ -430,7 +430,7 @@ public class medico extends HttpServlet {
             out.println(" <tbody id=\"productTable\">");
             
             for (Cita cita : citas) {
-                out.println(" <tr>");
+                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?cita.getReceta().getIdReceta():"null")+"\" data-place=\""+cita.getSucursal()+"\">");
                 out.println(" <td>"+cita.getPaciente().getNombre()+" "+cita.getPaciente().getApellidos()+"</td>");
                 out.println(" <td>"+cita.getHora()+"</td>");
                 out.println(" <td>"+cita.getFecha().toString().replace('-', '/')+"</td>");
@@ -498,6 +498,48 @@ public class medico extends HttpServlet {
             out.println(" <div class=\"modal-footer\">");
             out.println(" <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Cancelar</button>");
             out.println(" <a class=\"btn btn-primary\" href=\"login.html\">Cerrar Sesion</a>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <div class=\"modal fade\" id=\"verCita\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\">Ver Cita</h5>");
+            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <label for=\"name\">Nombre</label>");
+            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre\" disabled>");
+            out.println(" </div>");
+            out.println(" <div class=\"col\">");
+            out.println(" <label for=\"sucur\">Sucursal</label>");
+            out.println(" <input type=\"text\" id=\"sucur\" name=\"sucur\" class=\"form-control\" placeholder=\"Sucursal\" disabled>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"tam\">Fecha</label>");
+            out.println(" <input type=\"date\" id=\"date\" name=\"date\" class=\"form-control\" disabled>");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"sku\">Hora</label>");
+            out.println(" <input type=\"time\" id=\"time\" name=\"time\" class=\"form-control\" disabled>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div id=\"recetaOpt\" class=\"col mt-2\">");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");

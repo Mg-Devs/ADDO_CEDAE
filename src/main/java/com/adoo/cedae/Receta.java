@@ -47,6 +47,10 @@ public class Receta {
         this.indicaciones = indicaciones;
     }
 
+    public Receta(int idReceta) {
+        this.idReceta = idReceta;
+    }
+
     public int getIdReceta() {
         return idReceta;
     }

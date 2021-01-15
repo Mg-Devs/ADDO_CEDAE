@@ -19,6 +19,7 @@ import org.json.simple.parser.ParseException;
  * @author mario
  */
 public class Farmacia {
+
     private String sucursal;
     private ArrayList<Producto> productos;
 
@@ -42,33 +43,65 @@ public class Farmacia {
     public void setProductos(ArrayList<Producto> productos) {
         this.productos = productos;
     }
-    
+
     public ArrayList<Producto> Cargar_Productos() throws SQLException, ParseException {
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        ArrayList<Producto> productos= new ArrayList<>();
+        ArrayList<Producto> productos = new ArrayList<>();
         ResultSet result = db.executeQuery("SELECT * FROM medicamento order by sku;");
-        while(result.next()){
-            String lote=result.getString("lote");
+        while (result.next()) {
+            String lote = result.getString("lote");
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(lote);
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray array = (JSONArray) jsonObject.get("lotes");
             ArrayList<Lote> lotes = new ArrayList<>();
-            for(int i = 0 ; i < array.size() ; i++) {
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject jsonObject1 = (JSONObject) array.get(i);
+
+                String nlote = (String) jsonObject1.get("nlote");
+                int unidades = Integer.parseInt((String) jsonObject1.get("unidades"));
+                String fcad = (String) jsonObject1.get("fcad");
+
+                lotes.add(new Lote(nlote, unidades, fcad));
+            }
+            productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lotes));
+        }
+        db.closeConection();
+        return productos;
+    }
+
+    public ArrayList<Producto> Cargar_Productos_Sucursal(){
+        ArrayList<Producto> productos = new ArrayList<Producto>();
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            
+            ResultSet result = db.executeQuery("SELECT * FROM medicamento where sucursal='" + getSucursal() + "' order by sku;");
+            while (result.next()) {
+                String lote = result.getString("lote");
+                /*JSONParser parser = new JSONParser();
+                Object obj = parser.parse(lote);
+                JSONObject jsonObject = (JSONObject) obj;
+                JSONArray array = (JSONArray) jsonObject.get("lotes");
+                ArrayList<Lote> lotes = new ArrayList<Lote>();
+                for (int i = 0; i < array.size(); i++) {
                     JSONObject jsonObject1 = (JSONObject) array.get(i);
 
                     String nlote = (String) jsonObject1.get("nlote");
-                    int unidades=Integer.parseInt((String) jsonObject1.get("unidades"));
+                    long unidades = (long) jsonObject1.get("unidades");
                     String fcad = (String) jsonObject1.get("fcad");
-                    
-                    lotes.add(new Lote(nlote,unidades,fcad));
-                }
-            productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio") , result.getString("nombre"), result.getString("sucursal"),lotes) );
-         }
-         db.closeConection();
+
+                    lotes.add(new Lote(nlote, (int)unidades, fcad));
+                }*/
+                productos.add(new Producto(result.getString("sku"), result.getString("tamano"), (float) result.getDouble("precio"), result.getString("nombre"), result.getString("sucursal"), lote));
+            }
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+            return productos;
+        }
         return productos;
-    } 
-    
-    
+    }
+
 }

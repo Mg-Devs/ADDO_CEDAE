@@ -6,10 +6,15 @@
 package com.adoo.cedae;
 
 import com.adoo.cedae.resources.ConexionMySQL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -22,6 +27,7 @@ public class Producto {
     private Float precio;
     private String sucursal;
     private ArrayList<Lote> lotes;
+    private String helper;
 
     public Producto(String sku, String Tamano, Float precio, String nombre, String sucursal, ArrayList<Lote> lotes) {
         this.sku = sku;
@@ -30,6 +36,19 @@ public class Producto {
         this.precio = precio;
         this.sucursal = sucursal;
         this.lotes = lotes;
+    }
+    
+    public Producto(String sku, String Tamano, Float precio, String nombre, String sucursal, String helper) {
+        this.sku = sku;
+        this.Tamano = Tamano;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.sucursal = sucursal;
+        this.helper = helper;
+    }
+
+    public Producto(String sku) {
+        this.sku = sku;
     }
 
     public String getSku() {
@@ -73,6 +92,10 @@ public class Producto {
     }
     
     public ArrayList<Lote> getLotes() {
+        return lotes;
+    }
+    
+    public ArrayList<Lote> getLotesDB() {
         return lotes;
     }
 
@@ -165,5 +188,53 @@ public class Producto {
                  break;
              }
          }
+    }
+    
+    public int getUnidadesTotales(){
+        long tot = 0;
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(this.helper);
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray array = (JSONArray) jsonObject.get("lotes");
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject jsonObject1 = (JSONObject) array.get(i);
+                tot += (long) jsonObject1.get("unidades");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+                
+        return (int)tot;
+    }
+    
+    public Date getCaducidadProxima(){
+        Date fecha = null;
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(this.helper);
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray array = (JSONArray) jsonObject.get("lotes");
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject jsonObject1 = (JSONObject) array.get(i);
+                if(fecha==null)
+                    fecha = Date.valueOf((String) jsonObject1.get("fcad"));
+                else if(fecha.after(Date.valueOf((String) jsonObject1.get("fcad")))){
+                    fecha = Date.valueOf((String) jsonObject1.get("fcad"));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+        
+        return fecha;
+    }
+
+    public String getHelper() {
+        return helper;
+    }
+
+    public void setHelper(String helper) {
+        this.helper = helper;
     }
 }

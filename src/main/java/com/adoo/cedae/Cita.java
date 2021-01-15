@@ -45,6 +45,17 @@ public class Cita {
         this.fecha = fecha;
         this.hora = hora;
     }
+    
+    public Cita(int idCita, Paciente paciente, Medico medicoAux, Medico medicoTit, LocalDate fecha, LocalTime hora, int idreceta,String sucursal) {
+        this.idCita = idCita;
+        this.paciente = paciente;
+        this.medicoAux = medicoAux;
+        this.medicoTit = medicoTit;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.receta = (idreceta!=0)?(new Receta(idreceta)):null;
+        this.sucursal = sucursal;
+    }
 
     Cita(Paciente paciente, Medico medicoAux, Medico medico, String fecha, String hora, String sucursal,LocalTime duracion) {
         try {

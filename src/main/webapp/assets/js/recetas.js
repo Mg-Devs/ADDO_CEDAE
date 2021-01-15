@@ -33,4 +33,28 @@ function deleteProd(number){
     nProds--;
 }
 
+function verCita(element){
+    var row = $(element).parents("tr");
+    $("#name").val(row.children().eq(0).text());
+    $("#sucur").val(row.data("place"));
+    $("#date").val(row.children().eq(2).text().replaceAll('/','-'));
+    $("#time").val(row.children().eq(1).text());
+    $("#time").val(row.children().eq(1).text());
+    
+    var recopc = "<label for=\"rOpt\">Receta</label><br>";
+    if(row.data("recipe") == null)
+       recopc+="<button class=\"btn btn-info btn-icon-split\" alt=\"Crear Receta\" onclick=\"cReceta(" +row.data("id")+")\"><span class=\"icon text-white-50\"><i class=\"fas fa-fw fa-notes-medical\"></i></span><span class=\"text\">Crear Receta</span></button>";
+    else
+        recopc+="<button class=\"btn btn-success btn-icon-split\" alt=\"Ver Receta\" onclick=\"verReceta("+row.data("recipe")+")\"><span class=\"icon text-white-50\"><i class=\"fas fa-fw fa-print\"></i></span><span class=\"text\">Imprimir Receta</span></button>";
+    
+    $("#recetaOpt").html(recopc);
+    
+    $("#verCita").modal('show');
+}
+
+function cReceta(idC){
+    $('#verCita').modal('hide');
+    navigationHelper("api/sections/medico?section=cReceta&receta=" + idC);
+}
+
 

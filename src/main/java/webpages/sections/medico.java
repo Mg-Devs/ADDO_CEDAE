@@ -112,7 +112,7 @@ public class medico extends HttpServlet {
             out.println(" <tbody id=\"productTable\">");
 
             for (Cita cita : citas) {
-                out.println(" <tr>");
+                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?cita.getReceta().getIdReceta():"null")+"\" data-place=\""+cita.getSucursal()+"\">");
                 out.println(" <td>" + cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidos() + "</td>");
                 out.println(" <td>" + cita.getHora() + "</td>");
                 out.println(" <td>" + cita.getFecha().toString().replace('-', '/') + "</td>");
@@ -367,6 +367,7 @@ public class medico extends HttpServlet {
 
     protected void cRecetaSection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String idCita = request.getParameter("helper");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -394,6 +395,7 @@ public class medico extends HttpServlet {
             out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Examen Fisico</h6>");
             out.println(" </div>");
             out.println(" <div class=\"card-body\">");
+            out.println(" <input type=\"hidden\" id=\"idC\" name=\"idC\" value=\""+idCita+"\">");
             out.println(" <form id=\"examen-fisi\">");
             out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col\">");

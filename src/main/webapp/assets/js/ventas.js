@@ -9,9 +9,10 @@ function addProd(element){
     total += parseInt(parent.children().eq(5).html().replace('$', ''));
     
     $("#productos").append(""+
-        "<div id=\"prod"+nProds+"\" data-price='"+parent.children().eq(5).html().replace('$', '')+"' class=\"row\">"+
+        "<div id=\"prod"+nProds+"\" data-price='"+parent.children().eq(5).html().replace('$', '')+"' class=\"row\ data-nitems=\"1\" data-idProd=\""+nProds+"\">"+
             "<div class=\"col-1\"><h4 class=\"mt-2 ml-2 pr-0\">"+nProds+"</h4></div>"+
-            "<div class=\"col-6\">"+ parent.children().eq(0).html() +"</div>"+
+            "<div class=\"col-4\">"+ parent.children().eq(0).html() +"</div>"+
+            "<div class=\"col-2\"><input type=\"number\" id=\"nProds"+nProds+"\"  name=\"nProds"+nProds+"\" class=\"form-control\" placeholder=\"#\" value=\"1\" onchange=\"cambiarTotal("+nProds+")\" min=\"1\" max=\""+parent.children().eq(3).text() +"\"></div>"+
             "<div class=\"col-1\">"+
                 "<button class=\"btn btn-danger btn-circle\" onclick=\"deleteProd("+nProds+")\">"+
                     "<i class=\"fas fa-trash\"></i>"+
@@ -32,7 +33,7 @@ function addProd(element){
 function deleteProd(number){
     var row = $("#prod"+number);
     nProds--;
-    total-= parseInt(row.data('price'));
+    total-= parseInt(row.data('price'))*parseInt(row.data('nitems'));
     $("#total").html("$"+total);
     row.fadeOut(200);
     row.remove();
@@ -54,18 +55,30 @@ function sell(){
         
     }
     json = json + "]}";
+    var obj = JSON.parse(json);
+    
+    var elementos = $("#productos").children('.row');
+    elementos.each(function (index){
+        var row = $(this);
+        obj["productos"][index]["unidades"]=parseInt(row.children().eq(2).children('input').val());
+    });
+
     $.ajax({ 
     type: 'post',
     url: "api/sections/farmacia", 
     dataType: 'JSON', 
     data: {  
-     test: JSON.stringify(json)
+     test: JSON.stringify(obj),
+     action:"venta"
     }, 
     success: function(data) { 
-
+        console.log(data);
+        if(data.status == 1){
+            navigationHelper('api/sections/farmacia?section=inventario');
+        }
     }, 
     error: function(data) { 
-     alert('fail'); 
+     console.log(data);
     } 
 }); 
 
@@ -76,6 +89,18 @@ list = [];
  
 }
 
+function cambiarTotal(number){
+    var row2 = $("#prod"+number);
+    row2.data('nitems',row2.children().eq(2).children('input').val());
+    var tot = 0;
+    var elementos = $("#productos").children('.row');
+    elementos.each(function (){
+        var row = $(this);
+        tot+= parseInt(row.children().eq(2).children('input').val())*parseInt(row.children().eq(4).text().replaceAll('$',''));
+    });
+    total = tot;
+    $("#total").html("$"+tot);
+}
 
 
 

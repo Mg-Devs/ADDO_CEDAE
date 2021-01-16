@@ -11,7 +11,7 @@ public class ConexionMySQL {
     public String driver = "com.mysql.cj.jdbc.Driver";
 
     // Nombre de la base de datos
-    public String database = "cedae2";
+    public String database = "bdcedae";
 
     // Host
     public String hostname = "localhost";
@@ -27,7 +27,7 @@ public class ConexionMySQL {
 
     // Clave de usuario
     //public String password = "tuclave";
-    public String password = "123456789";
+    public String password = "root";
     
     //Conector
     private Connection conn = null;

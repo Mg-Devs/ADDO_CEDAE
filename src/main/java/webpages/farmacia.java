@@ -136,8 +136,8 @@ public class farmacia extends HttpServlet {
             out.println(" <div class=\"bg-white py-2 collapse-inner rounded\">");
             out.println(" <h6 class=\"collapse-header\">Opciones:</h6>");
             out.println(" <a class=\"collapse-item\" href=\"api/sections/farmacia?section=nventa\">Realizar Venta</a>");
-            out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/farmacia?section=sreceta\">Surtir Receta</a>");
-            out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/farmacia?section=historial\">Historial</a>");
+            //out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/farmacia?section=sreceta\">Surtir Receta</a>");
+            //out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/farmacia?section=historial\">Historial</a>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </li>");

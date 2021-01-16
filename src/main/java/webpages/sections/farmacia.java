@@ -306,6 +306,9 @@ public class farmacia extends HttpServlet {
             case "delProd":
                 delProd(request, response);
                 break;
+            case "venta":
+                venta(request, response);
+                break;
             default:
                 sectionNF(request, response);
 
@@ -379,24 +382,38 @@ public class farmacia extends HttpServlet {
             out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
         }
         
-        /*session = request.getSession(false);
+       
+    }
+    
+    protected void venta(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
         
         String json = request.getParameter("test");
+        /*
         json = json.replace("\\\"","\""); 
         json = json.substring(1, json.length());
         json = json.substring(0, json.length()-1);
         System.out.println(json);
+        */
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
         if(!"".equals(json)){
             Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
             Farmacia farm = new Farmacia(encargado.getSucursal());
             farm.setProductos(farm.Cargar_Productos_Sucursal());
             try {
                 farm.actualizar_stock_venta(json);
+                out.print("{\"status\":1,\"message\":\"OK\"}");
             } catch (ParseException | java.text.ParseException | SQLException ex) {
                 Logger.getLogger(farmacia.class.getName()).log(Level.SEVERE, null, ex);
+                out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
             }
-        }*/
+        }
     }
+    
 
     /**
      * Returns a short description of the servlet.

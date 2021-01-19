@@ -7,6 +7,7 @@ package com.adoo.cedae;
 
 import com.adoo.cedae.resources.ConexionMySQL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -144,7 +145,31 @@ public class Cita {
             return "Error CRC: " + e.getMessage();
         }
     }
-
+    
+    public void modifCita() throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        String cons = "UPDATE cita SET "
+                + "curpmedaux='"+this.medicoAux.getCurp()+"', "
+                + "curpmedtit='"+this.medicoTit.getCurp()+"', "
+                + "fecha='"+this.fecha+"',"
+                + "hora='"+this.hora+"',"
+                + "sucursal='"+this.sucursal+"',"
+                + "duracion='"+this.duracion+"' where "
+                + "idcita="+this.idCita+";";
+        db.updateQuery(cons);
+        db.closeConection();
+    }
+    
+    public void cancelarCita() throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        String cons = "DELETE FROM cita WHERE idcita="+this.idCita+";";
+        
+        db.deleteQuery(cons);
+        db.closeConection();
+    }
+    
     public String getSucursal() {
         return sucursal;
     }

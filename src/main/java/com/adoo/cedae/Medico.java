@@ -135,4 +135,32 @@ public class Medico extends Empleado{
             System.out.println("Error: "+e.getMessage());
         }
     }
+
+    public boolean getAllData() {
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("select * from persona inner join empleado on persona.curp = empleado.curp where persona.curp = '" + getCurp() + "';");
+            if (!result.next()) {
+                return false;
+            }
+
+            setEmail(result.getString("correo"));
+            setNombre(result.getString("nombre"));
+            setApellidos(result.getString("apellidos"));
+            setTelefono(Long.parseLong(result.getString("telefono")));
+            setEdad(result.getInt("edad"));
+            setPassword(result.getString("contrasena"));
+            setTelefono(Long.parseLong(result.getString("telefono")));
+            setFechaNacimiento(LocalDate.parse(result.getString("fechaNacimiento")));
+            setDireccion(result.getString("direccion"));
+            setColonia(result.getString("colonia"));
+            setEntFed(result.getString("entidadfederativa"));
+            setCp(result.getInt("codigopostal"));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+            return false;
+        }
+    }
 }

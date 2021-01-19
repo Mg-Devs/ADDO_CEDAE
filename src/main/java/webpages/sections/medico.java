@@ -6,21 +6,30 @@
 package webpages.sections;
 
 import com.adoo.cedae.Cita;
+import com.adoo.cedae.Empleado;
 import com.adoo.cedae.Expediente;
+import com.adoo.cedae.Farmacia;
 import com.adoo.cedae.Medico;
 import com.adoo.cedae.Paciente;
 import com.adoo.cedae.Persona;
+import com.adoo.cedae.Producto;
+import com.adoo.cedae.Receta;
+import com.adoo.cedae.resources.Security;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -69,6 +78,7 @@ public class medico extends HttpServlet {
             throws ServletException, IOException {
         Medico medTit = new Medico(session.getAttribute("curp").toString(), true);
         ArrayList<Cita> citas = medTit.getAgenda();
+        Security encrypt = new Security();
 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -112,7 +122,7 @@ public class medico extends HttpServlet {
             out.println(" <tbody id=\"productTable\">");
 
             for (Cita cita : citas) {
-                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?cita.getReceta().getIdReceta():"null")+"\" data-place=\""+cita.getSucursal()+"\">");
+                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?encrypt.encriptar("0"+cita.getReceta().getIdReceta()):"null")+"\" data-place=\""+cita.getSucursal()+"\">");
                 out.println(" <td>" + cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellidos() + "</td>");
                 out.println(" <td>" + cita.getHora() + "</td>");
                 out.println(" <td>" + cita.getFecha().toString().replace('-', '/') + "</td>");
@@ -377,7 +387,7 @@ public class medico extends HttpServlet {
             out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Crear Receta</h1>");
             out.println(" </div>");
             out.println(" <div class=\"col\">");
-            out.println(" <a role=\"button\" class=\"btn btn-success btn-icon-split disabled\" id=\"generarReceta\">");
+            out.println(" <a role=\"button\" class=\"btn btn-success btn-icon-split \" id=\"recButton\" onclick=\"generarReceta()\">");
             out.println(" <span class=\"icon text-white-50\">");
             out.println(" <i class=\"fas fa-check\"></i>");
             out.println(" </span>");
@@ -436,6 +446,12 @@ public class medico extends HttpServlet {
             out.println(" <i class=\"fas fa-plus\"></i>");
             out.println(" </span>");
             out.println(" <span class=\"text\">Agregar Producto</span>");
+            out.println(" </button>");
+            out.println(" <button class=\"btn btn-success btn-icon-split mb-4\" id=\"agOtroProd\" onclick='aggOtroPorducto()'>");
+            out.println(" <span class=\"icon text-white-50\">");
+            out.println(" <i class=\"fas fa-plus\"></i>");
+            out.println(" </span>");
+            out.println(" <span class=\"text\">Producto No Registrado</span>");
             out.println(" </button>");
             out.println(" <div id=\"productos\"></div>");
             out.println(" </div>");
@@ -986,6 +1002,66 @@ public class medico extends HttpServlet {
             out.println(" ");
             out.println(" </div>");
             out.println(" </div>");
+            
+            for (Cita cita : paciente.getAgenda()) {
+            
+                out.println(" <div class=\"card shadow mb-4\">");
+                out.println(" <div class=\"card-header py-3\">");
+                out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Cita "+cita.getFecha()+" "+cita.getHora()+"<span id=\"nExp\"></span></h6>");
+                out.println(" </div>");
+                out.println(" <div class=\"card-body\">");
+                out.println(" <div class=\"row container\">");
+                out.println(" <div class=\"col\">");
+                out.println(" <h5 class=\"\">Diagnostico: <span id=\"sexo\">"+cita.getReceta().getDiagnostico()+"</span></h5>");
+                out.println(" <h5 class=\"mt-4\">Descripcion: <span id=\"tel\">"+cita.getReceta().getDescripcion()+"</span></h5>");
+                out.println(" ");
+                out.println(" </div>");
+                out.println(" <div class=\"col\">");
+                out.println(" <h5 >CIE: <span id=\"dir\">"+cita.getReceta().getCie()+"</span></h5>");
+                out.println(" <h5 class=\"mt-4\">Observaciones: <span id=\"dir\">"+cita.getReceta().getObserv()+"</span></h5>");
+                out.println(" </div>");
+                out.println(" </div>");
+                out.println(" <!-- Divider -->");
+                out.println(" <hr>");
+                out.println(" <h4 class=\"ml-2\">Examen Fisico</h4>");
+                out.println(" <div class=\"row container\">");
+                out.println(" <div class=\"col-6\">");
+                out.println(" <h5 class=\"mt-4\">Peso: <span id=\"peso\">"+cita.getReceta().getPeso()+"</span>Kg</h5>");
+                out.println(" <h5 class=\"mt-4\">Presión Arterial: <span id=\"pressArte\">"+cita.getReceta().getPresArterial()+"</span></h5>");
+                out.println(" <h5 class=\"mt-4\">Frecuencia Respiratoria: <span id=\"frecResp\">"+cita.getReceta().getFrecResp()+"</span>rpm</h5>");
+                out.println(" </div>");
+                out.println(" <div class=\"col-6\">");
+                out.println(" <h5 class=\"mt-4\">Estatura: <span id=\"estatura\">"+cita.getReceta().getEstatura()+"</span>cm</h5>");
+                out.println(" <h5 class=\"mt-4\">Frecuencia Cardiaca: <span id=\"frecCard\">"+cita.getReceta().getFrecCardiaca()+"</span>ppm</h5>");
+                out.println(" <h5 class=\"mt-4\">Temperatura: <span id=\"temp\">"+cita.getReceta().getTemp()+"</span>C°</h5>");
+                out.println(" </div>");
+                out.println(" </div>");
+                out.println(" <!-- Divider -->");
+                out.println(" <hr>");
+                out.println(" <h4 class=\"ml-2\">Receta</h4>");
+                out.println(" <div class=\"row container\">");
+                out.println(" <div class=\"col-12\">");
+                
+                for (Producto producto : cita.getReceta().JSONtoProduct()) {
+                    out.println(" <div class=\"row\">");
+                    if(producto.getSku() != null){
+                        out.println(" <div class=\"col-md-2\">");
+                        out.println(" <h5 class=\"mb-4 text-gray-800\">SKU: "+producto.getSku()+"</h5>");
+                        out.println(" </div>");
+                    }
+                    out.println(" <div class=\"col-md-5\">");
+                    out.println(" <h5 class=\"mb-4 text-gray-800\">Nombre: "+producto.getnombre()+"</h5>");
+                    out.println(" </div>");
+                    out.println(" <div class=\"col-md-4\">");
+                    out.println(" <h5 class=\"mb-5 text-gray-800\">Indicaciones: "+producto.getsucursal()+"</h5>");
+                    out.println(" </div>");
+                    out.println(" </div>");
+                }
+                
+                out.println(" </div>");
+                out.println(" </div>");
+            }
+            
             out.println(" ");
             out.println(" </div>");
             out.println(" </div>");
@@ -1050,18 +1126,18 @@ public class medico extends HttpServlet {
             case "cExpediente":
                 cExpediente(request, response);
                 break;
+            case "getProd":
+                getProductos(request, response);
+                break;
             case "cReceta":
-                cRecetaSection(request, response);
+                cReceta(request, response);
                 break;
-            case "pacientes":
-                pacientesSection(request, response);
-                break;
-            case "vExpedientes":
+            /*case "vExpedientes":
                 vExpedientesSection(request, response);
                 break;
             case "agenda":
                 agendaSection(request, response);
-                break;
+                break;*/
             default:
                 sectionNF(request, response);
 
@@ -1100,6 +1176,46 @@ public class medico extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         out.print("{\"status\":1,\"message\":\"" + nPaciente.getCurp() + "\"}");
+    }
+    
+    protected void getProductos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
+        Empleado encargado = new Empleado(session.getAttribute("curp").toString(), 0);
+        Farmacia farm = new Farmacia(encargado.getSucursal());
+        ArrayList<Producto> productos = farm.Cargar_Productos_Sucursal();
+        String json="";
+        for (Producto producto : productos) {
+            json+="{\"sku\":\""+producto.getSku()+"\",\"nombre\":\""+producto.getnombre()+"\",\"tamano\":\""+producto.getTamano()+"\"},";
+        }
+        json = json.substring(0, json.length()-1);
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        out.print("{\"status\":1,\"message\":[" + json + "]}");
+    }
+    
+    
+    protected void cReceta(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        Receta receta = new Receta(request.getParameter("diagn"), request.getParameter("cie"), request.getParameter("diagn"), request.getParameter("obs"), request.getParameter("planseg"), Float.parseFloat(request.getParameter("peso")), Float.parseFloat(request.getParameter("estatura")), request.getParameter("pressArte"), request.getParameter("frecCard"), request.getParameter("frecResp"), request.getParameter("temp"), request.getParameter("productos"));
+        Security encrypt = new Security();
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            receta.saveReceta(Integer.parseInt(request.getParameter("idC")));
+            out.print("{\"status\":1,\"message\":\""+encrypt.encriptar(receta.getIdReceta()+"")+"\"}");
+        } catch (SQLException ex) {
+            Logger.getLogger(medico.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
+        }
+        
     }
 
 }

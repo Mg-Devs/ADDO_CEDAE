@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -72,6 +74,29 @@ public class Producto {
         this.sku = sku;
     }
 
+    public Producto(String nombre, String sucursal, String opt) {
+        if(opt.equals("registered")){
+            this.sku = nombre;
+            try {
+                ConexionMySQL db = new ConexionMySQL();
+                db.conectarMySQL();
+                ResultSet result = db.executeQuery("SELECT nombre FROM medicamento where sku='"+nombre+"';");
+                result.next();
+                this.nombre = result.getString("nombre");
+                db.closeConection();
+            } catch (SQLException ex) {
+                Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }else if(opt.equals("other")){
+            this.sku = null;
+            this.nombre = nombre;
+        }
+        this.sucursal = sucursal;
+    }
+
+    
+    
     public String getSku() {
         return sku;
     }

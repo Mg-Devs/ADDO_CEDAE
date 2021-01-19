@@ -7,6 +7,7 @@ package com.adoo.cedae;
 
 import com.adoo.cedae.resources.ConexionMySQL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -26,6 +27,10 @@ public class Cita {
     private Receta receta;
     private String sucursal;
 
+    public Cita(int idCita) {
+        this.idCita = idCita;
+    }
+    
     public Cita(int idCita, Paciente paciente, Medico medicoAux, Medico medicoTit, LocalDate fecha, LocalTime hora, Receta receta, String sucursal) {
         this.idCita = idCita;
         this.paciente = paciente;
@@ -57,7 +62,7 @@ public class Cita {
         this.sucursal = sucursal;
     }
 
-    Cita(Paciente paciente, Medico medicoAux, Medico medico, String fecha, String hora, String sucursal,LocalTime duracion) {
+    public Cita(Paciente paciente, Medico medicoAux, Medico medico, String fecha, String hora, String sucursal,LocalTime duracion) {
         try {
             ConexionMySQL db = new ConexionMySQL();
             db.conectarMySQL();
@@ -151,5 +156,19 @@ public class Cita {
 
     public void setSucursal(String sucursal) {
         this.sucursal = sucursal;
+    }
+    
+    public void getAllData() throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("select * from cita where idcita="+getIdCita()+";");
+        result.next();
+        setSucursal(result.getString("sucursal"));
+        setFecha(LocalDate.parse(result.getString("fecha")));
+        setHora(LocalTime.parse(result.getString("hora")));
+        setPaciente(new Paciente(result.getString("curppaciente")));
+        setMedicoTit(new Medico(result.getString("curpmedtit"), true));
+        setMedicoAux(new Medico(result.getString("curpmedaux"), false));
+        db.closeConection();
     }
 }

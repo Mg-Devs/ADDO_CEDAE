@@ -10,6 +10,7 @@ import com.adoo.cedae.resources.ConexionMySQL;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -154,6 +155,17 @@ public class Paciente extends Persona {
                     result.getString("topografia"), result.getString("morfologia"), result.getString("pielyanexos"), result.getString("tratamientoanterior"), result.getString("diagnostico"), result.getString("cie"), result.getString("descripcion"), result.getString("observaciones"), result.getString("planseguimiento"));
             
             setExpediente(expediente);
+            
+            ArrayList<Cita> citas = new ArrayList<>();
+            result = db.executeQuery("select * from cita inner join receta on cita.idreceta = receta.idreceta where curppaciente = '"+getCurp()+"' and cita.idreceta is not null;");
+            while(result.next()){
+                Receta receta = new Receta(result.getInt("idreceta"), result.getString("diagnostico"), result.getString("cie"), result.getString("descripcion"), result.getString("observaciones"), result.getString("planseguimiento"), result.getFloat("peso"), result.getFloat("estatura"), result.getString("presionarterial"), result.getString("frecuenciacardiaca"), result.getString("frecuenciarespiratoria"), result.getString("temperatura"), result.getString("productos"));
+                Cita cita = new Cita(result.getInt("idcita"), this, new Medico(result.getString("curpmedaux"), false), new Medico(result.getString("curpmedtit"), true), LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), receta, result.getString("sucursal"));
+                citas.add(cita);
+            }
+            setAgenda(citas);
+            db.closeConection();
+            
             return true;
         } catch (Exception e) {
             System.out.println("Error: "+e.getMessage());

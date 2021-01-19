@@ -7,6 +7,7 @@ package webpages;
 
 import com.adoo.cedae.Cita;
 import com.adoo.cedae.Medico;
+import com.adoo.cedae.resources.Security;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class medico extends HttpServlet {
             throws ServletException, IOException {
         Medico medTit = new Medico(session.getAttribute("curp").toString(), true);
         ArrayList<Cita> citas = medTit.getAgenda();
+        Security encrypt = new Security();
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -430,7 +432,7 @@ public class medico extends HttpServlet {
             out.println(" <tbody id=\"productTable\">");
             
             for (Cita cita : citas) {
-                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?cita.getReceta().getIdReceta():"null")+"\" data-place=\""+cita.getSucursal()+"\">");
+                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?encrypt.encriptar("0"+cita.getReceta().getIdReceta()):"null")+"\" data-place=\""+cita.getSucursal()+"\">");
                 out.println(" <td>"+cita.getPaciente().getNombre()+" "+cita.getPaciente().getApellidos()+"</td>");
                 out.println(" <td>"+cita.getHora()+"</td>");
                 out.println(" <td>"+cita.getFecha().toString().replace('-', '/')+"</td>");
@@ -498,6 +500,27 @@ public class medico extends HttpServlet {
             out.println(" <div class=\"modal-footer\">");
             out.println(" <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Cancelar</button>");
             out.println(" <a class=\"btn btn-primary\" href=\"login.html\">Cerrar Sesion</a>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <!-- Receta -->");
+            out.println(" <div class=\"modal fade\" id=\"confirmReceta\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Generar Receta</h5>");
+            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">");
+            out.println(" Una vez que se genere la receta esta no podra ser modificada, ¿Deseas Generar la Receta?");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
+            out.println(" <button type=\"button\" class=\"btn btn-success\" onclick=\"confirmGenerate()\">Si, Generar</button>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");

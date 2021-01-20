@@ -5,12 +5,19 @@
  */
 package webpages;
 
+import com.adoo.cedae.Cita;
+import com.adoo.cedae.Recepcionista;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,8 +34,19 @@ public class recepcionista extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    HttpSession session;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Recepcionista recepcion = new Recepcionista(session.getAttribute("curp").toString(), 0);
+        ArrayList<Cita> citas = new ArrayList<>();
+        try {
+            citas = recepcion.GetCitas();
+        } catch (SQLException ex) {
+            Logger.getLogger(recepcionista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -58,6 +76,10 @@ public class recepcionista extends HttpServlet {
              
             out.println(" <!-- Custom styles for this page -->");
             out.println(" <link href=\"assets/vendor/datatables/dataTables.bootstrap4.min.css\" rel=\"stylesheet\">");
+            
+            out.println(" <!-- Date Picker -->");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/flatpickr.min.css\">");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/themes/material_blue.css\">");
              
             out.println(" </head>");
              
@@ -103,8 +125,16 @@ public class recepcionista extends HttpServlet {
             out.println(" <span>Ver citas</span>");
             out.println(" </a>");
             out.println(" </li>");
+            
+            out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <li class=\"nav-item\">");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/recepcionista?section=vcitaspp\">");
+            out.println(" <i class=\"fas fa-fw fa-dollar-sign active\"></i>");
+            out.println(" <span>Pagar</span>");
+            out.println(" </a>");
+            out.println(" </li>");
              
-            out.println(" <!-- Nav Item - Pages Collapse Menu -->");
+            /*out.println(" <!-- Nav Item - Pages Collapse Menu -->");
             out.println(" <li class=\"nav-item\">");
             out.println(" <a class=\"nav-link collapsed\" href=\"#\" data-toggle=\"collapse\" data-target=\"#collapseTwo\"");
             out.println(" aria-expanded=\"true\" aria-controls=\"collapseTwo\">");
@@ -118,7 +148,7 @@ public class recepcionista extends HttpServlet {
             out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/recepcionista?section=cmedico\">Consultar medico</a>");
             out.println(" </div>");
             out.println(" </div>");
-            out.println(" </li>");
+            out.println(" </li>");*/
              
             out.println(" <!-- Divider -->");
             out.println(" <hr class=\"sidebar-divider\">");
@@ -372,12 +402,25 @@ public class recepcionista extends HttpServlet {
             out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Citas proximas</h6>");
             out.println(" </div>");
             out.println(" <div class=\"card-body\">");
-            out.println(" <button class=\"btn btn-info btn-icon-split mb-4\" id=\"agProd\">");
+            
+            //out.println(" <div class=\"row\">");
+            //out.println(" <div class=\"col-md-2\">");
+            out.println(" <button class=\"btn btn-info btn-icon-split mb-4\" id=\"agProd\" onclick=\"agProd()\">");
             out.println(" <span class=\"icon text-white-50\">");
             out.println(" <i class=\"fas fa-plus\"></i>");
             out.println(" </span>");
             out.println(" <span class=\"text\">Agendar Cita</span>");
             out.println(" </button>");
+            //out.println(" </div>");
+            //out.println(" <div class=\"col-md-2\">");
+            out.println(" <button class=\"btn btn-success btn-icon-split mb-4\" id=\"agProd\" onclick=\"primeraCita()\">");
+            out.println(" <span class=\"icon text-white-50\">");
+            out.println(" <i class=\"fas fa-plus\"></i>");
+            out.println(" </span>");
+            out.println(" <span class=\"text\">Primera Cita</span>");
+            out.println(" </button>");
+            //out.println(" </div>");
+            //out.println(" </div>");
              
             out.println(" <div class=\"table-responsive\">");
             out.println(" <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">");
@@ -400,202 +443,27 @@ public class recepcionista extends HttpServlet {
             out.println(" </tr>");
             out.println(" </tfoot>");
             out.println(" <tbody id=\"productTable\">");
-            out.println(" <tr>");
-            out.println(" <td>Hugo Andres Camargo Vargas</td>");
-            out.println(" <td>12:30</td>");
-            out.println(" <td>22/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Jose Manuel Lopez Hernandez</td>");
-            out.println(" <td>13:00</td>");
-            out.println(" <td>22/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Karen Eliana Hernandez Pulido</td>");
-            out.println(" <td>13:30</td>");
-            out.println(" <td>22/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Angie Fernandez Martinez</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>25/12/20</td>");
-            out.println(" <td>Juan Sebastian Sanchez Sanchez</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Diana Catalina Diaz Beltran</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>24/12/20</td>");
-            out.println(" <td>Juan Sebastian Sanchez Sanchez</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Diana Catalina Diaz Beltran</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>28/12/20</td>");
-            out.println(" <td>Juan Sebastian Sanchez Sanchez</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Hugo Andres Camargo Vargas</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>28/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Jorge Mario Orozco Dussan</td>");
-            out.println(" <td>14:00</td>");
-            out.println(" <td>23/12/20</td>");
-            out.println(" <td>Leonardo Dueñas Rojas</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Jorge Mario Orozco Dussan</td>");
-            out.println(" <td>16:00</td>");
-            out.println(" <td>29/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Maria Jose Garcia Mora</td>");
-            out.println(" <td>14:00</td>");
-            out.println(" <td>26/12/20</td>");
-            out.println(" <td>Leonardo Dueñas Rojas</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Olga Viviana Ovalle Solano</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>22/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Pablo Uribe Antia</td>");
-            out.println(" <td>12:00</td>");
-            out.println(" <td>27/12/20</td>");
-            out.println(" <td>Juan Sebastian Sanchez Sanchez</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Sandra Ximena Garcia Parra</td>");
-            out.println(" <td>15:00</td>");
-            out.println(" <td>27/12/20</td>");
-            out.println(" <td>Sebastian Iregui Galeano</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
-            out.println(" <tr>");
-            out.println(" <td>Ricardo Vega Zambrano</td>");
-            out.println(" <td>15:30</td>");
-            out.println(" <td>27/12/20</td>");
-            out.println(" <td>Leonardo Dueñas Rojas</td>");
-            out.println(" <td>");
-            out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
-            out.println(" <i class=\"fas fa-edit\"></i>");
-            out.println(" </button>");
-            out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
-            out.println(" <i class=\"fas fa-trash\"></i>");
-            out.println(" </button>");
-            out.println(" </td>");
-            out.println(" </tr>");
+            
+            for (Cita cita : citas) {
+                cita.getPaciente().getData();
+                cita.getMedicoTit().getAllData();
+                out.println(" <tr data-idcita=\""+cita.getIdCita()+"\">");
+                out.println(" <td data-cpaciente=\""+cita.getPaciente().getCurp()+"\">"+cita.getPaciente().getNombre()+" "+cita.getPaciente().getApellidos()+"</td>");
+                out.println(" <td>"+cita.getHora()+"</td>");
+                out.println(" <td>"+cita.getFecha()+"</td>");
+                out.println(" <td data-cmedico=\""+cita.getMedicoTit().getCurp()+"\">"+cita.getMedicoTit().getNombre()+" "+cita.getMedicoTit().getApellidos()+"</td>");
+                out.println(" <td>");
+                out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
+                out.println(" <i class=\"fas fa-edit\"></i>");
+                out.println(" </button>");
+                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
+                out.println(" <i class=\"fas fa-trash\"></i>");
+                out.println(" </button>");
+                out.println(" </td>");
+                out.println(" </tr>");
+                
+            }
+            
              
             out.println(" </tbody>");
             out.println(" </table>");
@@ -653,36 +521,18 @@ public class recepcionista extends HttpServlet {
             out.println(" </div>");
             out.println(" </div>");
              
-            out.println(" <!-- Bootstrap core JavaScript-->");
-            out.println(" <script src=\"assets/vendor/jquery/jquery.min.js\"></script>");
-            out.println(" <script src=\"assets/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
-             
-            out.println(" <!-- Core plugin JavaScript-->");
-            out.println(" <script src=\"assets/vendor/jquery-easing/jquery.easing.min.js\"></script>");
-             
-            out.println(" <!-- Custom scripts for all pages-->");
-            out.println(" <script src=\"assets/js/sb-admin-2.min.js\"></script>");
-            out.println(" <script src=\"assets/js/citas.js\"></script>");
-             
-            out.println(" <!-- Page level plugins -->");
-            out.println(" <script src=\"assets/vendor/datatables/jquery.dataTables.min.js\"></script>");
-            out.println(" <script src=\"assets/vendor/datatables/dataTables.bootstrap4.min.js\"></script> ");
-             
-            out.println(" <!-- Page level custom scripts -->");
-            out.println(" <script src=\"assets/js/demo/datatables-demo.js\"></script>");
-             
             out.println(" <!-- Modals -->");
             out.println(" <div class=\"modal fade\" id=\"deleteItem\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
             out.println(" <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">");
             out.println(" <div class=\"modal-content\">");
             out.println(" <div class=\"modal-header\">");
-            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Eliminar Elemento</h5>");
+            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Cancelar Cita</h5>");
             out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
             out.println(" <span aria-hidden=\"true\">×</span>");
             out.println(" </button>");
             out.println(" </div>");
             out.println(" <div class=\"modal-body\">");
-            out.println(" ¿Estas seguro de eliminar: <span id=\"ittd\"></span>?");
+            out.println(" ¿Estas seguro de cancelar la cita de: <span id=\"ittd\"></span>?");
             out.println(" </div>");
             out.println(" <div class=\"modal-footer\">");
             out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
@@ -702,27 +552,41 @@ public class recepcionista extends HttpServlet {
             out.println(" </button>");
             out.println(" </div>");
             out.println(" <div class=\"modal-body\">");
-            out.println(" <form id=\"personal-info\">");
+            out.println(" <form>");
+            out.println(" <input type=\"hidden\" id=\"curpmed\" name=\"curpmed\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <input type=\"hidden\" id=\"curppac\" name=\"curppac\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <input type=\"hidden\" id=\"idcita\" name=\"idcita\" class=\"form-control\" placeholder=\"Nombre paciente\">");
             out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <label for=\"name\">Nombre paciente</label>");
-            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <div class=\"col\" id=\"pacInput\">");
+            
             out.println(" </div>");
             out.println(" </div>");
             out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <label for=\"doctor\">Doctor</label>");
-            out.println(" <input type=\"text\" id=\"doctor\" name=\"doctor\" class=\"form-control\" placeholder=\"Nombre doctor\">");
+            out.println(" <div class=\"col mt-2\" id=\"medInput\">");
+            
             out.println(" </div>");
             out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"doctor\">Duración</label>");
+            out.println(" <select class=\"form-control\" id=\"durac\" name=\"durac\" data-rule=\"required\" data-msg=\"Elije una hora\">");
+            out.println(" <option value=\"1\">15 minutos</option>");
+            out.println(" <option value=\"2\" selected>30 minutos</option>");
+            out.println(" <option value=\"3\">45 minutos</option>");
+            out.println(" <option value=\"4\">60 minutos</option>");
+            out.println(" <option value=\"5\">1 hora 15 minutos</option>");
+            out.println(" <option value=\"6\">1 hora 30 minutos</option>");
+            out.println(" </select>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" id=\"time-input\">");
             out.println(" <label for=\"fecha\">Fecha</label>");
-            out.println(" <input type=\"date\" id=\"fecha\" name=\"fecha\" class=\"form-control\">");
+            out.println(" <input class=\"form-control\" name=\"fecha\" id=\"fecha\" placeholder=\"Fecha\" data-input data-rule=\"required\" data-msg=\"Elije una fecha valida\" />");
             out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
             out.println(" <div class=\"col mt-2\">");
             out.println(" <label for=\"hora\">Hora</label>");
-            out.println(" <input type=\"time\" id=\"hora\" name=\"hora\" class=\"form-control\" placeholder=\"Unidades\">");
+            out.println(" <select class=\"form-control\" id=\"hora\" name=\"hora\" data-rule=\"required\" data-msg=\"Elije una hora\" disabled>");
+            out.println(" <option value=\"null\">Elige la hora</option>");
+            out.println(" </select>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </form>");
@@ -734,6 +598,156 @@ public class recepcionista extends HttpServlet {
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
+            
+            
+            out.println(" <div class=\"modal fade\" id=\"primerCita\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\" id=\"addEddTitle\">Agendar Primer Cita</h5>");
+            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">");
+            out.println(" <form id=\"personal-info\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\" >");
+            out.println(" <label for=\"name\">Nombre paciente</label>");
+            out.println(" <input type=\"text\" name=\"namepc\" class=\"form-control\" id=\"namepc\" placeholder=\"Nombre\" data-rule=\"minlen:4\" data-msg=\"Ingresa al menos 4 letras\" />");
+            out.println(" </div>");
+            out.println(" <div class=\"col\" >");
+            out.println(" <label for=\"name\">Apellido paciente</label>");
+            out.println(" <input type=\"text\" class=\"form-control\" name=\"lastnamepc\" id=\"lastnamepc\" placeholder=\"Apellido\" data-rule=\"minlen:4\" data-msg=\"Ingresa al menos 4 letras\" />");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" >");
+            out.println(" <label for=\"doctor\">Correo Electronico</label>");
+            out.println(" <input type=\"email\" class=\"form-control\" name=\"emailpc\" id=\"emailpc\" placeholder=\"Correo electronico\" data-rule=\"minlen:4\" data-msg=\"Ingresa un correo valido\" />");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" >");
+            out.println(" <label for=\"fecha\">Telefono</label>");
+            out.println(" <input type=\"number\" name=\"telpc\" class=\"form-control\" id=\"telpc\" placeholder=\"Telefono\" data-rule=\"minlen:10\" data-msg=\"Ingresa un número telefonico valido\" />");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" >");
+            out.println(" <label for=\"fecha\">Fecha</label>");
+            out.println(" <input class=\"form-control\" name=\"datepc\" id=\"datepc\" placeholder=\"Fecha\" data-input data-rule=\"required\" data-msg=\"Elije una fecha valida\" />");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"hora\">Hora</label>");
+            out.println(" <select class=\"form-control\" id=\"horapc\" name=\"horapc\" data-rule=\"required\" data-msg=\"Elije una hora\" disabled>");
+            out.println(" <option value=\"null\">Elige la hora</option>");
+            out.println(" </select>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
+            out.println(" <button type=\"button\" onclick=\"agendPrimerCita()\" class=\"btn btn-primary\">Agendar Primer Cita</button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            
+            out.println(" <div class=\"modal fade\" id=\"pagarCita\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\" id=\"addEddTitle\">Pagar Cita</h5>");
+            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">");
+            out.println(" <form>");
+            out.println(" <input type=\"hidden\" id=\"idcita2p\" name=\"idcita2p\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\" >");
+            out.println(" <label for=\"name\">Nombre paciente</label>");
+            out.println(" <input type=\"text\" id=\"namepay\" name=\"namepay\" class=\"form-control\" placeholder=\"Nombre paciente\" disabled>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" >");
+            out.println(" <label for=\"name\">Doctor</label>");
+            out.println(" <input type=\"text\" id=\"doctorpay\" name=\"doctorpay\" class=\"form-control\" placeholder=\"Nombre doctor\" disabled>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"fecha\">Fecha</label>");
+            out.println(" <input class=\"form-control\" type=\"date\" name=\"fechapay\" id=\"fechapay\" disabled />");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"hora\">Hora</label>");
+            out.println(" <input class=\"form-control\" type=\"time\" name=\"horapay\" id=\"horapay\" disabled />");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" <hr>");
+            
+            
+            out.println(" <div id=\"payService\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"fecha\">Concepto</label>");
+            out.println(" <input class=\"form-control\" type=\"text\" name=\"citapricename\" id=\"citapricename\" value=\"Cita\" disabled />");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"hora\">Precio</label>");
+            out.println(" <input class=\"form-control\" type=\"numeric\" min=\"0\" name=\"citaprice\" id=\"citaprice\"/>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <div class=\"row\">");
+            out.println(" <div class=\"col-md-3 mt-4 align-self-end\">");
+            out.println(" <button type=\"button\" onclick=\"aggProdToPay()\" class=\"btn btn-info\">Agregar Servicio</button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" </div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
+            out.println(" <button type=\"button\" onclick=\"pagarCita()\" class=\"btn btn-primary\">Pagar</button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            
+            out.println(" <!-- Bootstrap core JavaScript-->");
+            out.println(" <script src=\"assets/vendor/jquery/jquery.min.js\"></script>");
+            out.println(" <script src=\"assets/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
+             
+            out.println(" <!-- Core plugin JavaScript-->");
+            out.println(" <script src=\"assets/vendor/jquery-easing/jquery.easing.min.js\"></script>");
+             
+            out.println(" <!-- Custom scripts for all pages-->");
+            out.println(" <script src=\"assets/js/sb-admin-2.min.js\"></script>");
+            out.println(" <script src=\"assets/js/citas.js\"></script>");
+            out.println(" <script src=\"assets/js/navigation.js\"></script>");
+            out.println(" <script src=\"assets/js/recepcionista.js\"></script>");
+             
+            out.println(" <!-- Page level plugins -->");
+            out.println(" <script src=\"assets/vendor/datatables/jquery.dataTables.min.js\"></script>");
+            out.println(" <script src=\"assets/vendor/datatables/dataTables.bootstrap4.min.js\"></script> ");
+             
+            out.println(" <!-- Page level custom scripts -->");
+            out.println(" <script src=\"assets/js/demo/datatables-demo.js\"></script>");
+            
+            out.println(" <!-- Date Picker -->");
+            out.println(" <script src=\"assets/vendor/flat-picker/flatpickr.js\"></script>");
              
             out.println(" </body>");
              
@@ -753,7 +767,12 @@ public class recepcionista extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect(request.getContextPath());
+        }else{
+            processRequest(request, response);
+        }
     }
 
     /**

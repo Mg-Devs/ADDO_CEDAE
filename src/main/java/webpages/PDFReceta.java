@@ -102,7 +102,8 @@ public class PDFReceta extends HttpServlet {
             out.println(" <hr>");
             out.println(" <h5 class=\"text-white text-sm-right\">"+cita.getMedicoTit().getNombre()+" "+cita.getMedicoTit().getApellidos()+"</h5>");
             out.println(" <hr>");
-            out.println(" <small class=\"text-white text-sm-right\">"+receta.getSucursal()+"</small>");
+            //out.println(" <small class=\"text-white text-sm-right\">"+receta.getSucursal()+"</small>");
+            out.println(" <small class=\"text-white text-sm-right\">Tuxpan 2 interior 902, colonia Roma Sur, Cuauhtémoc, Ciudad de México</small>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");

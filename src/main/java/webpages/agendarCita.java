@@ -415,7 +415,7 @@ public class agendarCita extends HttpServlet {
         if(action == 1){
             Paciente nPaciente = new Paciente(request.getParameter("name"), request.getParameter("lastname"), request.getParameter("email"), Long.parseLong(request.getParameter("tel")));
             if(nPaciente.isRegistered(request.getParameter("email")))
-                result ="{\"message\": \"Este Correo ya se encuentra registrado, te recomendamos ponerte en contacto con la clinica.\"}";
+                result ="{\"status\":0 \"message\": \"Este Correo ya se encuentra registrado, te recomendamos ponerte en contacto con la clinica.\"}";
             else{
                 nPaciente.guardarPacienteTemp();
                 Recepcionista helper = new Recepcionista();
@@ -423,7 +423,7 @@ public class agendarCita extends HttpServlet {
                 String cMedicA = helper.medicoAuxDisponible(request.getParameter("date").replace('/', '-'), request.getParameter("sucursal"), request.getParameter("time"),4);
                 Medico medic = new Medico(cMedicT,true);
                 Medico medic2 = new Medico(cMedicA,false);
-                result ="{\"message\": \"";
+                result ="{\"status\":1 \"message\": \"";
                 result += helper.generarCita(nPaciente, medic, medic2, request.getParameter("sucursal"), request.getParameter("date").replace('/', '-'), request.getParameter("time"),4);
                 result += "\"}";
             }

@@ -1,8 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,31 +9,25 @@
         <meta name="author" content="">
         <!-- Favicons -->
         <link href="assets/img/favicon.png" rel="icon">
-
         <title>CEDAE - Recepcion</title>
-
         <!-- Custom fonts for this template-->
         <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
         <!-- Custom styles for this template-->
         <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
-
         <!-- Custom styles for this page -->
         <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+        <!-- Date Picker -->
+        <link rel="stylesheet" href="assets/vendor/flat-picker/flatpickr.min.css">
+        <link rel="stylesheet" href="assets/vendor/flat-picker/themes/material_blue.css">
     </head>
-
     <body id="page-top">
-
         <!-- Page Wrapper -->
         <div id="wrapper">
-
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                     <div class="sidebar-brand-icon rotate-n-15">
@@ -42,10 +35,8 @@
                     </div>
                     <div class="sidebar-brand-text mx-3">CEDAE</div>
                 </a>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider my-0">
-
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">
@@ -53,15 +44,12 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider">
-
                 <!-- Heading -->
                 <div class="sidebar-heading">
                     Recepción
                 </div>
-
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item">
                     <a class="nav-link" href="api/sections/recepcionista?section=vcitas">
@@ -69,70 +57,49 @@
                         <span>Ver citas</span>
                     </a>
                 </li>
-
-                <!-- Nav Item - Pages Collapse Menu -->
+                <!-- Nav Item - Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                       aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-shopping-basket"></i>
-                        <span>Consultar</span>
+                    <a class="nav-link" href="api/sections/recepcionista?section=vcitaspp">
+                        <i class="fas fa-fw fa-dollar-sign active"></i>
+                        <span>Pagar</span>
                     </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Opciones:</h6>
-                            <a class="collapse-item" href="api/sections/recepcionista?section=cpacientes">Consultar paciente</a>
-                            <a class="collapse-item disabled" href="api/sections/recepcionista?section=cmedico">Consultar medico</a>
-                        </div>
-                    </div>
                 </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider">
-
                 <!-- Heading -->
                 <div class="sidebar-heading">
                     OPCIONES
                 </div>
-
                 <!-- Nav Item - Config -->
                 <li class="nav-item">
                     <a class="nav-link" href="charts.html">
                         <i class="fas fa-fw fa-user-cog"></i>
                         <span>Configuración</span></a>
                 </li>
-
                 <!-- Nav Item - Logout -->
                 <li class="nav-item">
                     <a class="nav-link" href="tables.html">
                         <i class="fas fa-fw fa-sign-out-alt"></i>
                         <span>Cerrar Sesion</span></a>
                 </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
-
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
                     <button class="rounded-circle border-0" id="sidebarToggle"></button>
                 </div>
-
             </ul>
             <!-- End of Sidebar -->
-
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
-
                 <!-- Main Content -->
                 <div id="content">
-
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                         <!-- Sidebar Toggle (Topbar) -->
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-
                         <!-- Topbar Search -->
                         <form
                             class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -146,10 +113,8 @@
                                 </div>
                             </div>
                         </form>
-
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
-
                             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                             <li class="nav-item dropdown no-arrow d-sm-none">
                                 <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -173,7 +138,6 @@
                                     </form>
                                 </div>
                             </li>
-
                             <!-- Nav Item - Alerts -->
                             <li class="nav-item dropdown no-arrow mx-1">
                                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -213,7 +177,6 @@
                                     <a class="dropdown-item text-center small text-gray-500" href="#">Todas las notificaciones</a>
                                 </div>
                             </li>
-
                             <!-- Nav Item - Messages -->
                             <li class="nav-item dropdown no-arrow mx-1">
                                 <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
@@ -279,9 +242,7 @@
                                     <a class="dropdown-item text-center small text-gray-500" href="#">Ver todos los mensajes</a>
                                 </div>
                             </li>
-
                             <div class="topbar-divider d-none d-sm-block"></div>
-
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -312,25 +273,19 @@
                                     </a>
                                 </div>
                             </li>
-
                         </ul>
-
                     </nav>
                     <!-- End of Topbar -->
-
                     <!-- Begin Page Content -->
-                    <div class="container-fluid">
-
+                    <div class="container-fluid" id="content-page">
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col">
                                 <h1 class="h3 mb-4 text-gray-800">Citas</h1>
                             </div>
                         </div>
-
                         <!-- CONTENT -->
                         <div class="row" id="content-panel">
-
                             <div class="col-md-12">
                                 <!-- Products -->
                                 <div class="card shadow mb-4">
@@ -338,13 +293,18 @@
                                         <h6 class="m-0 font-weight-bold text-primary">Citas proximas</h6>
                                     </div>
                                     <div class="card-body">
-                                        <button class="btn btn-info btn-icon-split mb-4" id="agProd">
+                                        <button class="btn btn-info btn-icon-split mb-4" id="agProd" onclick="agProd()">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-plus"></i>
                                             </span>
                                             <span class="text">Agendar Cita</span>
                                         </button>
-
+                                        <button class="btn btn-success btn-icon-split mb-4" id="agProd" onclick="primeraCita()">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-plus"></i>
+                                            </span>
+                                            <span class="text">Primera Cita</span>
+                                        </button>
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                                 <thead>
@@ -366,179 +326,11 @@
                                                     </tr>
                                                 </tfoot>
                                                 <tbody id="productTable">
-                                                    <tr>
-                                                        <td>Hugo Andres Camargo Vargas</td>
-                                                        <td>12:30</td>
-                                                        <td>22/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jose Manuel Lopez Hernandez</td>
-                                                        <td>13:00</td>
-                                                        <td>22/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Karen Eliana Hernandez Pulido</td>
-                                                        <td>13:30</td>
-                                                        <td>22/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Angie Fernandez Martinez</td>
-                                                        <td>15:30</td>
-                                                        <td>25/12/20</td>
-                                                        <td>Juan Sebastian Sanchez Sanchez</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Diana Catalina Diaz Beltran</td>
-                                                        <td>15:30</td>
-                                                        <td>24/12/20</td>
-                                                        <td>Juan Sebastian Sanchez Sanchez</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Diana Catalina Diaz Beltran</td>
-                                                        <td>15:30</td>
-                                                        <td>28/12/20</td>
-                                                        <td>Juan Sebastian Sanchez Sanchez</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hugo Andres Camargo Vargas</td>
-                                                        <td>15:30</td>
-                                                        <td>28/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jorge Mario Orozco Dussan</td>
-                                                        <td>14:00</td>
-                                                        <td>23/12/20</td>
-                                                        <td>Leonardo Dueñas Rojas</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jorge Mario Orozco Dussan</td>
-                                                        <td>16:00</td>
-                                                        <td>29/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Maria Jose Garcia Mora</td>
-                                                        <td>14:00</td>
-                                                        <td>26/12/20</td>
-                                                        <td>Leonardo Dueñas Rojas</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Olga Viviana Ovalle Solano</td>
-                                                        <td>15:30</td>
-                                                        <td>22/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pablo Uribe Antia</td>
-                                                        <td>12:00</td>
-                                                        <td>27/12/20</td>
-                                                        <td>Juan Sebastian Sanchez Sanchez</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sandra Ximena Garcia Parra</td>
+                                                    <tr data-idcita="10">
+                                                        <td data-cpaciente="SIMS831111HMCIRM01">SAMUEL SILVESTRE MURCIA</td>
                                                         <td>15:00</td>
-                                                        <td>27/12/20</td>
-                                                        <td>Sebastian Iregui Galeano</td>
+                                                        <td>2021-01-20</td>
+                                                        <td data-cmedico="CATJ971002MMCZDS01">JOSEFA CAZORLA TUDELA</td>
                                                         <td>
                                                             <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
                                                                 <i class="fas fa-edit"></i>
@@ -548,11 +340,11 @@
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Ricardo Vega Zambrano</td>
-                                                        <td>15:30</td>
-                                                        <td>27/12/20</td>
-                                                        <td>Leonardo Dueñas Rojas</td>
+                                                    <tr data-idcita="12">
+                                                        <td data-cpaciente="VICS980920MMCINS09">SUSANA VILLA CANDELA</td>
+                                                        <td>17:00</td>
+                                                        <td>2021-01-20</td>
+                                                        <td data-cmedico="CATJ971002MMCZDS01">JOSEFA CAZORLA TUDELA</td>
                                                         <td>
                                                             <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
                                                                 <i class="fas fa-edit"></i>
@@ -562,43 +354,48 @@
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    
+                                                    <tr data-idcita="14">
+                                                        <td data-cpaciente="GOAM990502HMCNMR02">Alfredo Gomez</td>
+                                                        <td>09:00</td>
+                                                        <td>2021-01-20</td>
+                                                        <td data-cmedico="CATJ971002MMCZDS01">JOSEFA CAZORLA TUDELA</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary btn-circle" onclick="editProd(this)">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger btn-circle" onclick="deleteProd(this)">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                     <!-- /.container-fluid -->
-
                 </div>
                 <!-- End of Main Content -->
-
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; CEDAE 2020</span>
+                            <span>Copyright © CEDAE 2020</span>
                         </div>
                     </div>
                 </footer>
                 <!-- End of Footer -->
-
             </div>
             <!-- End of Content Wrapper -->
-
         </div>
         <!-- End of Page Wrapper -->
-
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-
         <!-- Logout Modal-->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -618,37 +415,18 @@
                 </div>
             </div>
         </div>
-
-        <!-- Bootstrap core JavaScript-->
-        <script src="assets/vendor/jquery/jquery.min.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="assets/js/sb-admin-2.min.js"></script>
-        <script src="assets/js/citas.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>    
-
-        <!-- Page level custom scripts -->
-        <script src="assets/js/demo/datatables-demo.js"></script>
-
         <!-- Modals -->
         <div class="modal fade" id="deleteItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Eliminar Elemento</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Cancelar Cita</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Estas seguro de eliminar: <span id="ittd"></span>?
+                        ¿Estas seguro de cancelar la cita de: <span id="ittd"></span>?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -657,38 +435,49 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="editItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addEddTitle">Agendar Cita</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="personal-info">
+                        <form>
+                            <input type="hidden" id="curpmed" name="curpmed" class="form-control" placeholder="Nombre paciente">
+                            <input type="hidden" id="curppac" name="curppac" class="form-control" placeholder="Nombre paciente">
+                            <input type="hidden" id="idcita" name="idcita" class="form-control" placeholder="Nombre paciente">
                             <div class="form-row">
-                                <div class="col">
-                                    <label for="name">Nombre paciente</label>
-                                    <input type="text" id="name" name="name" class="form-control" placeholder="Nombre paciente">
+                                <div class="col" id="pacInput">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col mt-2">
-                                    <label for="doctor">Doctor</label>
-                                    <input type="text" id="doctor" name="doctor" class="form-control" placeholder="Nombre doctor">
+                                <div class="col mt-2" id="medInput">
                                 </div>
                                 <div class="col mt-2">
+                                    <label for="doctor">Duración</label>
+                                    <select class="form-control" id="durac" name="durac" data-rule="required" data-msg="Elije una hora">
+                                        <option value="1">15 minutos</option>
+                                        <option value="2" selected>30 minutos</option>
+                                        <option value="3">45 minutos</option>
+                                        <option value="4">60 minutos</option>
+                                        <option value="5">1 hora 15 minutos</option>
+                                        <option value="6">1 hora 30 minutos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mt-2" id="time-input">
                                     <label for="fecha">Fecha</label>
-                                    <input type="date" id="fecha" name="fecha" class="form-control">
+                                    <input class="form-control" name="fecha" id="fecha" placeholder="Fecha" data-input data-rule="required" data-msg="Elije una fecha valida" />
                                 </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="col mt-2">
                                     <label for="hora">Hora</label>
-                                    <input type="time" id="hora" name="hora" class="form-control" placeholder="Unidades">
+                                    <select class="form-control" id="hora" name="hora" data-rule="required" data-msg="Elije una hora" disabled>
+                                        <option value="null">Elige la hora</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>
@@ -700,7 +489,136 @@
                 </div>
             </div>
         </div>
-
-    </body>
-
+        <div class="modal fade" id="primerCita" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEddTitle">Agendar Primer Cita</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="personal-info">
+                            <div class="form-row">
+                                <div class="col" >
+                                    <label for="name">Nombre paciente</label>
+                                    <input type="text" name="namepc" class="form-control" id="namepc" placeholder="Nombre" data-rule="minlen:4" data-msg="Ingresa al menos 4 letras" />
+                                </div>
+                                <div class="col" >
+                                    <label for="name">Apellido paciente</label>
+                                    <input type="text" class="form-control" name="lastnamepc" id="lastnamepc" placeholder="Apellido" data-rule="minlen:4" data-msg="Ingresa al menos 4 letras" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mt-2" >
+                                    <label for="doctor">Correo Electronico</label>
+                                    <input type="email" class="form-control" name="emailpc" id="emailpc" placeholder="Correo electronico" data-rule="minlen:4" data-msg="Ingresa un correo valido" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mt-2" >
+                                    <label for="fecha">Telefono</label>
+                                    <input type="number" name="telpc" class="form-control" id="telpc" placeholder="Telefono" data-rule="minlen:10" data-msg="Ingresa un número telefonico valido" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mt-2" >
+                                    <label for="fecha">Fecha</label>
+                                    <input class="form-control" name="datepc" id="datepc" placeholder="Fecha" data-input data-rule="required" data-msg="Elije una fecha valida" />
+                                </div>
+                                <div class="col mt-2">
+                                    <label for="hora">Hora</label>
+                                    <select class="form-control" id="horapc" name="horapc" data-rule="required" data-msg="Elije una hora" disabled>
+                                        <option value="null">Elige la hora</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="agendPrimerCita()" class="btn btn-primary">Agendar Primer Cita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="pagarCita" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEddTitle">Pagar Cita</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" id="idcita2p" name="idcita2p" class="form-control" placeholder="Nombre paciente">
+                            <div class="form-row">
+                                <div class="col" >
+                                    <label for="name">Nombre paciente</label>
+                                    <input type="text" id="namepay" name="namepay" class="form-control" placeholder="Nombre paciente" disabled>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col" >
+                                    <label for="name">Doctor</label>
+                                    <input type="text" id="doctorpay" name="doctorpay" class="form-control" placeholder="Nombre doctor" disabled>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mt-2">
+                                    <label for="fecha">Fecha</label>
+                                    <input class="form-control" type="date" name="fechapay" id="fechapay" disabled />
+                                </div>
+                                <div class="col mt-2">
+                                    <label for="hora">Hora</label>
+                                    <input class="form-control" type="time" name="horapay" id="horapay" disabled />
+                                </div>
+                            </div>
+                        </form>
+                        <div id="payService">
+                            <div class="form-row">
+                                <div class="col mt-2">
+                                    <label for="fecha">Concepto</label>
+                                    <input class="form-control" type="text" name="citapricename" id="citapricename" value="Cita" disabled />
+                                </div>
+                                <div class="col mt-2">
+                                    <label for="hora">Precio</label>
+                                    <input class="form-control" type="numeric" min="0" name="citaprice" id="citaprice"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mt-4 align-self-end">
+                                <button type="button" onclick="aggProdToPay()" class="btn btn-info">Agregar Servicio</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="pagarCita()" class="btn btn-primary">Pagar</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="assets/js/sb-admin-2.min.js"></script>
+    <script src="assets/js/citas.js"></script>
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/recepcionista.js"></script>
+    <!-- Page level plugins -->
+    <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script> 
+    <!-- Page level custom scripts -->
+    <script src="assets/js/demo/datatables-demo.js"></script>
+    <!-- Date Picker -->
+    <script src="assets/vendor/flat-picker/flatpickr.js"></script>
+</body>
 </html>

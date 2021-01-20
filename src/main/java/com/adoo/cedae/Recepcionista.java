@@ -47,8 +47,10 @@ public class Recepcionista extends Empleado {
     public void setCitas(ArrayList<Cita> citas) {
         this.citas = citas;
     }
-    
-    
+
+    public Recepcionista(String curp, int soloparadistingir) {
+        super(curp, soloparadistingir);
+    }
 
     public Recepcionista(int idRecepcionista, String area, String nombre, String apellidos, String curp, int edad, String email, String password, long telefono, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
         super(area, nombre, apellidos, curp, edad, email, password, telefono, fechaNacimiento, fechaRegistro);
@@ -78,40 +80,33 @@ public class Recepcionista extends Empleado {
     }
 
     public void cancelarCita(int idcita) throws SQLException{
-        for (int i = 0; i<citas.size(); i++){
-            if(idcita==citas.get(i).getIdCita()){
-                citas.get(i).cancelarCita();
-                citas.remove(i);
-                break;
-            }
-        }
-    }
-
-    public void modificarCita(int idcita, String curpMedicoAux, String curpMedicoTit, LocalDate fecha, LocalTime hora) throws SQLException {
-        for (int i = 0; i<citas.size(); i++){
-            if(idcita==citas.get(i).getIdCita()){
-                 for (int j = 0; j<medicos.size(); j++){
-                     if(curpMedicoAux.equals(medicos.get(j).getCurp())){
-                         citas.get(i).setMedicoAux(medicos.get(j));
-                         citas.get(i).setSucursal(medicos.get(j).getSucursal());
-                     }
-                     if(curpMedicoTit.equals(medicos.get(j).getCurp())){
-                         citas.get(i).setMedicoTit(medicos.get(j));
-                     }
-                 }
-                 citas.get(i).setFecha(fecha);
-                 citas.get(i).setHora(hora);
-                 
-                 citas.get(i).modifCita();
-                break;
-            }
-        }
-    }
-
-     public ArrayList<Medico> GetMedicos() throws SQLException {
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        ResultSet result = db.executeQuery("SELECT * FROM medico;");
+        db.updateQuery("delete from cita where idcita="+idcita+";");
+        db.closeConection();
+    }
+    
+    public void pagarCita(int idcita) throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        db.updateQuery("update cita set paid = 1 where idcita="+idcita+";");
+        db.closeConection();
+    }
+
+    public void modificarCita(int idcita, LocalDate fecha, LocalTime hora, int duracion) throws SQLException {
+        LocalTime dur = LocalTime.parse("00:00");
+        
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        db.updateQuery("update cita set fecha='"+fecha+"', hora='"+hora+"', duracion='"+dur.plusMinutes(duracion*15)+"' where idcita="+idcita+";");
+        db.closeConection();
+    }
+
+    public ArrayList<Medico> GetMedicos() throws SQLException {
+        medicos = new ArrayList<>();
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("SELECT * FROM empleado inner join medico on empleado.curp = medico.curp where sucursal = '"+getSucursal()+"';");
         while (result.next()) {
             medicos.add(new Medico(result.getString("curp"),result.getBoolean("tipomed")));
         }
@@ -119,9 +114,10 @@ public class Recepcionista extends Empleado {
      }
      
      public ArrayList<Paciente> GetPacientes() throws SQLException {
+        pacientes = new ArrayList<>();
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        ResultSet result = db.executeQuery("SELECT * FROM paciente;");
+        ResultSet result = db.executeQuery("SELECT * FROM paciente where idexpediente is not null;");
         while (result.next()) {
             pacientes.add(new Paciente(result.getString("curp")));
         }
@@ -129,29 +125,38 @@ public class Recepcionista extends Empleado {
      } 
     
     public ArrayList<Cita> GetCitas() throws SQLException {
+        citas = new ArrayList<>();
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        ResultSet result = db.executeQuery("SELECT * FROM cita;");
-        int indexMedicoTit = 0;
-        int indexMedicoAux = 0;
-        int indexPaciente = 0;
+        ResultSet result = db.executeQuery("SELECT * FROM cita where sucursal='"+getSucursal()+"' and fecha >= CAST('"+LocalDate.now()+"' AS date);;");
+        
         while (result.next()) {
-            for (int i=0; i<medicos.size();i++){
-                if(result.getString("curpmedtit").equals(medicos.get(i).getCurp())){
-                    indexMedicoTit=i;
-                }
-                if(result.getString("curpmedaux").equals(medicos.get(i).getCurp())){
-                    indexMedicoAux=i;
-                }
-            }
             
-            for (int i=0; i<pacientes.size();i++){
-                if(result.getString("curppaciente").equals(pacientes.get(i).getCurp())){
-                    indexPaciente=i;
-                }
-            }
+            Medico medico = new Medico(result.getString("curpmedtit"), true);
+            Medico medicoA = new Medico(result.getString("curpmedaux"), false);
             
-            citas.add(new Cita(result.getInt("idcita"),pacientes.get(indexPaciente), medicos.get(indexMedicoAux),medicos.get(indexMedicoTit), LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), result.getInt("idcita"), result.getString("sucursal")));
+            Paciente paciente = new Paciente(result.getString("curppaciente"));
+            
+            citas.add(new Cita(result.getInt("idcita"),paciente, medicoA,medico, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), 0, result.getString("sucursal")));
+        }
+        db.closeConection();
+        return citas;
+    }
+    
+    public ArrayList<Cita> GetCitasPP() throws SQLException {
+        citas = new ArrayList<>();
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("SELECT * FROM cita where sucursal='"+getSucursal()+"' and paid=0 and fecha <= CAST('"+LocalDate.now()+"' AS date);;");
+        
+        while (result.next()) {
+            
+            Medico medico = new Medico(result.getString("curpmedtit"), true);
+            Medico medicoA = new Medico(result.getString("curpmedaux"), false);
+            
+            Paciente paciente = new Paciente(result.getString("curppaciente"));
+            
+            citas.add(new Cita(result.getInt("idcita"),paciente, medicoA,medico, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), 0, result.getString("sucursal")));
         }
         db.closeConection();
         return citas;
@@ -254,6 +259,44 @@ public class Recepcionista extends Empleado {
             System.out.println("Error MAD: "+e.getMessage());
             return null;
         }
+    }
+    
+    public boolean[] getHorarioParaCitaMedico(String curpmed, String fecha, String sucursal, int duracion) {
+        boolean schedule[] = new boolean[40];
+        int auxiliar[] = new int[40];
+        try {
+            ConexionMySQL db = new ConexionMySQL();
+            db.conectarMySQL();
+            ResultSet result = db.executeQuery("SELECT hora,duracion FROM cita where fecha = '" + fecha + "' and sucursal = '" + sucursal + "' and curpmedtit='"+curpmed+"' order by curpmedtit;");
+            while (result.next()) {
+                LocalTime hora = LocalTime.parse(result.getString("hora"));
+                int index = ((hora.getHour() + (hora.getMinute()/15)) - 9)*4;
+                for(int i = 0; i <= (hora.getMinute()/15); i++) 
+                    auxiliar[index+i]++;
+            }
+            db.closeConection();
+        } catch (Exception e) {
+            System.out.println("Error GHC: "+e.getMessage());
+            return null;
+        }
+        
+        int limit = getNumeroDeEmpleados(sucursal,"doctor titular");
+        for (int i = 0; i < 37; i++) {
+            schedule[i] = true;
+            for (int j = 0; j < duracion; j++) {
+                if(auxiliar[i+j]!=0){
+                    schedule[i] = false;
+                    break;
+                }
+                if(i>=(duracion-1)){
+                    if(auxiliar[i-j]!=0){
+                        schedule[i] = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return schedule;
     }
 
 }

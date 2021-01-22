@@ -8,6 +8,7 @@ package com.adoo.cedae;
 import com.adoo.cedae.resources.ConexionMySQL;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -185,4 +186,15 @@ public class Paciente extends Persona {
         }
     }
 
+    public ArrayList<Receta> getRecetas(String curp) throws SQLException{
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("select * from cita inner join receta on cita.idreceta = receta.idreceta where curppaciente = '"+curp+"';");
+        ArrayList<Receta> recetas = new ArrayList<>();
+        while (result.next()) {
+            Receta rec = new Receta(result.getInt("idreceta"), result.getString("diagnostico"), result.getString("cie"), result.getString("descripcion"), result.getString("observaciones"), result.getString("planseguimiento"), result.getFloat("peso"), result.getFloat("estatura"), result.getString("presionarterial"), result.getString("frecuenciacardiaca"), result.getString("frecuenciarespiratoria"), result.getString("temperatura"), result.getString("productos"));
+            recetas.add(rec);
+        }
+        return recetas;
+    }
 }

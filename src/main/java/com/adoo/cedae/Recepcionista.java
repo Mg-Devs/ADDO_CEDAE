@@ -111,7 +111,18 @@ public class Recepcionista extends Empleado {
             medicos.add(new Medico(result.getString("curp"),result.getBoolean("tipomed")));
         }
         return medicos;
-     }
+    }
+    
+    public ArrayList<Medico> GetMedicosPac( String curp, String sucursal) throws SQLException {
+        medicos = new ArrayList<>();
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("SELECT empleado.curp as curp, medico.tipomed as tipomed FROM empleado inner join medico on empleado.curp = medico.curp inner join pacientemedico on empleado.curp = pacientemedico.curpmedico where sucursal = '"+sucursal+"' and pacientemedico.curp='"+curp+"';");
+        while (result.next()) {
+            medicos.add(new Medico(result.getString("curp"),result.getBoolean("tipomed")));
+        }
+        return medicos;
+    }
      
      public ArrayList<Paciente> GetPacientes() throws SQLException {
         pacientes = new ArrayList<>();
@@ -129,6 +140,25 @@ public class Recepcionista extends Empleado {
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
         ResultSet result = db.executeQuery("SELECT * FROM cita where sucursal='"+getSucursal()+"' and fecha >= CAST('"+LocalDate.now()+"' AS date);;");
+        
+        while (result.next()) {
+            
+            Medico medico = new Medico(result.getString("curpmedtit"), true);
+            Medico medicoA = new Medico(result.getString("curpmedaux"), false);
+            
+            Paciente paciente = new Paciente(result.getString("curppaciente"));
+            
+            citas.add(new Cita(result.getInt("idcita"),paciente, medicoA,medico, LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), 0, result.getString("sucursal")));
+        }
+        db.closeConection();
+        return citas;
+    }
+    
+    public ArrayList<Cita> GetMisCitas(String curpPaciente) throws SQLException {
+        citas = new ArrayList<>();
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        ResultSet result = db.executeQuery("SELECT * FROM cita where curppaciente='"+curpPaciente+"' and fecha >= CAST('"+LocalDate.now()+"' AS date);;");
         
         while (result.next()) {
             

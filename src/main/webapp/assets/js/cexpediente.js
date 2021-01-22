@@ -206,5 +206,18 @@ function vExpediente(curp) {
     });
 }
 
-
-
+function privileges(curp){
+    $("#privToggle").prop("disabled",true);
+    $.ajax({
+        type: "POST",
+        url: "api/sections/medico",
+        data: {"action":"cPriv","curp":curp , "pver":$("#privToggle").is(':checked')},
+    }).done(function (data) {
+        if(data.status == 1){
+            $("#privToggle").prop("disabled",false);
+        }
+    }).fail(function (data) {
+        console.log(data);
+    });
+    
+}

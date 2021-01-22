@@ -143,6 +143,10 @@ public class Cita {
             ConexionMySQL db = new ConexionMySQL();
             db.conectarMySQL();
             db.insertQuery("insert into cita (idcita,curppaciente,curpmedaux,curpmedtit,fecha,hora,sucursal,duracion) values("+this.idCita+",'"+this.paciente.getCurp()+"','"+this.medicoAux.getCurp()+"','"+this.medicoTit.getCurp()+"','"+this.fecha+"','"+this.hora+"','"+this.sucursal+"','"+this.duracion+"');");
+            ResultSet result = db.executeQuery("select count(*) as rel from pacientemedico where curp='"+this.paciente.getCurp()+"' and curpmedico='"+this.medicoTit.getCurp()+"';");
+            result.next();
+            if(result.getInt("rel")==0)
+                db.insertQuery("insert into pacientemedico values('"+this.paciente.getCurp()+"','"+this.medicoTit.getCurp()+"');");
             db.closeConection();
             return "OK";
         } catch (Exception e) {

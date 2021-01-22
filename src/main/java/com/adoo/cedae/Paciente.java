@@ -8,6 +8,7 @@ package com.adoo.cedae;
 import com.adoo.cedae.resources.ConexionMySQL;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -80,8 +81,15 @@ public class Paciente extends Persona {
         return puedeVerExp;
     }
 
-    public void setPuedeVerExp(boolean puedeVerExp) {
+    public void setPuedeVerExp(boolean puedeVerExp){
         this.puedeVerExp = puedeVerExp;
+    }
+    
+    public void setPuedeVerExpDB(boolean puedeVerExp) throws SQLException {
+        ConexionMySQL db = new ConexionMySQL();
+        db.conectarMySQL();
+        db.updateQuery("UPDATE paciente set estado="+(puedeVerExp?1:0)+" where curp='"+getCurp()+"' ;");
+        db.closeConection();
     }
 
     public ArrayList<Cita> getAgenda() {

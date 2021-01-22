@@ -198,7 +198,12 @@ public class Persona {
             this.fechaRegistro = LocalDate.parse(result.getString("fechaRegistro"));
 
             if (result.getString("tipo").equals("paciente")) {
-                rs += ":paciente";
+                result = db.executeQuery("select estado from paciente where curp='"+this.curp+"';");
+                result.next();
+                if(result.getInt("estado")==1)
+                    rs += ":paciente";
+                else
+                    rs = "No tienes permisos";
             } else {
                 result = db.executeQuery("SELECT area FROM empleado where curp = '" + this.curp + "';");
                 if (!result.next()) {

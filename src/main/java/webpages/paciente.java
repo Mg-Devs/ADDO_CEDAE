@@ -6,11 +6,13 @@
 package webpages;
 
 import com.adoo.cedae.Cita;
-import com.adoo.cedae.Medico;
-import com.adoo.cedae.resources.Security;
+import com.adoo.cedae.Recepcionista;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author mario
  */
-public class medico extends HttpServlet {
+public class paciente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +38,22 @@ public class medico extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Medico medTit = new Medico(session.getAttribute("curp").toString(), true);
-        ArrayList<Cita> citas = medTit.getAgenda();
-        Security encrypt = new Security();
+        Recepcionista recepcion = new Recepcionista();
+        ArrayList<Cita> citas = new ArrayList<>();
+        try {
+            citas = recepcion.GetMisCitas(session.getAttribute("curp").toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(recepcionista.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(false);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println(" <html lang=\"en\">");
-            
+             
             out.println(" <head>");
-            
+             
             out.println(" <meta charset=\"utf-8\">");
             out.println(" <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
             out.println(" <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
@@ -56,32 +61,35 @@ public class medico extends HttpServlet {
             out.println(" <meta name=\"author\" content=\"\">");
             out.println(" <!-- Favicons -->");
             out.println(" <link href=\"assets/img/favicon.png\" rel=\"icon\">");
-            
-            out.println(" <title>CEDAE - Medico</title>");
-            
+             
+            out.println(" <title>CEDAE - Recepcion</title>");
+             
             out.println(" <!-- Custom fonts for this template-->");
             out.println(" <link href=\"assets/vendor/fontawesome-free/css/all.min.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println(" <link");
             out.println(" href=\"https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i\"");
             out.println(" rel=\"stylesheet\">");
-            
+             
             out.println(" <!-- Custom styles for this template-->");
             out.println(" <link href=\"assets/css/sb-admin-2.min.css\" rel=\"stylesheet\">");
-            
+             
             out.println(" <!-- Custom styles for this page -->");
             out.println(" <link href=\"assets/vendor/datatables/dataTables.bootstrap4.min.css\" rel=\"stylesheet\">");
-            out.println(" <link href=\"assets/vendor/bootstrap-toggle-master/css/bootstrap4-toggle.css\" rel=\"stylesheet\">");
             
+            out.println(" <!-- Date Picker -->");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/flatpickr.min.css\">");
+            out.println(" <link rel=\"stylesheet\" href=\"assets/vendor/flat-picker/themes/material_blue.css\">");
+             
             out.println(" </head>");
-            
+             
             out.println(" <body id=\"page-top\">");
-            
+             
             out.println(" <!-- Page Wrapper -->");
             out.println(" <div id=\"wrapper\">");
-            
+             
             out.println(" <!-- Sidebar -->");
             out.println(" <ul class=\"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion\" id=\"accordionSidebar\">");
-            
+             
             out.println(" <!-- Sidebar - Brand -->");
             out.println(" <a class=\"sidebar-brand d-flex align-items-center justify-content-center\" href=\"index.html\">");
             out.println(" <div class=\"sidebar-brand-icon rotate-n-15\">");
@@ -89,112 +97,113 @@ public class medico extends HttpServlet {
             out.println(" </div>");
             out.println(" <div class=\"sidebar-brand-text mx-3\">CEDAE</div>");
             out.println(" </a>");
-            
+             
             out.println(" <!-- Divider -->");
             out.println(" <hr class=\"sidebar-divider my-0\">");
-            
+             
             out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=dasboard\">");
+            out.println(" <a class=\"nav-link\" href=\"index.html\">");
             out.println(" <i class=\"fas fa-fw fa-tachometer-alt\"></i>");
             out.println(" <span>Dashboard</span>");
             out.println(" </a>");
             out.println(" </li>");
-            
+             
             out.println(" <!-- Divider -->");
             out.println(" <hr class=\"sidebar-divider\">");
-            
+             
             out.println(" <!-- Heading -->");
             out.println(" <div class=\"sidebar-heading\">");
-            out.println(" Pacientes");
+            out.println(" Recepción");
             out.println(" </div>");
-            
+             
             out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=agenda\">");
-            out.println(" <i class=\"fas fa-fw fa-calendar\"></i>");
-            out.println(" <span>Agenda</span>");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/paciente?section=vcitas\">");
+            out.println(" <i class=\"fas fa-fw fa-heartbeat active\"></i>");
+            out.println(" <span>Mis Citas</span>");
             out.println(" </a>");
             out.println(" </li>");
             
             out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"api/sections/medico?section=pacientes\">");
-            out.println(" <i class=\"fas fa-fw fa-users\"></i>");
-            out.println(" <span>Pacientes</span>");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/paciente?section=recetas\">");
+            out.println(" <i class=\"fas fa-fw fa-notes-medical active\"></i>");
+            out.println(" <span>Mis Recetas</span>");
             out.println(" </a>");
             out.println(" </li>");
             
-            /*out.println(" <!-- Nav Item - Dashboard -->");
+            out.println(" <!-- Nav Item - Dashboard -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"index\">");//api/sections/medico?section=cReceta
-            out.println(" <i class=\"fas fa-fw fa-notes-medical\"></i>");
-            out.println(" <span>Crear Receta</span>");
+            out.println(" <a class=\"nav-link\" href=\"api/sections/paciente?section=vexped\">");
+            out.println(" <i class=\"fas fa-fw fa-file-medical-alt active\"></i>");
+            out.println(" <span>Mi Expediente</span>");
             out.println(" </a>");
-            out.println(" </li>");*/
-            
-            out.println(" <!-- Nav Item - Pages Collapse Menu -->");
+            out.println(" </li>");
+             
+            /*out.println(" <!-- Nav Item - Pages Collapse Menu -->");
             out.println(" <li class=\"nav-item\">");
             out.println(" <a class=\"nav-link collapsed\" href=\"#\" data-toggle=\"collapse\" data-target=\"#collapseTwo\"");
             out.println(" aria-expanded=\"true\" aria-controls=\"collapseTwo\">");
-            out.println(" <i class=\"fas fa-fw fa-file-medical-alt\"></i>");
-            out.println(" <span>Expedientes</span>");
+            out.println(" <i class=\"fas fa-fw fa-shopping-basket\"></i>");
+            out.println(" <span>Consultar</span>");
             out.println(" </a>");
-            out.println(" <div id=\"collapseTwo\" class=\"collapse show\" aria-labelledby=\"headingTwo\" data-parent=\"#accordionSidebar\">");
+            out.println(" <div id=\"collapseTwo\" class=\"collapse\" aria-labelledby=\"headingTwo\" data-parent=\"#accordionSidebar\">");
             out.println(" <div class=\"bg-white py-2 collapse-inner rounded\">");
             out.println(" <h6 class=\"collapse-header\">Opciones:</h6>");
-            out.println(" <a class=\"collapse-item\" href=\"api/sections/medico?section=vExpedientes\">Ver Expedientes</a>");
+            out.println(" <a class=\"collapse-item\" href=\"api/sections/recepcionista?section=cpacientes\">Consultar paciente</a>");
+            out.println(" <a class=\"collapse-item disabled\" href=\"api/sections/recepcionista?section=cmedico\">Consultar medico</a>");
             out.println(" </div>");
             out.println(" </div>");
-            out.println(" </li>");
-            
+            out.println(" </li>");*/
+             
             out.println(" <!-- Divider -->");
             out.println(" <hr class=\"sidebar-divider\">");
-            
+             
             out.println(" <!-- Heading -->");
             out.println(" <div class=\"sidebar-heading\">");
             out.println(" OPCIONES");
             out.println(" </div>");
-            
+             
             out.println(" <!-- Nav Item - Config -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"api/sections/user&section=config\">");
+            out.println(" <a class=\"nav-link\" href=\"charts.html\">");
             out.println(" <i class=\"fas fa-fw fa-user-cog\"></i>");
             out.println(" <span>Configuración</span></a>");
             out.println(" </li>");
-            
+             
             out.println(" <!-- Nav Item - Logout -->");
             out.println(" <li class=\"nav-item\">");
-            out.println(" <a class=\"nav-link\" href=\"quit\">");
+            out.println(" <a class=\"nav-link\" href=\"tables.html\">");
             out.println(" <i class=\"fas fa-fw fa-sign-out-alt\"></i>");
             out.println(" <span>Cerrar Sesion</span></a>");
             out.println(" </li>");
-            
+             
             out.println(" <!-- Divider -->");
             out.println(" <hr class=\"sidebar-divider d-none d-md-block\">");
-            
+             
             out.println(" <!-- Sidebar Toggler (Sidebar) -->");
             out.println(" <div class=\"text-center d-none d-md-inline\">");
             out.println(" <button class=\"rounded-circle border-0\" id=\"sidebarToggle\"></button>");
             out.println(" </div>");
-            
+             
             out.println(" </ul>");
             out.println(" <!-- End of Sidebar -->");
-            
+             
             out.println(" <!-- Content Wrapper -->");
             out.println(" <div id=\"content-wrapper\" class=\"d-flex flex-column\">");
-            
+             
             out.println(" <!-- Main Content -->");
             out.println(" <div id=\"content\">");
-            
+             
             out.println(" <!-- Topbar -->");
             out.println(" <nav class=\"navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow\">");
-            
+             
             out.println(" <!-- Sidebar Toggle (Topbar) -->");
             out.println(" <button id=\"sidebarToggleTop\" class=\"btn btn-link d-md-none rounded-circle mr-3\">");
             out.println(" <i class=\"fa fa-bars\"></i>");
             out.println(" </button>");
-            
+             
             out.println(" <!-- Topbar Search -->");
             out.println(" <form");
             out.println(" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">");
@@ -208,10 +217,10 @@ public class medico extends HttpServlet {
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </form>");
-            
+             
             out.println(" <!-- Topbar Navbar -->");
             out.println(" <ul class=\"navbar-nav ml-auto\">");
-            
+             
             out.println(" <!-- Nav Item - Search Dropdown (Visible Only XS) -->");
             out.println(" <li class=\"nav-item dropdown no-arrow d-sm-none\">");
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"searchDropdown\" role=\"button\"");
@@ -235,14 +244,14 @@ public class medico extends HttpServlet {
             out.println(" </form>");
             out.println(" </div>");
             out.println(" </li>");
-            
+             
             out.println(" <!-- Nav Item - Alerts -->");
             out.println(" <li class=\"nav-item dropdown no-arrow mx-1\">");
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"alertsDropdown\" role=\"button\"");
             out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
             out.println(" <i class=\"fas fa-bell fa-fw\"></i>");
             out.println(" <!-- Counter - Alerts -->");
-            out.println(" <span class=\"badge badge-danger badge-counter\">3+</span>");
+            out.println(" <span class=\"badge badge-danger badge-counter\">2</span>");
             out.println(" </a>");
             out.println(" <!-- Dropdown - Alerts -->");
             out.println(" <div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"");
@@ -252,13 +261,13 @@ public class medico extends HttpServlet {
             out.println(" </h6>");
             out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
             out.println(" <div class=\"mr-3\">");
-            out.println(" <div class=\"icon-circle bg-primary\">");
-            out.println(" <i class=\"fas fa-file-alt text-white\"></i>");
+            out.println(" <div class=\"icon-circle bg-warning\">");
+            out.println(" <i class=\"fas fa-exclamation-triangle text-white\"></i>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" <div>");
             out.println(" <div class=\"small text-gray-500\">December 12, 2019</div>");
-            out.println(" <span class=\"font-weight-bold\">Se ha modificado el expediente de: XXXXXX</span>");
+            out.println(" <span class=\"font-weight-bold\">Quedan 15 unidades de: Pomada de la campana 35g</span>");
             out.println(" </div>");
             out.println(" </a>");
             out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
@@ -269,24 +278,13 @@ public class medico extends HttpServlet {
             out.println(" </div>");
             out.println(" <div>");
             out.println(" <div class=\"small text-gray-500\">December 7, 2019</div>");
-            out.println(" Nueva cita agregada a tu agenda.");
-            out.println(" </div>");
-            out.println(" </a>");
-            out.println(" <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
-            out.println(" <div class=\"mr-3\">");
-            out.println(" <div class=\"icon-circle bg-warning\">");
-            out.println(" <i class=\"fas fa-history text-white\"></i>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div>");
-            out.println(" <div class=\"small text-gray-500\">December 2, 2019</div>");
-            out.println(" Se ha modificado una cita en tu agenda.");
+            out.println(" Canespie Bifonazol 10 mg/g 20 gr. Con lote: XXXX caducara en 3 meses.");
             out.println(" </div>");
             out.println(" </a>");
             out.println(" <a class=\"dropdown-item text-center small text-gray-500\" href=\"#\">Todas las notificaciones</a>");
             out.println(" </div>");
             out.println(" </li>");
-            
+             
             out.println(" <!-- Nav Item - Messages -->");
             out.println(" <li class=\"nav-item dropdown no-arrow mx-1\">");
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"messagesDropdown\" role=\"button\"");
@@ -352,14 +350,14 @@ public class medico extends HttpServlet {
             out.println(" <a class=\"dropdown-item text-center small text-gray-500\" href=\"#\">Ver todos los mensajes</a>");
             out.println(" </div>");
             out.println(" </li>");
-            
+             
             out.println(" <div class=\"topbar-divider d-none d-sm-block\"></div>");
-            
+             
             out.println(" <!-- Nav Item - User Information -->");
             out.println(" <li class=\"nav-item dropdown no-arrow\">");
             out.println(" <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\"");
             out.println(" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-            out.println(" <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">"+session.getAttribute("nombre")+"</span>");
+            out.println(" <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">"+session.getAttribute("nombre").toString()+"</span>");
             out.println(" <img class=\"img-profile rounded-circle\"");
             out.println(" src=\"assets/img/undraw_profile.svg\">");
             out.println(" </a>");
@@ -385,25 +383,25 @@ public class medico extends HttpServlet {
             out.println(" </a>");
             out.println(" </div>");
             out.println(" </li>");
-            
+             
             out.println(" </ul>");
-            
+             
             out.println(" </nav>");
             out.println(" <!-- End of Topbar -->");
-            
+             
             out.println(" <!-- Begin Page Content -->");
             out.println(" <div class=\"container-fluid\" id=\"content-page\">");
-            
+             
             out.println(" <!-- Page Heading -->");
             out.println(" <div class=\"row\">");
             out.println(" <div class=\"col\">");
             out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Mis Citas</h1>");
             out.println(" </div>");
             out.println(" </div>");
-
+             
             out.println(" <!-- CONTENT -->");
             out.println(" <div class=\"row\" id=\"content-panel\">");
-
+             
             out.println(" <div class=\"col-md-12\">");
             out.println(" <!-- Products -->");
             out.println(" <div class=\"card shadow mb-4\">");
@@ -411,60 +409,76 @@ public class medico extends HttpServlet {
             out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Citas proximas</h6>");
             out.println(" </div>");
             out.println(" <div class=\"card-body\">");
-
+            
+            //out.println(" <div class=\"row\">");
+            //out.println(" <div class=\"col-md-2\">");
+            out.println(" <button class=\"btn btn-info btn-icon-split mb-4\" id=\"agProd\" onclick=\"agProd()\">");
+            out.println(" <span class=\"icon text-white-50\">");
+            out.println(" <i class=\"fas fa-plus\"></i>");
+            out.println(" </span>");
+            out.println(" <span class=\"text\">Agendar Cita</span>");
+            out.println(" </button>");
+            //out.println(" </div>");
+            //out.println(" </div>");
+             
             out.println(" <div class=\"table-responsive\">");
             out.println(" <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">");
             out.println(" <thead>");
             out.println(" <tr>");
-            out.println(" <th>Paciente</th>");
+            out.println(" <th>Sucursal</th>");
             out.println(" <th>Hora</th>");
             out.println(" <th>Fecha</th>");
+            out.println(" <th>Doctor</th>");
             out.println(" <th>Opciones</th>");
             out.println(" </tr>");
             out.println(" </thead>");
             out.println(" <tfoot>");
             out.println(" <tr>");
-            out.println(" <th>Paciente</th>");
+            out.println(" <th>Sucursal</th>");
             out.println(" <th>Hora</th>");
             out.println(" <th>Fecha</th>");
+            out.println(" <th>Doctor</th>");
             out.println(" <th>Opciones</th>");
             out.println(" </tr>");
             out.println(" </tfoot>");
             out.println(" <tbody id=\"productTable\">");
             
             for (Cita cita : citas) {
-                out.println(" <tr data-id=\""+cita.getIdCita()+"\" data-recipe=\""+(cita.getReceta()!=null?encrypt.encriptar("0"+cita.getReceta().getIdReceta()):"null")+"\" data-place=\""+cita.getSucursal()+"\">");
-                out.println(" <td>"+cita.getPaciente().getNombre()+" "+cita.getPaciente().getApellidos()+"</td>");
+                cita.getPaciente().getData();
+                cita.getMedicoTit().getAllData();
+                out.println(" <tr data-idcita=\""+cita.getIdCita()+"\">");
+                out.println(" <td data-cpaciente=\""+cita.getPaciente().getCurp()+"\">"+cita.getSucursal()+"</td>");
                 out.println(" <td>"+cita.getHora()+"</td>");
-                out.println(" <td>"+cita.getFecha().toString().replace('-', '/')+"</td>");
+                out.println(" <td>"+cita.getFecha()+"</td>");
+                out.println(" <td data-cmedico=\""+cita.getMedicoTit().getCurp()+"\">"+cita.getMedicoTit().getNombre()+" "+cita.getMedicoTit().getApellidos()+"</td>");
                 out.println(" <td>");
-                out.println(" <button class=\"btn btn-sm btn-success btn-circle\" alt=\"Mas Detalles\" onclick=\"verCita(this)\">");
-                out.println(" <i class=\"fas fa-eye\"></i>");
+                out.println(" <button class=\"btn btn-sm btn-primary btn-circle\" onclick=\"editProd(this)\">");
+                out.println(" <i class=\"fas fa-edit\"></i>");
                 out.println(" </button>");
-                if(cita.getPaciente().getCurp().matches("^TMP\\d{10,15}$")){
-                    out.println(" <button class=\"btn btn-sm btn-info btn-circle\" alt=\"Crear Expediente\" onclick=\"navigationHelper('api/sections/medico?section=cExpediente&curp="+cita.getPaciente().getCurp()+"')\">");
-                    out.println(" <i class=\"fas fa-plus\"></i>");
-                    out.println(" </button>");
-                }
+                out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
+                out.println(" <i class=\"fas fa-trash\"></i>");
+                out.println(" </button>");
                 out.println(" </td>");
                 out.println(" </tr>");
+                
             }
-
+            
+             
             out.println(" </tbody>");
             out.println(" </table>");
             out.println(" </div>");
-
+             
             out.println(" </div>");
             out.println(" </div>");
-
+             
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" <!-- /.container-fluid -->");
-            
+             
             out.println(" </div>");
             out.println(" <!-- End of Main Content -->");
-            
+             
             out.println(" <!-- Footer -->");
             out.println(" <footer class=\"sticky-footer bg-white\">");
             out.println(" <div class=\"container my-auto\">");
@@ -474,18 +488,18 @@ public class medico extends HttpServlet {
             out.println(" </div>");
             out.println(" </footer>");
             out.println(" <!-- End of Footer -->");
-            
+             
             out.println(" </div>");
             out.println(" <!-- End of Content Wrapper -->");
-            
+             
             out.println(" </div>");
             out.println(" <!-- End of Page Wrapper -->");
-            
+             
             out.println(" <!-- Scroll to Top Button-->");
             out.println(" <a class=\"scroll-to-top rounded\" href=\"#page-top\">");
             out.println(" <i class=\"fas fa-angle-up\"></i>");
             out.println(" </a>");
-            
+             
             out.println(" <!-- Logout Modal-->");
             out.println(" <div class=\"modal fade\" id=\"logoutModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"");
             out.println(" aria-hidden=\"true\">");
@@ -505,93 +519,101 @@ public class medico extends HttpServlet {
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
-            
-            out.println(" <!-- Receta -->");
-            out.println(" <div class=\"modal fade\" id=\"confirmReceta\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+             
+            out.println(" <!-- Modals -->");
+            out.println(" <div class=\"modal fade\" id=\"deleteItem\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
             out.println(" <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">");
             out.println(" <div class=\"modal-content\">");
             out.println(" <div class=\"modal-header\">");
-            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Generar Receta</h5>");
+            out.println(" <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Cancelar Cita</h5>");
             out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
             out.println(" <span aria-hidden=\"true\">×</span>");
             out.println(" </button>");
             out.println(" </div>");
             out.println(" <div class=\"modal-body\">");
-            out.println(" Una vez que se genere la receta esta no podra ser modificada, ¿Deseas Generar la Receta?");
+            out.println(" ¿Estas seguro de cancelar la cita de: <span id=\"ittd\"></span>?");
             out.println(" </div>");
             out.println(" <div class=\"modal-footer\">");
             out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
-            out.println(" <button type=\"button\" class=\"btn btn-success\" onclick=\"confirmGenerate()\">Si, Generar</button>");
+            out.println(" <button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteConfirmed()\">Si, eliminar</button>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+             
+            out.println(" <div class=\"modal fade\" id=\"editItem\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
+            out.println(" <div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">");
+            out.println(" <div class=\"modal-content\">");
+            out.println(" <div class=\"modal-header\">");
+            out.println(" <h5 class=\"modal-title\" id=\"addEddTitle\">Agendar Cita</h5>");
+            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
+            out.println(" <span aria-hidden=\"true\">×</span>");
+            out.println(" </button>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-body\">");
+            out.println(" <form>");
+            out.println(" <input type=\"hidden\" id=\"curpmed\" name=\"curpmed\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <input type=\"hidden\" id=\"curppac\" name=\"curppac\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <input type=\"hidden\" id=\"idcita\" name=\"idcita\" class=\"form-control\" placeholder=\"Nombre paciente\">");
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col\" id=\"pacInput\">");
+            
+            out.println(" </div>");
+            out.println(" <div class=\"col\" id=\"medInput\">");
+            
+            out.println(" </div>");
+            out.println(" </div>");
+            
+            out.println(" <div class=\"form-row\">");
+            out.println(" <div class=\"col mt-2\" id=\"time-input\">");
+            out.println(" <label for=\"fecha\">Fecha</label>");
+            out.println(" <input class=\"form-control\" name=\"fecha\" id=\"fecha\" placeholder=\"Fecha\" data-input data-rule=\"required\" data-msg=\"Elije una fecha valida\" />");
+            out.println(" </div>");
+            out.println(" <div class=\"col mt-2\">");
+            out.println(" <label for=\"hora\">Hora</label>");
+            out.println(" <select class=\"form-control\" id=\"hora\" name=\"hora\" data-rule=\"required\" data-msg=\"Elije una hora\" disabled>");
+            out.println(" <option value=\"null\">Elige la hora</option>");
+            out.println(" </select>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </form>");
+            out.println(" </div>");
+            out.println(" <div class=\"modal-footer\">");
+            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancelar</button>");
+            out.println(" <button type=\"button\" id=\"modalAction\" class=\"btn btn-primary\">Modificar</button>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
             
-            out.println(" <div class=\"modal fade\" id=\"verCita\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">");
-            out.println(" <div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">");
-            out.println(" <div class=\"modal-content\">");
-            out.println(" <div class=\"modal-header\">");
-            out.println(" <h5 class=\"modal-title\">Ver Cita</h5>");
-            out.println(" <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">");
-            out.println(" <span aria-hidden=\"true\">×</span>");
-            out.println(" </button>");
-            out.println(" </div>");
-            out.println(" <div class=\"modal-body\">");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col\">");
-            out.println(" <label for=\"name\">Nombre</label>");
-            out.println(" <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Nombre\" disabled>");
-            out.println(" </div>");
-            out.println(" <div class=\"col\">");
-            out.println(" <label for=\"sucur\">Sucursal</label>");
-            out.println(" <input type=\"text\" id=\"sucur\" name=\"sucur\" class=\"form-control\" placeholder=\"Sucursal\" disabled>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <label for=\"tam\">Fecha</label>");
-            out.println(" <input type=\"date\" id=\"date\" name=\"date\" class=\"form-control\" disabled>");
-            out.println(" </div>");
-            out.println(" <div class=\"col mt-2\">");
-            out.println(" <label for=\"sku\">Hora</label>");
-            out.println(" <input type=\"time\" id=\"time\" name=\"time\" class=\"form-control\" disabled>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"form-row\">");
-            out.println(" <div id=\"recetaOpt\" class=\"col mt-2\">");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" <div class=\"modal-footer\">");
-            out.println(" <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </div>");
-            out.println(" </div>");
+            
+            
             
             out.println(" <!-- Bootstrap core JavaScript-->");
             out.println(" <script src=\"assets/vendor/jquery/jquery.min.js\"></script>");
             out.println(" <script src=\"assets/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
-            
+             
             out.println(" <!-- Core plugin JavaScript-->");
             out.println(" <script src=\"assets/vendor/jquery-easing/jquery.easing.min.js\"></script>");
-            
+             
             out.println(" <!-- Custom scripts for all pages-->");
             out.println(" <script src=\"assets/js/sb-admin-2.min.js\"></script>");
-            
-            out.println(" <script src=\"assets/js/cexpediente.js\"></script>");
+            out.println(" <script src=\"assets/js/citasPaciente.js\"></script>");
             out.println(" <script src=\"assets/js/navigation.js\"></script>");
-            out.println(" <script src=\"assets/js/recetas.js\"></script>");
-            
+            out.println(" <script src=\"assets/js/paciente.js\"></script>");
+             
             out.println(" <!-- Page level plugins -->");
             out.println(" <script src=\"assets/vendor/datatables/jquery.dataTables.min.js\"></script>");
-            out.println(" <script src=\"assets/vendor/datatables/dataTables.bootstrap4.min.js\"></script>");
-            
+            out.println(" <script src=\"assets/vendor/datatables/dataTables.bootstrap4.min.js\"></script> ");
+             
             out.println(" <!-- Page level custom scripts -->");
             out.println(" <script src=\"assets/js/demo/datatables-demo.js\"></script>");
-            out.println(" <script src=\"assets/vendor/bootstrap-toggle-master/js/bootstrap4-toggle.min.js\"></script>");
+            
+            out.println(" <!-- Date Picker -->");
+            out.println(" <script src=\"assets/vendor/flat-picker/flatpickr.js\"></script>");
+             
             out.println(" </body>");
-        
+             
             out.println(" </html>");
         }
     }
@@ -608,11 +630,10 @@ public class medico extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         if (session == null) {
             response.sendRedirect(request.getContextPath());
         }else{
-            this.session = session;
             processRequest(request, response);
         }
     }

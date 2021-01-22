@@ -915,7 +915,14 @@ public class medico extends HttpServlet {
             out.println(" <!-- Personal Info -->");
             out.println(" <div class=\"card shadow mb-4\">");
             out.println(" <div class=\"card-header py-3\">");
+            out.println(" <div class=\"row\">");
+            out.println(" <div class=\"col-md-3\">");
             out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Expediente #"+paciente.getExpediente().getNoExpediente()+"<span id=\"nExp\"></span></h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"col-md-2 offset-7\">");
+            out.println(" <label class=\"checkbox-inline\"> Tiene Acceso <input type=\"checkbox\" "+(paciente.isPuedeVerExp()?"checked":"")+" id=\"privToggle\" data-toggle=\"toggle\" data-on=\"Si\" data-off=\"No\" onchange=\"privileges('"+paciente.getCurp()+"')\"></label>");
+            out.println(" </div>");
+            out.println(" </div>");
             out.println(" </div>");
             out.println(" <div class=\"card-body\">");
             out.println(" <div class=\"row container\">");
@@ -1060,9 +1067,12 @@ public class medico extends HttpServlet {
                 
                 out.println(" </div>");
                 out.println(" </div>");
+                out.println(" </div>");
+                out.println(" </div>");
             }
             
             out.println(" ");
+            out.println(" </div>");
             out.println(" </div>");
             out.println(" </div>");
         }
@@ -1132,10 +1142,10 @@ public class medico extends HttpServlet {
             case "cReceta":
                 cReceta(request, response);
                 break;
-            /*case "vExpedientes":
-                vExpedientesSection(request, response);
+            case "cPriv":
+                cPriv(request, response);
                 break;
-            case "agenda":
+            /*case "agenda":
                 agendaSection(request, response);
                 break;*/
             default:
@@ -1211,6 +1221,25 @@ public class medico extends HttpServlet {
         try {
             receta.saveReceta(Integer.parseInt(request.getParameter("idC")));
             out.print("{\"status\":1,\"message\":\""+encrypt.encriptar(receta.getIdReceta()+"")+"\"}");
+        } catch (SQLException ex) {
+            Logger.getLogger(medico.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");
+        }
+        
+    }
+    
+    protected void cPriv(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        Paciente paciente = new Paciente(request.getParameter("curp"));
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            paciente.setPuedeVerExpDB(Boolean.parseBoolean(request.getParameter("pver")));
+            out.print("{\"status\":1,\"message\":\"OK\"}");
         } catch (SQLException ex) {
             Logger.getLogger(medico.class.getName()).log(Level.SEVERE, null, ex);
             out.print("{\"status\":0,\"message\":\"FAIL: "+ex.getMessage()+"\"}");

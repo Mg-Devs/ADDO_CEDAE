@@ -193,14 +193,16 @@ public class Paciente extends Persona {
         }
     }
 
-    public ArrayList<Receta> getRecetas(String curp) throws SQLException{
+    public ArrayList<Cita> getRecetas() throws SQLException{
         ConexionMySQL db = new ConexionMySQL();
         db.conectarMySQL();
-        ResultSet result = db.executeQuery("select * from cita inner join receta on cita.idreceta = receta.idreceta where curppaciente = '"+curp+"';");
-        ArrayList<Receta> recetas = new ArrayList<>();
+        ResultSet result = db.executeQuery("select * from cita where curppaciente = '"+getCurp()+"' and idreceta is not null;");
+        System.out.println("select * from cita where curppaciente = '"+getCurp()+"' and idreceta is not null;");
+        ArrayList<Cita> recetas = new ArrayList<>();
         while (result.next()) {
-            Receta rec = new Receta(result.getInt("idreceta"), result.getString("diagnostico"), result.getString("cie"), result.getString("descripcion"), result.getString("observaciones"), result.getString("planseguimiento"), result.getFloat("peso"), result.getFloat("estatura"), result.getString("presionarterial"), result.getString("frecuenciacardiaca"), result.getString("frecuenciarespiratoria"), result.getString("temperatura"), result.getString("productos"));
-            recetas.add(rec);
+            Cita cit = new Cita(result.getInt("idcita"), this, new Medico(result.getString("curpmedaux"), false), new Medico(result.getString("curpmedtit"), true), LocalDate.parse(result.getString("fecha")), LocalTime.parse(result.getString("hora")), result.getInt("idreceta"), result.getString("sucursal"));
+            //Receta rec = new Receta(result.getInt("idreceta"), result.getString("diagnostico"), result.getString("cie"), result.getString("descripcion"), result.getString("observaciones"), result.getString("planseguimiento"), result.getFloat("peso"), result.getFloat("estatura"), result.getString("presionarterial"), result.getString("frecuenciacardiaca"), result.getString("frecuenciarespiratoria"), result.getString("temperatura"), result.getString("productos"));
+            recetas.add(cit);
         }
         return recetas;
     }

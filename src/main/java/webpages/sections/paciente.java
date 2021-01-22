@@ -10,6 +10,7 @@ import com.adoo.cedae.Medico;
 import com.adoo.cedae.Paciente;
 import com.adoo.cedae.Producto;
 import com.adoo.cedae.Recepcionista;
+import com.adoo.cedae.resources.Security;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -137,6 +138,92 @@ public class paciente extends HttpServlet {
                 out.println(" </button>");
                 out.println(" <button class=\"btn btn-sm btn-danger btn-circle\" onclick=\"deleteProd(this)\">");
                 out.println(" <i class=\"fas fa-trash\"></i>");
+                out.println(" </button>");
+                out.println(" </td>");
+                out.println(" </tr>");
+                
+            }
+            
+             
+            out.println(" </tbody>");
+            out.println(" </table>");
+            out.println(" </div>");
+             
+            out.println(" </div>");
+            out.println(" </div>");
+             
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" </div>");
+            out.println(" <!-- /.container-fluid -->");
+        }
+    }
+    
+    protected void recetas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        Paciente paciente = new Paciente(session.getAttribute("curp").toString());
+        ArrayList<Cita> citas = new ArrayList<>();
+        Security encrypt = new Security();
+        try {
+            citas = paciente.getRecetas();
+        } catch (SQLException ex) {
+            Logger.getLogger(recepcionista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println(" <!-- Page Heading -->");
+            out.println(" <div class=\"row\">");
+            out.println(" <div class=\"col\">");
+            out.println(" <h1 class=\"h3 mb-4 text-gray-800\">Mis Recetas</h1>");
+            out.println(" </div>");
+            out.println(" </div>");
+             
+            out.println(" <!-- CONTENT -->");
+            out.println(" <div class=\"row\" id=\"content-panel\">");
+             
+            out.println(" <div class=\"col-md-12\">");
+            out.println(" <!-- Products -->");
+            out.println(" <div class=\"card shadow mb-4\">");
+            out.println(" <div class=\"card-header py-3\">");
+            out.println(" <h6 class=\"m-0 font-weight-bold text-primary\">Recetas Anteriores</h6>");
+            out.println(" </div>");
+            out.println(" <div class=\"card-body\">");
+             
+            out.println(" <div class=\"table-responsive\">");
+            out.println(" <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">");
+            out.println(" <thead>");
+            out.println(" <tr>");
+            out.println(" <th>Sucursal</th>");
+            out.println(" <th>Hora</th>");
+            out.println(" <th>Fecha</th>");
+            out.println(" <th>Doctor</th>");
+            out.println(" <th>Opciones</th>");
+            out.println(" </tr>");
+            out.println(" </thead>");
+            out.println(" <tfoot>");
+            out.println(" <tr>");
+            out.println(" <th>Sucursal</th>");
+            out.println(" <th>Hora</th>");
+            out.println(" <th>Fecha</th>");
+            out.println(" <th>Doctor</th>");
+            out.println(" <th>Opciones</th>");
+            out.println(" </tr>");
+            out.println(" </tfoot>");
+            out.println(" <tbody id=\"productTable\">");
+            
+            for (Cita cita : citas) {
+                cita.getPaciente().getData();
+                cita.getMedicoTit().getAllData();
+                out.println(" <tr data-idcita=\""+cita.getIdCita()+"\">");
+                out.println(" <td data-cpaciente=\""+cita.getPaciente().getCurp()+"\">"+cita.getSucursal()+"</td>");
+                out.println(" <td>"+cita.getHora()+"</td>");
+                out.println(" <td>"+cita.getFecha()+"</td>");
+                out.println(" <td data-cmedico=\""+cita.getMedicoTit().getCurp()+"\">"+cita.getMedicoTit().getNombre()+" "+cita.getMedicoTit().getApellidos()+"</td>");
+                out.println(" <td>");
+                out.println(" <button class=\"btn btn-success btn-icon-split\" alt=\"Ver Receta\" onclick=\"verReceta('"+encrypt.encriptar("0"+cita.getReceta().getIdReceta())+"')\">");
+                out.println(" <span class=\"icon text-white-50\"><i class=\"fas fa-fw fa-print\"></i></span><span class=\"text\">Imprimir Receta</span>");
                 out.println(" </button>");
                 out.println(" </td>");
                 out.println(" </tr>");
@@ -362,9 +449,9 @@ public class paciente extends HttpServlet {
             case "vcitas":
                 vCitas(request, response);
                 break;
-            /*case "recetas":
-                vcitaspp(request, response);
-                break;*/
+            case "recetas":
+                recetas(request, response);
+                break;
             case "vexped":
                 vExpedienteSection(request, response);
                 break;

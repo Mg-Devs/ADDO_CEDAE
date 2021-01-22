@@ -156,3 +156,9 @@ function addProd() {
     });
 }
 
+function verReceta(idrecipe){
+    window.open('PDF/Receta?recipe='+idrecipe,'_blank');
+}
+
+
+
